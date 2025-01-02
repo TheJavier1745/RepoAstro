@@ -1,6 +1,6 @@
 # RepoAstro
 
-Para ver la página, sigue estos pasos:
+Para ver la página:
 
 1. **Abrir PowerShell con permisos de administrador**.
 2. Ingresar los siguientes comandos:

@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+  title="Consultora AP Ltda"
+  description="Soluciones integrales para potenciar tu negocio"
+  heroImage=""
+  pubDate={new Date()}
+  updatedDate={new Date()}
+>
+  <section class="hero">
+    <div class="hero-content">
+      <img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="Logo de Consultora AP Ltda" class="hero-logo">
+      <h1 class="hero-title">Bienvenido a Consultora AP Ltda</h1>
+      <p class="hero-subtitle">
+        Soluciones integrales para potenciar tu negocio.
+      </p>
+      <a href="#servicios" class="btn-primary">Conoce nuestros servicios</a>
+    </div>
+  </section>
+
+  <section id="servicios" class="services">
+    <h2 class="section-title">Nuestros Servicios</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Consultoría Empresarial</h3>
+        <p>Optimiza tus procesos y maximiza tus resultados con nuestra asesoría experta.</p>
+      </div>
+      <div class="service-card">
+        <h3>Gestión Financiera</h3>
+        <p>Planeación estratégica para un crecimiento sostenible.</p>
+      </div>
+      <div class="service-card">
+        <h3>Capacitación</h3>
+        <p>Programas diseñados para el desarrollo de tu equipo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2 class="section-title">Quiénes Somos</h2>
+    <p>
+      En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
+    </p>
+  </section>
+
+  <style>
+    .hero-logo {
+      max-width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+      border-radius: 10px;
+    }
+
+    .hero-content {
+      text-align: center;
+    }
+
+    .btn-primary {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 40px;
+      margin-bottom: 60px; /* Agrega más espacio entre el botón y la sección siguiente */
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .services-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .service-card {
+      flex: 1 1 calc(33.333% - 20px); /* Cada tarjeta ocupa un tercio del ancho */
+      max-width: calc(33.333% - 20px);
+      background: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+      color: #007BFF;
+    }
+
+    .service-card p {
+      font-size: 1rem;
+      color: #555;
+    }
+  </style>
+</Layout>

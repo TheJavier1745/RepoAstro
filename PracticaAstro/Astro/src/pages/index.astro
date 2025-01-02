@@ -19,10 +19,7 @@ import Layout from '../layouts/BlogPost.astro';
       <a href="#servicios" class="btn-primary">Conoce nuestros servicios</a>
     </div>
   </section>
-<br>
-<br>
-<br>
-<br>
+  <br><br><br><br>
   <section id="servicios" class="services">
     <h2 class="section-title">Nuestros Servicios</h2>
     <br>
@@ -41,9 +38,7 @@ import Layout from '../layouts/BlogPost.astro';
       </div>
     </div>
   </section>
-<br>
-<br>
-<br>
+  <br><br><br>
   <section class="about">
     <h2 class="section-title">Quiénes Somos</h2>
     <p>
@@ -52,6 +47,7 @@ import Layout from '../layouts/BlogPost.astro';
   </section>
 
   <style>
+    /* Estilos para el logo */
     .hero-logo {
       max-width: 100px;
       height: auto;
@@ -60,10 +56,12 @@ import Layout from '../layouts/BlogPost.astro';
       border-radius: 10px;
     }
 
+    /* Contenido del héroe */
     .hero-content {
       text-align: center;
     }
 
+    /* Botón principal */
     .btn-primary {
       padding: 10px 20px;
       background-color: #007BFF;
@@ -72,13 +70,31 @@ import Layout from '../layouts/BlogPost.astro';
       border-radius: 5px;
       display: inline-block;
       margin-top: 40px;
-      margin-bottom: 60px; /* Agrega más espacio entre el botón y la sección siguiente */
+      margin-bottom: 60px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .btn-primary:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     }
 
+    /* Efecto de animación para el botón */
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 5px #0056b3;
+      }
+      50% {
+        box-shadow: 0 0 20px #007BFF;
+      }
+      100% {
+        box-shadow: 0 0 5px #0056b3;
+      }
+    }
+
+    /* Grid de servicios */
     .services-grid {
       display: flex;
       flex-wrap: wrap;
@@ -87,8 +103,9 @@ import Layout from '../layouts/BlogPost.astro';
       margin-top: 40px;
     }
 
+    /* Tarjetas de servicios */
     .service-card {
-      flex: 1 1 calc(33.333% - 20px); /* Cada tarjeta ocupa un tercio del ancho */
+      flex: 1 1 calc(33.333% - 20px);
       max-width: calc(33.333% - 20px);
       background: #f9f9f9;
       padding: 20px;
@@ -96,17 +113,24 @@ import Layout from '../layouts/BlogPost.astro';
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .service-card h3 {
-      margin-bottom: 10px;
-      font-size: 1.25rem;
-      color: #007BFF;
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
     }
 
-    .service-card p {
-      font-size: 1rem;
-      color: #555;
+    /* Estilos generales */
+    .section-title {
+      text-align: center;
+      color: #333;
+    }
+
+    .about p {
+      text-align: center;
+      margin: 20px auto;
+      max-width: 800px;
     }
   </style>
 </Layout>

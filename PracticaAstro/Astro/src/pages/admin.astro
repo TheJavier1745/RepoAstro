@@ -1,178 +1,196 @@
----
-import Layout from '../layouts/BlogPost.astro';
----
-
-<Layout
-  title="Contáctanos"
-  description="Ponte en contacto con Consultora AP Ltda"
-  heroImage=""
-  pubDate={new Date()}
-  updatedDate={new Date()}
->
-  <section class="contact-form">
-    <h2 class="section-title">Contáctanos</h2>
-    <p>Rellena el siguiente formulario para ponerte en contacto con nosotros.</p>
-    <form id="contact-form" class="form">
-      <div class="form-group">
-        <span class="material-icons">person</span>
-        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-      </div>
-
-      <div class="form-group">
-        <span class="material-icons">badge</span>
-        <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
-      </div>
-
-      <div class="form-group">
-        <span class="material-icons">credit_card</span>
-        <input type="text" id="rut" name="rut" placeholder="RUT" required>
-      </div>
-
-      <div class="form-group">
-        <span class="material-icons">email</span>
-        <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required>
-      </div>
-
-      <div class="form-group">
-        <span class="material-icons">phone</span>
-        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required>
-      </div>
-
-      <div class="form-group">
-        <span class="material-icons">chat</span>
-        <textarea id="mensaje" name="mensaje" placeholder="Mensaje" rows="5" required></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary">
-        <span class="material-icons">send</span> Enviar
-      </button>
-    </form>
-  </section>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM - Login y Mensajes</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   <style>
-    /* Estilo general */
-    .contact-form {
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 50px auto;
       padding: 20px;
-      background: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .section-title {
+    h2 {
       text-align: center;
-      font-size: 1.8rem;
       margin-bottom: 20px;
-      color: #000; /* Títulos en negro */
-    }
-
-    p {
-      text-align: center;
-      font-size: 1rem;
-      color: #000; /* Subtítulo en negro */
-    }
-
-    .form {
-      display: grid;
-      gap: 20px;
-      margin-top: 20px;
     }
 
     .form-group {
-      position: relative;
-      display: flex;
-      align-items: center;
-      border: 2px solid #000; /* Bordes en negro */
-      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
       padding: 10px;
-      background: #fff;
-    }
-
-    .form-group .material-icons {
-      font-size: 1.5rem;
-      color: #000; /* Iconos en negro */
-      margin-right: 10px;
-    }
-
-    input, textarea {
       font-size: 1rem;
-      color: #000; /* Texto en negro */
-      border: none;
-      outline: none;
-      flex: 1;
-      background: transparent;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
-    textarea {
-      padding-top: 5px; /* Ajuste para alineación del texto */
-      margin-top: 3px; /* Ajuste para alineación del icono */
-    }
-
-    input::placeholder, textarea::placeholder {
-      color: #000; /* Placeholder en negro */
-    }
-
-    .btn-primary {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      background-color: #000; /* Botón negro */
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
       color: white;
-      text-decoration: none;
       border: none;
       border-radius: 5px;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      text-align: center;
     }
 
-    .btn-primary:hover {
-      background-color: #333; /* Hover más oscuro */
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+      background-color: #dc3545;
+    }
+
+    .logout-btn:hover {
+      background-color: #a71d2a;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      background-color: #6c63ff;
+    }
+
+    .back-btn:hover {
+      background-color: #574ed2;
     }
   </style>
+</head>
+<body>
+  <!-- Contenedor de Login -->
+  <div class="container" id="login-container">
+    <h2>Inicio de Sesión</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="Ingresa tu usuario" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Clave</label>
+        <input type="password" id="password" placeholder="Ingresa tu clave" required>
+      </div>
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+  </div>
+
+  <!-- Contenedor del CRM -->
+  <div class="container hidden" id="crm-container">
+    <h2>Mensajes Recibidos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Mensaje</th>
+        </tr>
+      </thead>
+      <tbody id="messages-table">
+        <!-- Los mensajes se cargarán aquí dinámicamente -->
+      </tbody>
+    </table>
+    <button class="logout-btn" id="logout-btn">Cerrar Sesión</button>
+    <button class="back-btn" id="back-btn">Volver al Inicio</button>
+  </div>
 
   <script>
-    // Referencia al formulario de contacto
-    const contactForm = document.getElementById("contact-form");
+    // Referencias a los elementos
+    const loginContainer = document.getElementById("login-container");
+    const crmContainer = document.getElementById("crm-container");
+    const loginForm = document.getElementById("login-form");
+    const logoutBtn = document.getElementById("logout-btn");
+    const backBtn = document.getElementById("back-btn");
+    const messagesTable = document.getElementById("messages-table");
 
-    // Evento para manejar el envío del formulario
-    contactForm.addEventListener("submit", (e) => {
+    // Simulación de credenciales del administrador
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "1234";
+
+    // Manejo del inicio de sesión
+    loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Capturar los valores de los campos
-      const nombre = document.getElementById("nombre").value;
-      const apellido = document.getElementById("apellido").value;
-      const rut = document.getElementById("rut").value;
-      const correo = document.getElementById("correo").value;
-      const telefono = document.getElementById("telefono").value;
-      const mensaje = document.getElementById("mensaje").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      // Crear un nuevo mensaje
-      const nuevoMensaje = {
-        nombre,
-        apellido,
-        rut,
-        correo,
-        telefono,
-        mensaje,
-      };
-
-      // Guardar en LocalStorage
-      const mensajesGuardados = JSON.parse(localStorage.getItem("mensajes")) || [];
-      mensajesGuardados.push(nuevoMensaje);
-      localStorage.setItem("mensajes", JSON.stringify(mensajesGuardados));
-
-      // Limpiar el formulario
-      contactForm.reset();
-
-      alert("Mensaje enviado correctamente");
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        // Mostrar el CRM y cargar mensajes
+        loginContainer.classList.add("hidden");
+        crmContainer.classList.remove("hidden");
+        cargarMensajes();
+      } else {
+        alert("Usuario o contraseña incorrectos");
+      }
     });
-  </script>
-</Layout>
 
+    // Manejo del cierre de sesión
+    logoutBtn.addEventListener("click", () => {
+      crmContainer.classList.add("hidden");
+      loginContainer.classList.remove("hidden");
+    });
+
+    // Volver al inicio de la página principal
+    backBtn.addEventListener("click", () => {
+      window.location.href = ".html"; // Redirige al formulario de contacto
+    });
+
+    // Cargar mensajes desde LocalStorage
+    function cargarMensajes() {
+      const mensajes = JSON.parse(localStorage.getItem("mensajes")) || [];
+      messagesTable.innerHTML = ""; // Limpia la tabla antes de agregar mensajes
+
+      mensajes.forEach((msg) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${msg.nombre}</td>
+          <td>${msg.correo}</td>
+          <td>${msg.mensaje}</td>
+        `;
+        messagesTable.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>

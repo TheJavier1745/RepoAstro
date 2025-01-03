@@ -1,196 +1,111 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM - Login y Mensajes</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
 
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f4f4f4;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .logout-btn {
-      margin-top: 20px;
-      background-color: #dc3545;
-    }
-
-    .logout-btn:hover {
-      background-color: #a71d2a;
-    }
-
-    .back-btn {
-      margin-top: 20px;
-      background-color: #6c63ff;
-    }
-
-    .back-btn:hover {
-      background-color: #574ed2;
-    }
-  </style>
-</head>
-<body>
-  <!-- Contenedor de Login -->
-  <div class="container" id="login-container">
-    <h2>Inicio de Sesión</h2>
-    <form id="login-form">
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" placeholder="Ingresa tu usuario" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Clave</label>
-        <input type="password" id="password" placeholder="Ingresa tu clave" required>
-      </div>
-      <button type="submit">Iniciar Sesión</button>
-    </form>
-  </div>
-
-  <!-- Contenedor del CRM -->
-  <div class="container hidden" id="crm-container">
-    <h2>Mensajes Recibidos</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Correo</th>
-          <th>Mensaje</th>
-        </tr>
-      </thead>
-      <tbody id="messages-table">
-        <!-- Los mensajes se cargarán aquí dinámicamente -->
-      </tbody>
-    </table>
-    <button class="logout-btn" id="logout-btn">Cerrar Sesión</button>
-    <button class="back-btn" id="back-btn">Volver al Inicio</button>
-  </div>
-
-  <script>
-    // Referencias a los elementos
-    const loginContainer = document.getElementById("login-container");
-    const crmContainer = document.getElementById("crm-container");
-    const loginForm = document.getElementById("login-form");
-    const logoutBtn = document.getElementById("logout-btn");
-    const backBtn = document.getElementById("back-btn");
-    const messagesTable = document.getElementById("messages-table");
-
-    // Simulación de credenciales del administrador
-    const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "1234";
-
-    // Manejo del inicio de sesión
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-        // Mostrar el CRM y cargar mensajes
-        loginContainer.classList.add("hidden");
-        crmContainer.classList.remove("hidden");
-        cargarMensajes();
-      } else {
-        alert("Usuario o contraseña incorrectos");
-      }
-    });
-
-    // Manejo del cierre de sesión
-    logoutBtn.addEventListener("click", () => {
-      crmContainer.classList.add("hidden");
-      loginContainer.classList.remove("hidden");
-    });
-
-    // Volver al inicio de la página principal
-    backBtn.addEventListener("click", () => {
-      window.location.href = ".html"; // Redirige al formulario de contacto
-    });
-
-    // Cargar mensajes desde LocalStorage
-    function cargarMensajes() {
-      const mensajes = JSON.parse(localStorage.getItem("mensajes")) || [];
-      messagesTable.innerHTML = ""; // Limpia la tabla antes de agregar mensajes
-
-      mensajes.forEach((msg) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${msg.nombre}</td>
-          <td>${msg.correo}</td>
-          <td>${msg.mensaje}</td>
-        `;
-        messagesTable.appendChild(row);
-      });
-    }
-  </script>
-</body>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 960px;
+			}
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 2rem;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul li {
+				width: calc(50% - 1rem);
+			}
+			ul li * {
+				text-decoration: none;
+				transition: 0.2s ease;
+			}
+			ul li:first-child {
+				width: 100%;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+			ul li:first-child img {
+				width: 100%;
+			}
+			ul li:first-child .title {
+				font-size: 2.369rem;
+			}
+			ul li img {
+				margin-bottom: 0.5rem;
+				border-radius: 12px;
+			}
+			ul li a {
+				display: block;
+			}
+			.title {
+				margin: 0;
+				color: rgb(var(--black));
+				line-height: 1;
+			}
+			.date {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+			ul li a:hover h4,
+			ul li a:hover .date {
+				color: rgb(var(--accent));
+			}
+			ul a:hover img {
+				box-shadow: var(--box-shadow);
+			}
+			@media (max-width: 720px) {
+				ul {
+					gap: 0.5em;
+				}
+				ul li {
+					width: 100%;
+					text-align: center;
+				}
+				ul li:first-child {
+					margin-bottom: 0;
+				}
+				ul li:first-child .title {
+					font-size: 1.563em;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<ul>
+					{
+						posts.map((post) => (
+							<li>
+								<a href={`/blog/${post.id}/`}>
+									<img width={720} height={360} src={post.data.heroImage} alt="" />
+									<h4 class="title">{post.data.title}</h4>
+									<p class="date">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
 </html>

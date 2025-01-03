@@ -40,7 +40,7 @@ import Layout from '../layouts/BlogPost.astro';
 
       <div class="form-group">
         <span class="material-icons">chat</span>
-        <textarea id="mensaje" name="mensaje" placeholder="Mensaje" rows="5" required></textarea>
+        <textarea id="mensaje" name="mensaje" placeholder="Mensaje" rows="5" required style="resize: none;"></textarea>
       </div>
 
       <button type="submit" class="btn-primary">
@@ -109,6 +109,7 @@ import Layout from '../layouts/BlogPost.astro';
     textarea {
       padding-top: 5px; /* Ajuste para alineación del texto */
       margin-top: 3px; /* Ajuste para alineación del icono */
+      resize: none; /* Eliminar capacidad de redimensionar */
     }
 
     input::placeholder, textarea::placeholder {
@@ -175,4 +176,3 @@ import Layout from '../layouts/BlogPost.astro';
     });
   </script>
 </Layout>
-

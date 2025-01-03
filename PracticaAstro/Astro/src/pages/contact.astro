@@ -25,7 +25,7 @@ import Layout from '../layouts/BlogPost.astro';
 
       <div class="form-group">
         <span class="material-icons">credit_card</span>
-        <input type="text" id="rut" name="rut" placeholder="RUT" required>
+        <input type="text" id="rut" name="rut" placeholder="RUT (ej: 12345678-9)" required>
       </div>
 
       <div class="form-group">
@@ -139,27 +139,52 @@ import Layout from '../layouts/BlogPost.astro';
   </style>
 
   <script>
-    // Referencia al formulario de contacto
-    const contactForm = document.getElementById("contact-form");
-
     // Validación del correo electrónico
     function validarCorreo(correo) {
-      // Expresión regular para validar correos con dominios de 2 o más caracteres
       const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       return regex.test(correo) && correo.split('@')[0].length > 2;
     }
+
+    // Validación del RUT
+    function validarRut(rut) {
+      const regex = /^[0-9]+-[0-9kK]{1}$/; // Formato RUT sin puntos, con guion
+      if (!regex.test(rut)) return false;
+
+      const [cuerpo, verificador] = rut.split('-');
+      let suma = 0;
+      let multiplicador = 2;
+
+      // Calcular el módulo 11
+      for (let i = cuerpo.length - 1; i >= 0; i--) {
+        suma += multiplicador * parseInt(cuerpo[i]);
+        multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+      }
+
+      const resto = 11 - (suma % 11);
+      const dvEsperado = resto === 11 ? '0' : resto === 10 ? 'K' : resto.toString();
+
+      return dvEsperado === verificador.toUpperCase();
+    }
+
+    // Referencia al formulario de contacto
+    const contactForm = document.getElementById("contact-form");
 
     // Evento para manejar el envío del formulario
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Capturar los valores de los campos
       const nombre = document.getElementById("nombre").value;
       const apellido = document.getElementById("apellido").value;
       const rut = document.getElementById("rut").value;
       const correo = document.getElementById("correo").value;
       const telefono = document.getElementById("telefono").value;
       const mensaje = document.getElementById("mensaje").value;
+
+      // Validar RUT
+      if (!validarRut(rut)) {
+        alert("Por favor, ingresa un RUT válido.");
+        return;
+      }
 
       // Validar correo electrónico
       if (!validarCorreo(correo)) {
@@ -168,14 +193,7 @@ import Layout from '../layouts/BlogPost.astro';
       }
 
       // Crear un nuevo mensaje
-      const nuevoMensaje = {
-        nombre,
-        apellido,
-        rut,
-        correo,
-        telefono,
-        mensaje,
-      };
+      const nuevoMensaje = { nombre, apellido, rut, correo, telefono, mensaje };
 
       // Guardar en LocalStorage
       const mensajesGuardados = JSON.parse(localStorage.getItem("mensajes")) || [];
@@ -189,4 +207,3 @@ import Layout from '../layouts/BlogPost.astro';
     });
   </script>
 </Layout>
-

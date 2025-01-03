@@ -142,6 +142,13 @@ import Layout from '../layouts/BlogPost.astro';
     // Referencia al formulario de contacto
     const contactForm = document.getElementById("contact-form");
 
+    // Validación del correo electrónico
+    function validarCorreo(correo) {
+      // Expresión regular para validar correos con dominios de 2 o más caracteres
+      const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return regex.test(correo) && correo.split('@')[0].length > 2;
+    }
+
     // Evento para manejar el envío del formulario
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -153,6 +160,12 @@ import Layout from '../layouts/BlogPost.astro';
       const correo = document.getElementById("correo").value;
       const telefono = document.getElementById("telefono").value;
       const mensaje = document.getElementById("mensaje").value;
+
+      // Validar correo electrónico
+      if (!validarCorreo(correo)) {
+        alert("Por favor, ingresa un correo electrónico válido.");
+        return;
+      }
 
       // Crear un nuevo mensaje
       const nuevoMensaje = {
@@ -176,3 +189,4 @@ import Layout from '../layouts/BlogPost.astro';
     });
   </script>
 </Layout>
+

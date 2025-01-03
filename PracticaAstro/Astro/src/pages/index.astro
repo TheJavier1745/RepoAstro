@@ -28,14 +28,17 @@ import Layout from '../layouts/BlogPost.astro';
     <h2 class="section-title">Nuestros Servicios</h2>
     <div class="services-grid">
       <div class="service-card">
+        <span class="material-icons">business</span>
         <h3>Consultoría Empresarial</h3>
         <p>Optimiza tus procesos y maximiza tus resultados con nuestra asesoría experta.</p>
       </div>
       <div class="service-card">
+        <span class="material-icons">account_balance</span>
         <h3>Gestión Financiera</h3>
         <p>Planeación estratégica para un crecimiento sostenible.</p>
       </div>
       <div class="service-card">
+        <span class="material-icons">school</span>
         <h3>Capacitación</h3>
         <p>Programas diseñados para el desarrollo de tu equipo.</p>
       </div>
@@ -47,24 +50,14 @@ import Layout from '../layouts/BlogPost.astro';
     <p>
       En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
     </p>
-  </section>
-
-  <section class="contact">
-    <div class="contact-button">
-      <a href="/contact" class="btn-primary">Contáctanos</a>
-    </div>
+    <a href="#contacto" class="btn-primary">Contáctanos</a>
   </section>
 
   <style>
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
     html {
       scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
     }
 
     .hero-logo {
@@ -79,32 +72,15 @@ import Layout from '../layouts/BlogPost.astro';
       text-align: center;
     }
 
-    .hero-title {
-      font-size: 2.5rem;
-      color: #343a40;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: #6c757d;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
     .btn-primary {
-      display: inline-block;
       padding: 10px 20px;
-      font-size: 1rem;
-      color: #fff;
-      background-color: #007bff;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
+      background-color: #007BFF;
+      color: white;
       text-decoration: none;
-      transition: background-color 0.3s ease;
+      border-radius: 5px;
+      display: inline-block;
       margin-top: 40px;
+      margin-bottom: 60px;
     }
 
     .btn-primary:hover {
@@ -113,71 +89,65 @@ import Layout from '../layouts/BlogPost.astro';
 
     .image-section {
       text-align: center;
-      margin: 20px 0;
+      margin: 40px 0;
     }
 
     .featured-image {
       max-width: 100%;
       height: auto;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .services {
-      padding: 40px 20px;
-      background-color: #f8f9fa;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .services-grid {
       display: flex;
-      justify-content: space-between;
-      flex-wrap: nowrap; /* Prevent wrapping */
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      gap: 20px;
+      margin-top: 40px;
     }
 
     .service-card {
-      background-color: #fff;
+      flex: 1 1 calc(33.333% - 20px);
+      max-width: calc(33.333% - 20px);
+      background: #f9f9f9;
       padding: 20px;
-      margin: 10px;
+      border: 1px solid #ddd;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      flex: 1; /* Ensure the cards take equal space */
-      max-width: 30%; /* Adjust the width to fit three cards in one line */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
     .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
     }
 
     .service-card h3 {
       margin-bottom: 10px;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       color: #007BFF;
-      font-weight: bold;
     }
 
     .service-card p {
       font-size: 1rem;
       color: #555;
-      margin-top: 10px;
+    }
+
+    .material-icons {
+      font-size: 48px;
+      color: #007BFF;
+      margin-bottom: 10px;
     }
 
     .section-title {
+      text-align: center;
       font-size: 2rem;
-      color: #343a40;
-      text-align: center;
       margin-bottom: 20px;
+      color: #007BFF;
     }
 
-    .contact {
-      padding: 40px 20px;
-      text-align: center;
-      margin-top: 60px;
-    }
-
-    .contact-button {
+    .about {
       text-align: center;
     }
   </style>

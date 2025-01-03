@@ -1,163 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRM - Inicio de Sesión</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+import { render } from 'astro:content';
 
-    .container {
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'blog'>;
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+const post = Astro.props;
+const { Content } = await render(post);
+---
 
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
-</head>
-<body>
-  <!-- Contenedor de Inicio de Sesión -->
-  <div class="container" id="login-container">
-    <h2>Inicio de Sesión</h2>
-    <form id="login-form">
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" placeholder="Ingresa tu usuario" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Clave</label>
-        <input type="password" id="password" placeholder="Ingresa tu clave" required>
-      </div>
-      <button type="submit">Iniciar Sesión</button>
-    </form>
-  </div>
-
-  <!-- Contenedor de CRM -->
-  <div class="container hidden" id="crm-container">
-    <h2>Mensajes Recibidos</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Usuario</th>
-          <th>Mensaje</th>
-        </tr>
-      </thead>
-      <tbody id="messages-table">
-        <!-- Los mensajes se agregarán aquí dinámicamente -->
-      </tbody>
-    </table>
-  </div>
-
-  <script>
-    // Simulación de mensajes
-    const mensajes = [
-      { id: 1, usuario: "Juan Pérez", mensaje: "Hola, necesito ayuda con mi cuenta." },
-      { id: 2, usuario: "María López", mensaje: "¿Cuánto cuesta el servicio?" },
-      { id: 3, usuario: "Carlos Gómez", mensaje: "Por favor, actualicen mi información." },
-    ];
-
-    // Referencias a los elementos HTML
-    const loginContainer = document.getElementById("login-container");
-    const crmContainer = document.getElementById("crm-container");
-    const loginForm = document.getElementById("login-form");
-    const messagesTable = document.getElementById("messages-table");
-
-    // Manejo del formulario de inicio de sesión
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      // Validación básica
-      if (username === "admin" && password === "1234") {
-        loginContainer.classList.add("hidden");
-        crmContainer.classList.remove("hidden");
-        cargarMensajes();
-      } else {
-        alert("Usuario o contraseña incorrectos");
-      }
-    });
-
-    // Función para cargar mensajes en la tabla
-    function cargarMensajes() {
-      mensajes.forEach((msg) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${msg.id}</td>
-          <td>${msg.usuario}</td>
-          <td>${msg.mensaje}</td>
-        `;
-        messagesTable.appendChild(row);
-      });
-    }
-  </script>
-</body>
-</html>
+<BlogPost {...post.data}>
+	<Content />
+</BlogPost>

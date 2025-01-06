@@ -99,7 +99,7 @@ import Layout from '../layouts/BlogPost.astro';
 
     table {
       width: 100%;
-            border-collapse: collapse;
+      border-collapse: collapse;
       margin-top: 20px;
     }
 
@@ -137,7 +137,6 @@ import Layout from '../layouts/BlogPost.astro';
   </style>
 
   <script>
-    // Referencias a los elementos
     const loginContainer = document.getElementById("login-container");
     const crmContainer = document.getElementById("crm-container");
     const loginForm = document.getElementById("login-form");
@@ -145,11 +144,9 @@ import Layout from '../layouts/BlogPost.astro';
     const backBtn = document.getElementById("back-btn");
     const messagesTable = document.getElementById("messages-table");
 
-    // Credenciales del administrador
     const ADMIN_USERNAME = "admin";
     const ADMIN_PASSWORD = "1234";
 
-    // Manejo del inicio de sesión
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -165,34 +162,38 @@ import Layout from '../layouts/BlogPost.astro';
       }
     });
 
-    // Manejo del cierre de sesión
     logoutBtn.addEventListener("click", () => {
       crmContainer.classList.add("hidden");
       loginContainer.classList.remove("hidden");
     });
 
-    // Volver al inicio
     backBtn.addEventListener("click", () => {
-      window.location.href = "/"; // Cambia esto si el inicio tiene otra ruta
+      window.location.href = "/";
     });
 
-    // Cargar mensajes desde LocalStorage
-    function cargarMensajes() {
-      const mensajes = JSON.parse(localStorage.getItem("mensajes")) || [];
-      messagesTable.innerHTML = "";
+    async function cargarMensajes() {
+      try {
+        const response = await fetch('http://localhost/src/utilitarios/get_data.php');
+        if (!response.ok) {
+          throw new Error('Error al obtener los mensajes.');
+        }
 
-      mensajes.forEach((msg) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${msg.nombre}</td>
-          <td>${msg.correo}</td>
-          <td>${msg.mensaje}</td>
-        `;
-        messagesTable.appendChild(row);
-      });
+        const mensajes = await response.json();
+        messagesTable.innerHTML = "";
+
+        mensajes.forEach((msg) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${msg.nombres}</td>
+            <td>${msg.correo}</td>
+            <td>${msg.mensaje}</td>
+          `;
+          messagesTable.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error al cargar mensajes:', error);
+        alert('Error al cargar mensajes. Intenta de nuevo más tarde.');
+      }
     }
   </script>
 </Layout>
-
-      
-      

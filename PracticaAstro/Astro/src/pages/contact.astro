@@ -12,7 +12,7 @@ import Layout from '../layouts/BlogPost.astro';
   <section class="contact-form">
     <h2 class="section-title">Contáctanos</h2>
     <p>Rellena el siguiente formulario para ponerte en contacto con nosotros.</p>
-    <form id="contact-form" class="form">
+    <form method="post" id="contact-form" class="form" action="/src/utilitarios/reg.php" >
       <div class="form-group">
         <span class="material-icons">person</span>
         <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
@@ -157,51 +157,5 @@ import Layout from '../layouts/BlogPost.astro';
 
       return dvEsperado === verificador.toUpperCase();
     }
-
-    const contactForm = document.getElementById("contact-form");
-
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const nombre = document.getElementById("nombre").value;
-      const apellido = document.getElementById("apellido").value;
-      const rut = document.getElementById("rut").value;
-      const correo = document.getElementById("correo").value;
-      const telefono = document.getElementById("telefono").value;
-      const mensaje = document.getElementById("mensaje").value;
-
-      if (!validarRut(rut)) {
-        alert("Por favor, ingresa un RUT válido.");
-        return;
-      }
-
-      if (!validarCorreo(correo)) {
-        alert("Por favor, ingresa un correo electrónico válido.");
-        return;
-      }
-
-      const nuevoMensaje = { nombre, apellido, rut, correo, telefono, mensaje };
-
-      try {
-        const response = await fetch('http://localhost:4321/api/contacto', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(nuevoMensaje),
-        });
-
-        if (response.ok) {
-          alert("Mensaje enviado correctamente.");
-          contactForm.reset();
-        } else {
-          alert("Error al enviar el mensaje.");
-        }
-      } catch (error) {
-        console.error("Error al enviar el formulario:", error);
-        alert("Error al enviar el formulario. Intenta nuevamente.");
-      }
-    });
   </script>
 </Layout>
-

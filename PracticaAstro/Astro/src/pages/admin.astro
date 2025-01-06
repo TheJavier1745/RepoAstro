@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
 
-// Realiza la consulta de mensajes
+// Realiza la consulta de datos
 const response = await fetch('http://localhost/src/utilitarios/get_data.php');
-const mensajes = await response.json();
+const datos = await response.json();
 ---
 
 <Layout
@@ -43,12 +43,12 @@ const mensajes = await response.json();
           </tr>
         </thead>
         <tbody id="messages-table">
-          {mensajes.map((msg) => (
+          {datos.map((dato) => (
             <tr>
-              <td>{msg.nombres} {msg.apellidos}</td>
-              <td>{msg.correo}</td>
-              <td>{msg.mensaje}</td>
-              <td>{msg.fecha_hora}</td>
+              <td>{dato.nombres} {dato.apellidos}</td>
+              <td>{dato.correo}</td>
+              <td>{dato.mensaje}</td>
+              <td>{dato.fecha_hora}</td>
             </tr>
           ))}
         </tbody>

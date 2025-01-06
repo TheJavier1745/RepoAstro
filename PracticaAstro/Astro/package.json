@@ -19,6 +19,7 @@
     "@mui/material": "^6.3.1",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "aos": "^2.3.4",
     "astro": "^5.1.2",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",

@@ -52,7 +52,6 @@ import Layout from '../layouts/BlogPost.astro';
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <style>
-    /* Estilo general */
     .contact-form {
       max-width: 800px;
       margin: 0 auto;
@@ -66,13 +65,13 @@ import Layout from '../layouts/BlogPost.astro';
       text-align: center;
       font-size: 1.8rem;
       margin-bottom: 20px;
-      color: #000; /* Títulos en negro */
+      color: #000;
     }
 
     p {
       text-align: center;
       font-size: 1rem;
-      color: #000; /* Subtítulo en negro */
+      color: #000;
     }
 
     .form {
@@ -85,7 +84,7 @@ import Layout from '../layouts/BlogPost.astro';
       position: relative;
       display: flex;
       align-items: center;
-      border: 2px solid #000; /* Bordes en negro */
+      border: 2px solid #000;
       border-radius: 5px;
       padding: 10px;
       background: #fff;
@@ -93,13 +92,13 @@ import Layout from '../layouts/BlogPost.astro';
 
     .form-group .material-icons {
       font-size: 1.5rem;
-      color: #000; /* Iconos en negro */
+      color: #000;
       margin-right: 10px;
     }
 
     input, textarea {
       font-size: 1rem;
-      color: #000; /* Texto en negro */
+      color: #000;
       border: none;
       outline: none;
       flex: 1;
@@ -107,13 +106,11 @@ import Layout from '../layouts/BlogPost.astro';
     }
 
     textarea {
-      padding-top: 5px; /* Ajuste para alineación del texto */
-      margin-top: 3px; /* Ajuste para alineación del icono */
-      resize: none; /* Eliminar capacidad de redimensionar */
+      resize: none;
     }
 
     input::placeholder, textarea::placeholder {
-      color: #000; /* Placeholder en negro */
+      color: #000;
     }
 
     .btn-primary {
@@ -123,38 +120,33 @@ import Layout from '../layouts/BlogPost.astro';
       gap: 10px;
       padding: 12px 20px;
       font-size: 1rem;
-      background-color: #000; /* Botón negro */
+      background-color: #000;
       color: white;
       text-decoration: none;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      text-align: center;
     }
 
     .btn-primary:hover {
-      background-color: #333; /* Hover más oscuro */
+      background-color: #333;
     }
   </style>
 
   <script>
-    // Validación del correo electrónico
     function validarCorreo(correo) {
       const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       return regex.test(correo) && correo.split('@')[0].length > 2;
     }
 
-    // Validación del RUT
     function validarRut(rut) {
-      const regex = /^[0-9]+-[0-9kK]{1}$/; // Formato RUT sin puntos, con guion
+      const regex = /^[0-9]+-[0-9kK]{1}$/;
       if (!regex.test(rut)) return false;
 
       const [cuerpo, verificador] = rut.split('-');
       let suma = 0;
       let multiplicador = 2;
 
-      // Calcular el módulo 11
       for (let i = cuerpo.length - 1; i >= 0; i--) {
         suma += multiplicador * parseInt(cuerpo[i]);
         multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
@@ -166,11 +158,9 @@ import Layout from '../layouts/BlogPost.astro';
       return dvEsperado === verificador.toUpperCase();
     }
 
-    // Referencia al formulario de contacto
     const contactForm = document.getElementById("contact-form");
 
-    // Evento para manejar el envío del formulario
-    contactForm.addEventListener("submit", (e) => {
+    contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const nombre = document.getElementById("nombre").value;
@@ -180,30 +170,38 @@ import Layout from '../layouts/BlogPost.astro';
       const telefono = document.getElementById("telefono").value;
       const mensaje = document.getElementById("mensaje").value;
 
-      // Validar RUT
       if (!validarRut(rut)) {
         alert("Por favor, ingresa un RUT válido.");
         return;
       }
 
-      // Validar correo electrónico
       if (!validarCorreo(correo)) {
         alert("Por favor, ingresa un correo electrónico válido.");
         return;
       }
 
-      // Crear un nuevo mensaje
       const nuevoMensaje = { nombre, apellido, rut, correo, telefono, mensaje };
 
-      // Guardar en LocalStorage
-      const mensajesGuardados = JSON.parse(localStorage.getItem("mensajes")) || [];
-      mensajesGuardados.push(nuevoMensaje);
-      localStorage.setItem("mensajes", JSON.stringify(mensajesGuardados));
+      try {
+        const response = await fetch('http://localhost:4321/api/contacto', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(nuevoMensaje),
+        });
 
-      // Limpiar el formulario
-      contactForm.reset();
-
-      alert("Mensaje enviado correctamente");
+        if (response.ok) {
+          alert("Mensaje enviado correctamente.");
+          contactForm.reset();
+        } else {
+          alert("Error al enviar el mensaje.");
+        }
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+        alert("Error al enviar el formulario. Intenta nuevamente.");
+      }
     });
   </script>
 </Layout>
+

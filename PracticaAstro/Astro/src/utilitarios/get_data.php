@@ -1,33 +1,34 @@
 <?php
-// Configurar cabeceras CORS (si es necesario)
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+// Configurar encabezados para devolver JSON
+header("Content-Type: application/json; charset=UTF-8");
 
-// Conexión con la base de datos
+// Conexión a la base de datos
 $connection = new mysqli("localhost", "root", "", "consultoraap");
 
 // Verificar conexión
 if ($connection->connect_error) {
-    die(json_encode(['error' => 'Error de conexión a la base de datos: ' . $connection->connect_error]));
+    http_response_code(500);
+    echo json_encode(['error' => 'Error de conexión a la base de datos: ' . $connection->connect_error]);
+    exit;
 }
 
-// Consultar los mensajes
-$query = "SELECT nombre, correo, mensaje FROM datos";
+// Consulta SQL
+$query = "SELECT nombres, apellidos, correo, mensaje, DATE_FORMAT(fecha_hora, '%d-%m-%Y %H:%i:%s') AS fecha_hora FROM datos";
 $result = $connection->query($query);
 
-// Verificar si hay resultados
-if ($result->num_rows > 0) {
-    $messages = [];
-
+// Verificar resultados
+$mensajes = [];
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $messages[] = $row;
+        $mensajes[] = $row;
     }
-
-    echo json_encode($messages);
 } else {
-    echo json_encode([]);
+    $mensajes = ['error' => 'No se encontraron mensajes.'];
 }
 
+// Enviar datos como JSON
+echo json_encode($mensajes);
+
+// Cerrar conexión
 $connection->close();
 ?>

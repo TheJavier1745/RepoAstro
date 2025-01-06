@@ -1,18 +1,21 @@
 <?php
 // Configurar cabeceras CORS (si es necesario)
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Mostrar errores (opcional para depuración)
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
 
 // Conexión con la base de datos
 $connection = new mysqli("localhost", "root", "", "consultoraap");
 
+// Verificar conexión
 if ($connection->connect_error) {
-    die("<h2>Error de conexión: " . $connection->connect_error . "</h2>");
+    die(json_encode(['error' => 'Error de conexión a la base de datos: ' . $connection->connect_error]));
 }
-
+date_default_timezone_set('America/Santiago');
 // Obtener los valores del formulario
 $nombres = $_POST['nombre'] ?? '';
 $apellidos = $_POST['apellido'] ?? '';
@@ -20,6 +23,7 @@ $rut = $_POST['rut'] ?? '';
 $correo = $_POST['correo'] ?? '';
 $telefono = $_POST['telefono'] ?? '';
 $mensaje = $_POST['mensaje'] ?? '';
+$fechaHora = date('Y-m-d H:i:s'); // Obtener la fecha y hora actual
 
 // Validar que todos los campos estén llenos
 if (empty($nombres) || empty($apellidos) || empty($rut) || empty($correo) || empty($telefono) || empty($mensaje)) {
@@ -28,15 +32,8 @@ if (empty($nombres) || empty($apellidos) || empty($rut) || empty($correo) || emp
 }
 
 // Preparar la consulta SQL
-$stmt = $connection->prepare("INSERT INTO datos (nombres, apellidos, rut, correo, telefono, mensaje) VALUES (?, ?, ?, ?, ?, ?)");
-
-// Verificar si la preparación de la consulta falló
-if (!$stmt) {
-    die("<h2>Error en la consulta SQL: " . $connection->error . "</h2>");
-}
-
-// Vincular los parámetros
-$stmt->bind_param("ssssss", $nombres, $apellidos, $rut, $correo, $telefono, $mensaje);
+$stmt = $connection->prepare("INSERT INTO datos (nombre, apellido, rut, correo, telefono, mensaje, fecha_hora) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssss", $nombres, $apellidos, $rut, $correo, $telefono, $mensaje, $fechaHora);
 
 // Ejecutar la consulta
 if ($stmt->execute()) {

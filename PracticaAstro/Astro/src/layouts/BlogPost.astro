@@ -7,10 +7,12 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
+
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="en">
+
+<html lang="es">
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
@@ -129,13 +131,15 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				</div>
 			</div>
 			<aside class="sidebar">
-				<!-- Add sidebar content here -->
-				<h2>Ir a...</h2>
-				<!-- Example content -->
+				<div style="display: flex; align-items: center; justify-content: space-between;">
+					<h2>Ir a...</h2>
+					<img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="logo pequeño para acompañar" style="width: 50px; height: auto; margin-left: 1em;" />
+				</div>
 				<ul>
-					<li><a href="/blog">Testimonios</a></li>
-					<li><a href="/about">Acerca de nosotros</a></li>
-					<li><a href="/contact">Contáctanos</a></li>
+					<li><a href="/"><span class="material-icons">home</span> Inicio</a></li>
+					<li><a href="/blog"><span class="material-icons">chat</span> Testimonios</a></li>
+					<li><a href="/about"><span class="material-icons">info</span> Acerca de nosotros</a></li>
+					<li><a href="/contact"><span class="material-icons">contact_mail</span> Contáctanos</a></li>
 				</ul>
 			</aside>
 		</main>

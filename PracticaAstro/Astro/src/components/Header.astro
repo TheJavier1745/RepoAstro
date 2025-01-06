@@ -95,14 +95,14 @@ import { SITE_TITLE } from '../consts';
     height: 2px;
     bottom: -2px;
     left: 50%;
+    transform: translateX(-50%);
     background-color: #007acc; /* Cambia el color según tu preferencia */
-    transition: width 0.3s ease, left 0.3s ease;
+    transition: width 0.3s ease;
   }
 
   .internal-links a:hover::before,
   .social-links a:hover::before {
-    width: 100%;
-    left: 0;
+    width: 25%; /* Tamaño máximo de la barra */
   }
 
   .internal-links a:hover,

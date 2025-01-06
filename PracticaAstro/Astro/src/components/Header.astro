@@ -81,4 +81,33 @@ import { SITE_TITLE } from '../consts';
 			display: none;
 		}
 	}
+  .internal-links a,
+  .social-links a {
+    position: relative;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .internal-links a::before,
+  .social-links a::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 50%;
+    background-color: #007acc; /* Cambia el color según tu preferencia */
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+
+  .internal-links a:hover::before,
+  .social-links a:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
+  .internal-links a:hover,
+  .social-links a:hover {
+    transform: scale(1.1);
+    color: #007acc; /* Cambia el color según tu preferencia */
+  }
 </style>

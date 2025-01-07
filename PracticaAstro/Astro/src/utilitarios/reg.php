@@ -26,7 +26,7 @@ if (empty($nombres) || empty($apellidos) || empty($rut) || empty($correo) || emp
 }
 
 // Preparar la consulta SQL
-$stmt = $connection->prepare("INSERT INTO datos (nombres, apellidos, rut, correo, telefono, fecha_hora) VALUES (?, ?, ?, ?, ?, ?,?");
+$stmt = $connection->prepare("INSERT INTO datos (nombres, apellidos, rut, correo, telefono,fecha_hora) VALUES (?, ?, ?, ?, ?, ?,?");
 $stmt->bind_param("ssssss", $nombres, $apellidos, $rut, $correo, $telefono, $mensaje,$fecha_hora);
 
 // Ejecutar la consulta

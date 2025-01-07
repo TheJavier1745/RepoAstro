@@ -1,65 +1,19 @@
 ---
+import TablaMensajes from '../components/TablaMensajes.jsx';
 import Layout from '../layouts/BlogPost.astro';
-
-// Realiza la consulta de datos
-const response = await fetch('http://localhost/src/utilitarios/get_data.php');
-const datos = await response.json();
 ---
 
 <Layout
   title="Admin - Consultora AP"
   description="Sistema CRM para Consultora AP"
-  heroImage=""
   pubDate={new Date()}
-  updatedDate={new Date()}
 >
   <section class="admin-container">
-    <!-- Contenedor de Login -->
-    <div class="container" id="login-container">
-      <h2>Inicio de Sesión</h2>
-      <form id="login-form">
-        <div class="form-group">
-          <label for="username">Usuario</label>
-          <input type="text" id="username" placeholder="Ingresa tu usuario" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Clave</label>
-          <input type="password" id="password" placeholder="Ingresa tu clave" required>
-        </div>
-        <button type="submit">Iniciar Sesión</button>
-      </form>
-    </div>
-
-    <!-- Contenedor del CRM -->
-    <div class="container hidden" id="crm-container">
-      <h2>Mensajes Recibidos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Mensaje</th>
-            <th>Fecha y Hora</th>
-          </tr>
-        </thead>
-        <tbody id="messages-table">
-          {datos.map((dato) => (
-            <tr>
-              <td>{dato.nombres} {dato.apellidos}</td>
-              <td>{dato.correo}</td>
-              <td>{dato.mensaje}</td>
-              <td>{dato.fecha_hora}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button class="logout-btn" id="logout-btn">Cerrar Sesión</button>
-      <button class="back-btn" id="back-btn">Volver al Inicio</button>
-    </div>
+    <h2>Mensajes Recibidos</h2>
+    <TablaMensajes client:load />
   </section>
 
   <style>
-    /* General */
     .admin-container {
       max-width: 800px;
       margin: 50px auto;
@@ -74,116 +28,5 @@ const datos = await response.json();
       margin-bottom: 20px;
       color: #333;
     }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f4f4f4;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .logout-btn {
-      margin-top: 20px;
-      background-color: #dc3545;
-    }
-
-    .logout-btn:hover {
-      background-color: #a71d2a;
-    }
-
-    .back-btn {
-      margin-top: 20px;
-      background-color: #6c63ff;
-    }
-
-    .back-btn:hover {
-      background-color: #574ed2;
-    }
   </style>
-
-  <script>
-    // Referencias a los elementos
-    const loginContainer = document.getElementById("login-container");
-    const crmContainer = document.getElementById("crm-container");
-    const loginForm = document.getElementById("login-form");
-    const logoutBtn = document.getElementById("logout-btn");
-    const backBtn = document.getElementById("back-btn");
-
-    // Credenciales del administrador
-    const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "1234";
-
-    // Manejo del inicio de sesión
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-        loginContainer.classList.add("hidden");
-        crmContainer.classList.remove("hidden");
-      } else {
-        alert("Usuario o contraseña incorrectos");
-      }
-    });
-
-    // Manejo del cierre de sesión
-    logoutBtn.addEventListener("click", () => {
-      crmContainer.classList.add("hidden");
-      loginContainer.classList.remove("hidden");
-    });
-
-    // Volver al inicio
-    backBtn.addEventListener("click", () => {
-      window.location.href = "/";
-    });
-  </script>
 </Layout>

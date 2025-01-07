@@ -17,6 +17,7 @@ $rut = $_POST['rut'] ?? '';
 $correo = $_POST['correo'] ?? '';
 $telefono = $_POST['telefono'] ?? '';
 $mensaje = $_POST['mensaje'] ?? '';
+$fecha_hora = $_POST['fecha_hora'] ?? '';
 
 // Validar que todos los campos están llenos
 if (empty($nombres) || empty($apellidos) || empty($rut) || empty($correo) || empty($telefono) || empty($mensaje)) {
@@ -25,8 +26,8 @@ if (empty($nombres) || empty($apellidos) || empty($rut) || empty($correo) || emp
 }
 
 // Preparar la consulta SQL
-$stmt = $connection->prepare("INSERT INTO datos (nombres, apellidos, rut, correo, telefono) VALUES (?, ?, ?, ?, ?, ?");
-$stmt->bind_param("ssssss", $nombres, $apellidos, $rut, $correo, $telefono, $mensaje);
+$stmt = $connection->prepare("INSERT INTO datos (nombres, apellidos, rut, correo, telefono, fecha_hora) VALUES (?, ?, ?, ?, ?, ?,?");
+$stmt->bind_param("ssssss", $nombres, $apellidos, $rut, $correo, $telefono, $mensaje,$fecha_hora);
 
 // Ejecutar la consulta
 if ($stmt->execute()) {

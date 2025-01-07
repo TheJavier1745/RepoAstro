@@ -1,17 +1,19 @@
 ---
 interface Props {
-	date: Date;
+  date: Date | null; // Permitir null para manejar valores indefinidos
 }
 
 const { date } = Astro.props;
----
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+// Verifica si date no es válido y define un valor predeterminado si es necesario
+const safeDate = date ? new Date(date) : null;
+---
+<time datetime={safeDate ? safeDate.toISOString() : ''}>
+  {safeDate
+    ? safeDate.toLocaleDateString('en-us', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : 'Fecha no disponible'}
 </time>

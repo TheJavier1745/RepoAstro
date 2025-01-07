@@ -6,5 +6,5 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'http://localhost:4321',
   output: 'server', 
-  integrations: [mdx(), sitemap(), react()],
+  integrations: [react(),mdx(), sitemap()],
 });

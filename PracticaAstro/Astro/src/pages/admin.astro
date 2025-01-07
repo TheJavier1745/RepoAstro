@@ -10,12 +10,12 @@ import Layout from '../layouts/BlogPost.astro';
 >
   <section class="admin-container">
     <h2>Mensajes Recibidos</h2>
-    <TablaMensajes client:load />
+    <TablaMensajes client:only="react" />
   </section>
 
   <style>
     .admin-container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 50px auto;
       padding: 20px;
       background: #fff;

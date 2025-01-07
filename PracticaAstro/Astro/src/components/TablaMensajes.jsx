@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const TablaMensajes = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost/src/utilitarios/get_data.php')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error al obtener los datos del servidor');
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         const formattedData = data.map((row) => ({
           ...row,
@@ -22,12 +18,12 @@ const TablaMensajes = () => {
         }));
         setRows(formattedData);
       })
-      .catch((err) => setError(err.message))
+      .catch((error) => console.error('Error al obtener los datos:', error))
       .finally(() => setLoading(false));
   }, []);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'ID', width: 80 },
     { field: 'nombres', headerName: 'Nombre', width: 150 },
     { field: 'correo', headerName: 'Correo', width: 250 },
     { field: 'mensaje', headerName: 'Mensaje', width: 300 },
@@ -50,15 +46,22 @@ const TablaMensajes = () => {
   ];
 
   if (loading) {
-    return <p>Cargando mensajes...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
-    <div style={{ height: 500, width: '100%', overflowX: 'auto' }}>
+    <div style={{ height: '100%', width: '95%', margin: '0 auto' }}>
       <DataGrid
         rows={rows}
         columns={columns}

@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Conexión con la base de datos
-$connection = new mysqli("localhost", "root", "", "consultoraap");
+$connection = new mysqli("mysql5050.site4now.net", "a917b4_practip", "j4v13r43v3r#", "db_a917b4_practip");
 if ($connection->connect_error) {
     die("Error de conexión: " . $connection->connect_error);
 }

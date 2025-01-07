@@ -1,31 +1,18 @@
 <?php
 header('Content-Type: application/json');
-
-// Conexión a la base de datos
 $connection = new mysqli("mysql5050.site4now.net", "a917b4_practip", "j4v13r43v3r#", "db_a917b4_practip");
-if ($connection->connect_error) {
-    echo json_encode(['error' => 'Error al conectar con la base de datos: ' . $connection->connect_error]);
-    exit();
+if ($mysqli->connect_error) {
+    die(json_encode(['error' => 'Error al conectar a la base de datos']));
 }
 
-// Realizar consulta a la base de datos
-$query = 'SELECT * FROM datos';
-$result = $connection->query($query);
+$query = "SELECT id, nombres, correo, mensaje, fecha_hora FROM datos";
+$result = $mysqli->query($query);
 
-if (!$result) {
-    echo json_encode(['error' => 'Error en la consulta: ' . $connection->error]);
-    $connection->close();
-    exit();
-}
-
-// Procesar datos
 $data = [];
 while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
 
-// Devolver los datos como JSON
 echo json_encode($data);
-$connection->close();
+$mysqli->close();
 ?>
-

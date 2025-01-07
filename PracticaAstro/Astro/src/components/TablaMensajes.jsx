@@ -7,12 +7,12 @@ const TablaMensajes = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('http://localhost/src/utilitarios/get_data.php')
+    fetch('http://localhost/src/utilitarios/get_data.php') // Endpoint de tu servidor
       .then((response) => response.json())
       .then((data) => {
-        const formattedData = data.map((row) => ({
+        const formattedData = data.map((row, index) => ({
           ...row,
-          id: row.id,
+          id: row.id || index + 1, // Si el ID no existe, generar uno
           fecha_hora: row.fecha_hora || 'No disponible',
         }));
         setRows(formattedData);
@@ -45,25 +45,27 @@ const TablaMensajes = () => {
   ];
 
   return (
-    <Box sx={{ height: 500, width: '100%', margin: '0 auto' }}>
+    <Box sx={{ height: 600, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
         loading={loading}
         pageSize={10}
         rowsPerPageOptions={[10, 20, 50]}
-        components={{
-          Toolbar: GridToolbar,
-        }}
-        componentsProps={{
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
           toolbar: {
-            showQuickFilter: true, 
-            quickFilterProps: { debounceMs: 500 }, 
+            showQuickFilter: true,
           },
         }}
-        disableColumnFilter={false} 
-        disableColumnSelector={false} 
-        disableDensitySelector={false} 
+        disableColumnFilter={false} // Habilita el filtro en columnas
+        disableColumnSelector={false} // Habilita el selector de columnas
+        disableDensitySelector={false} // Habilita el cambio de densidad
+        sx={{
+          '& .MuiDataGrid-toolbarContainer': {
+            justifyContent: 'flex-end', // Alinea la barra de búsqueda a la derecha
+          },
+        }}
       />
     </Box>
   );

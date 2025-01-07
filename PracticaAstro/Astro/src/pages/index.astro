@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
+import BotonesComplejos from '../components/botonescomplejos.jsx';
 ---
 
 <Layout
@@ -24,25 +25,9 @@ import Layout from '../layouts/BlogPost.astro';
     <img src="/src/utilitarios/1500x844_consultoria_ahorro.png" alt="Consultoría y ahorro" class="featured-image">
   </section>
 
-  <section id="servicios" class="services">
-    <h2 class="section-title">Nuestros Servicios</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <span class="material-icons">business</span>
-        <h3>Consultoría Empresarial</h3>
-        <p>Optimiza tus procesos y maximiza tus resultados con nuestra asesoría experta.</p>
-      </div>
-      <div class="service-card">
-        <span class="material-icons">account_balance</span>
-        <h3>Gestión Financiera</h3>
-        <p>Planeación estratégica para un crecimiento sostenible.</p>
-      </div>
-      <div class="service-card">
-        <span class="material-icons">school</span>
-        <h3>Capacitación</h3>
-        <p>Programas diseñados para el desarrollo de tu equipo.</p>
-      </div>
-    </div>
+  <section id="servicios" class="admin-container">
+    <h2>Nuestros servicios</h2>
+    <BotonesComplejos client:only="react" />
   </section>
 
   <section class="about">

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import CircularProgress from '@mui/material/CircularProgress';
+import * as React from 'react';
 import Box from '@mui/material/Box';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const TablaMensajes = () => {
-  const [rows, setRows] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [rows, setRows] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch('http://localhost/src/utilitarios/get_data.php')
       .then((response) => response.json())
       .then((data) => {
@@ -45,32 +44,28 @@ const TablaMensajes = () => {
     },
   ];
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
-    <div style={{ height: '100%', width: '95%', margin: '0 auto' }}>
+    <Box sx={{ height: 500, width: '100%', margin: '0 auto' }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10, 20]}
-        pagination
-        autoHeight
+        loading={loading}
+        pageSize={10}
+        rowsPerPageOptions={[10, 20, 50]}
+        components={{
+          Toolbar: GridToolbar,
+        }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true, 
+            quickFilterProps: { debounceMs: 500 }, 
+          },
+        }}
+        disableColumnFilter={false} 
+        disableColumnSelector={false} 
+        disableDensitySelector={false} 
       />
-    </div>
+    </Box>
   );
 };
 

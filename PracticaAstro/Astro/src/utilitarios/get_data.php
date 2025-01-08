@@ -1,18 +1,26 @@
 <?php
-header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
+// Conexión a la base de datos
 $connection = new mysqli("mysql5050.site4now.net", "a917b4_practip", "j4v13r43v3r#", "db_a917b4_practip");
-if ($mysqli->connect_error) {
-    die(json_encode(['error' => 'Error al conectar a la base de datos']));
+if ($connection->connect_error) {
+    die(json_encode(['error' => "Error de conexión: " . $connection->connect_error]));
 }
 
-$query = "SELECT id, nombres, correo, mensaje, fecha_hora FROM datos";
-$result = $mysqli->query($query);
+// Consulta de datos
+$result = $connection->query("SELECT id, nombres, correo, mensaje, fecha_hora FROM datos");
 
-$data = [];
-while ($row = $result->fetch_assoc()) {
-    $data[] = $row;
+if ($result->num_rows > 0) {
+    $rows = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['fecha_hora'] = date('Y-m-d\TH:i:s', strtotime($row['fecha_hora']));
+        $rows[] = $row;
+    }
+    echo json_encode($rows);
+} else {
+    echo json_encode([]);
 }
 
-echo json_encode($data);
-$mysqli->close();
+$connection->close();
 ?>

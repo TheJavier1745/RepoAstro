@@ -32,18 +32,24 @@ const TablaMensajes = () => {
       width: 200,
       valueFormatter: (params) => {
         if (!params.value || params.value === 'No disponible') return 'No disponible';
-        const date = new Date(params.value);
-        return date.toLocaleString('es-CL', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-        });
+        
+        // Intenta formatear la fecha
+        try {
+          const date = new Date(params.value);
+          return date.toLocaleString('es-CL', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+        } catch (error) {
+          console.error('Error formateando la fecha:', params.value, error);
+          return 'Formato de fecha inválido';
+        }
       },
     },
   ];
-
   return (
     <Box sx={{ height: 600, width: '100%' }}>
       <DataGrid

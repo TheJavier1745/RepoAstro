@@ -1,32 +1,35 @@
 ---
-import TablaMensajes from '../components/TablaMensajes.jsx';
+import { prisma } from '../../prisma/prisma'; // Importa el cliente Prisma
 import Layout from '../layouts/BlogPost.astro';
+import DataGridComponent from '../components/TablaMensajes.jsx'; // Importa el componente React
+
+
+// Consulta los datos desde la base de datos
+const mensajes = await prisma.datos.findMany({
+  orderBy: {
+    fecha_hora: 'desc',
+  },
+});
+
+// Configuración de columnas para DataGrid
+const columns = [
+  { field: 'id', headerName: 'ID', width: 80 },
+  { field: 'nombres', headerName: 'Nombre', width: 150 },
+  { field: 'correo', headerName: 'Correo', width: 250 },
+  { field: 'mensaje', headerName: 'Mensaje', width: 300 },
+  { field: 'fecha_hora', headerName: 'Fecha y Hora', width: 200 },
+];
+
+const rows = mensajes.map((mensaje) => ({
+  id: mensaje.id,
+  nombres: mensaje.nombres,
+  correo: mensaje.correo,
+  mensaje: mensaje.mensaje,
+  fecha_hora: new Date(mensaje.fecha_hora).toLocaleString(),
+}));
 ---
 
-<Layout
-  title="Admin - Consultora AP"
-  description="Sistema CRM para Consultora AP"
-  pubDate={new Date()}
->
-  <section class="admin-container">
-    <h2>Mensajes Recibidos</h2>
-    <TablaMensajes client:only="react" />
-  </section>
-
-  <style>
-    .admin-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-  </style>
+<Layout>
+  <h1>Panel de Administración</h1>
+  <DataGridComponent rows={rows} columns={columns} client:only="react" />
 </Layout>

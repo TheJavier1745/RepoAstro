@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://a917b4_practip:j4v13r43v3r%23@mysql5050.site4now.net/db_a917b4_practip"
+}
+
+model usuarios {
+  ID          Int    @id @default(autoincrement())
+  tipoUsuario String @db.VarChar(10)
+  nombre      String @db.VarChar(30)
+  correo      String @unique(map: "correo") @db.VarChar(100)
+  contrasena  String @db.VarChar(20)
+}
+
+model datos {
+  id         Int       @id @default(autoincrement())
+  nombres    String?   @db.VarChar(100)
+  apellidos  String?   @db.VarChar(100)
+  rut        String?   @db.VarChar(15)
+  correo     String?   @db.VarChar(100)
+  telefono   String?   @db.VarChar(15)
+  mensaje    String?   @db.Text
+  fecha_hora DateTime? @default(now()) @db.DateTime(0)
+}

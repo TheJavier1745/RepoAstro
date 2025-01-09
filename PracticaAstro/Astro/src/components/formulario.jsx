@@ -1,147 +1,80 @@
 import React, { useState } from "react";
 import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import "../styles/Formulario.css"; // Ruta relativa al archivo CSS
+import Snackbar from "@mui/material/Snackbar";
 
 const Formulario = () => {
-  const [alerta, setAlerta] = useState(null);
-
-  const validarCorreo = (correo) => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(correo) && correo.split("@")[0].length > 2;
-  };
-
-  const validarRut = (rut) => {
-    const regex = /^[0-9]+-[0-9kK]{1}$/;
-    if (!regex.test(rut)) return false;
-
-    const [cuerpo, verificador] = rut.split("-");
-    let suma = 0;
-    let multiplicador = 2;
-
-    for (let i = cuerpo.length - 1; i >= 0; i--) {
-      suma += multiplicador * parseInt(cuerpo[i]);
-      multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
-    }
-
-    const resto = 11 - (suma % 11);
-    const dvEsperado = resto === 11 ? "0" : resto === 10 ? "K" : resto.toString();
-
-    return dvEsperado === verificador.toUpperCase();
-  };
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertType, setAlertType] = useState("success");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
     const formData = new FormData(event.target);
-
-    const nombre = formData.get("nombre").trim();
-    const apellido = formData.get("apellido").trim();
-    const rut = formData.get("rut").trim();
-    const correo = formData.get("correo").trim();
-    const telefono = formData.get("telefono").trim();
-    const mensaje = formData.get("mensaje").trim();
-
-    // Validar campos vacíos
-    if (!nombre || !apellido || !rut || !correo || !telefono || !mensaje) {
-      setAlerta({ tipo: "error", mensaje: "Todos los campos son obligatorios." });
-      scrollToAlert();
-      return;
-    }
-
-    // Validar RUT
-    if (!validarRut(rut)) {
-      setAlerta({ tipo: "error", mensaje: "El RUT ingresado no es válido." });
-      scrollToAlert();
-      return;
-    }
-
-    // Validar correo
-    if (!validarCorreo(correo)) {
-      setAlerta({ tipo: "error", mensaje: "El correo ingresado no es válido." });
-      scrollToAlert();
-      return;
-    }
-
+    const data = Object.fromEntries(formData.entries());
+  
     try {
-      const response = await fetch("http://localhost/src/utilitarios/reg.php", {
+      const response = await fetch("/api/formularioAPI", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      const data = await response.json();
-
-      if (data.success) {
-        setAlerta({ tipo: "success", mensaje: "Formulario enviado con éxito." });
-        event.target.reset();
-        scrollToAlert();
-      } else {
-        setAlerta({ tipo: "error", mensaje: data.error || "Error al enviar el formulario." });
-        scrollToAlert();
+  
+      if (!response.ok) {
+        const errorText = await response.text(); // Captura el error
+        console.error("Error en la respuesta:", errorText);
+        throw new Error("Error al enviar los datos.");
       }
+  
+      const result = await response.json();
+      console.log("Respuesta del servidor:", result);
+      alert("Formulario enviado con éxito.");
+      event.target.reset();
     } catch (error) {
-      setAlerta({ tipo: "error", mensaje: "No se pudo conectar con el servidor." });
-      scrollToAlert();
+      console.error("Error al enviar los datos:", error);
+      alert(error.message || "No se pudo conectar con el servidor.");
+    }
+    
+    finally {
+      setAlertOpen(true);
     }
   };
 
-  const scrollToAlert = () => {
-    const alertContainer = document.getElementById("alert-container");
-    alertContainer.scrollIntoView({ behavior: "smooth" });
-  };
+  const handleCloseAlert = () => setAlertOpen(false);
 
   return (
-    <div className="contact-form">
-      <h2 className="section-title">Contáctanos</h2>
-      <p>Rellena el siguiente formulario para ponerte en contacto con nosotros.</p>
-      <div id="alert-container">
-        {alerta && (
-          <Stack sx={{ width: "100%" }} spacing={2}>
-            <Alert severity={alerta.tipo}>{alerta.mensaje}</Alert>
-          </Stack>
-        )}
+    <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <div style={{ marginBottom: "15px" }}>
+        <label htmlFor="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required />
       </div>
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <span className="material-icons">person</span>
-          <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
-        </div>
-
-        <div className="form-group">
-          <span className="material-icons">badge</span>
-          <input type="text" id="apellido" name="apellido" placeholder="Apellido" required />
-        </div>
-
-        <div className="form-group">
-          <span className="material-icons">credit_card</span>
-          <input type="text" id="rut" name="rut" placeholder="RUT (ej: 12345678-9)" required />
-        </div>
-
-        <div className="form-group">
-          <span className="material-icons">email</span>
-          <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required />
-        </div>
-
-        <div className="form-group">
-          <span className="material-icons">phone</span>
-          <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required />
-        </div>
-
-        <div className="form-group">
-          <span className="material-icons">chat</span>
-          <textarea
-            id="mensaje"
-            name="mensaje"
-            placeholder="Mensaje"
-            rows="5"
-            required
-            style={{ resize: "none" }}
-          ></textarea>
-        </div>
-
-        <button type="submit" className="btn-primary">
-          <span className="material-icons">send</span> Enviar
-        </button>
-      </form>
-    </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label htmlFor="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label htmlFor="rut">RUT:</label>
+        <input type="text" id="rut" name="rut" required />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label htmlFor="correo">Correo Electrónico:</label>
+        <input type="email" id="correo" name="correo" required />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label htmlFor="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required />
+      </div>
+      <div style={{ marginBottom: "15px" }}>
+        <label htmlFor="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+      </div>
+      <button type="submit">Enviar</button>
+      <Snackbar open={alertOpen} autoHideDuration={4000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity={alertType}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </form>
   );
 };
 

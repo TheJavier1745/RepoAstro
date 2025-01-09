@@ -8,17 +8,20 @@ const images = [
   {
     url: '/src/utilitarios/servicios-de-consultoría-a-empresas.jpg',
     title: 'Consultoría Empresarial',
-    width: '40%',
+    width: '33%',
+    color: '#FFFFFF',
   },
   {
     url: '/src/utilitarios/adobestock-467965537-1024x684.jpeg',
     title: 'Gestión Financiera',
-    width: '30%',
+    width: '33%',
+    color: '#FFFFFF',
   },
   {
     url: '/src/utilitarios/b2ap3_amp_trabajo-consultoria-empresa.jpg',
     title: 'Capacitación',
-    width: '30%',
+    width: '33%',
+    color: '#FFFFFF',
   },
 ];
 
@@ -82,6 +85,7 @@ const botonescomplejos = () => (
         key={image.title}
         style={{
           width: image.width,
+          color: image.color,
         }}
       >
         {}

@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+import LoginComponent from '../components/login.jsx';
+---
+
+<Layout
+  title="Inicio de sesión"
+  description="Inicia sesión en tu cuenta"
+  heroImage=""
+  pubDate={new Date('January 02 2025')}
+>
+  <LoginComponent client:only="react" />
+</Layout>

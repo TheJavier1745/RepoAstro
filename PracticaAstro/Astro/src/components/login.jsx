@@ -97,7 +97,7 @@ const Login = () => {
         </div>
 
         <button type="submit" className="btn-primary">
-          <span className="material-icons">Login</span> Ingresar
+          <span className="material-icons">login</span> Ingresar
         </button>
       </form>
     </div>

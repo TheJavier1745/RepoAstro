@@ -13,60 +13,60 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-
-    const correo = formData.get("correo").trim();
-    const clave = formData.get("clave").trim();
+  
+    const correo = event.target.correo.value.trim();
+    const clave = event.target.clave.value.trim();
+  
     // Validar campos vacíos
     if (!correo || !clave) {
       setAlerta({ tipo: "error", mensaje: "Todos los campos son obligatorios." });
       scrollToAlert();
       return;
     }
-
+  
     // Validar correo
     if (!validarCorreo(correo)) {
       setAlerta({ tipo: "error", mensaje: "El correo ingresado no es válido." });
       scrollToAlert();
       return;
     }
+  
     try {
-        const response = await fetch("http://localhost/src/utilitarios/login.php", {
-          method: "POST",
-          body: formData,
-        });
-        // Verificar si la respuesta es exitosa
-        if (!response.ok) {
-          throw new Error("Error en la conexión con el servidor.");
-        }
-        const data = await response.json();
-        if (data.success) {
-          // Verificar el tipo de usuario desde la respuesta del servidor
-          if (data.tipoUsuario === "admin") {
-            window.location.href = "/admin"; // Redirige al panel de administrador
-          } else if (data.tipoUsuario === "usuario") {
-            window.location.href = "/"; // Redirige a la página principal
-          } else {
-            setAlerta({ tipo: "error", mensaje: "Tipo de usuario desconocido." });
-            scrollToAlert();
-          }
+      const response = await fetch("http://localhost:5034/api/Login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ correo, clave }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error en la conexión con el servidor.");
+      }
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        if (data.tipoUsuario === "admin") {
+          window.location.href = "/admin"; // Redirige al panel de administrador
+        } else if (data.tipoUsuario === "usuario") {
+          window.location.href = "/"; // Redirige a la página principal
         } else {
-          // Mostrar error del servidor o credenciales inválidas
-          setAlerta({
-            tipo: "error",
-            mensaje: data.error || "Correo o contraseña inválidos.",
-          });
+          setAlerta({ tipo: "error", mensaje: "Tipo de usuario desconocido." });
           scrollToAlert();
         }
-      } catch (error) {
-        // Manejar errores en la conexión o el fetch
+      } else {
         setAlerta({
           tipo: "error",
-          mensaje: "No se pudo conectar con el servidor.",
+          mensaje: data.error || "Correo o contraseña inválidos.",
         });
         scrollToAlert();
       }
-      
+    } catch (error) {
+      setAlerta({
+        tipo: "error",
+        mensaje: "No se pudo conectar con el servidor.",
+      });
+      scrollToAlert();
+    }
   };
 
   const scrollToAlert = () => {

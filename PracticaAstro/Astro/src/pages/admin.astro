@@ -1,17 +1,33 @@
 ---
-import { prisma } from '../../prisma/prisma'; // Importa el cliente Prisma
 import Layout from '../layouts/BlogPost.astro';
-import DataGridComponent from '../components/TablaMensajes.jsx'; // Importa el componente React
+import DataGridComponent from '../components/TablaMensajes.jsx';
 
+let rows = [];
+let errorMessage = '';
 
-// Consulta los datos desde la base de datos
-const mensajes = await prisma.datos.findMany({
-  orderBy: {
-    fecha_hora: 'desc',
-  },
-});
+try {
+  // Usa la variable de entorno para la URL base
+  const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
+  const response = await fetch(`http://localhost:5079/api/mensajes`);
+  if (response.ok) {
+    const datos = await response.json();
 
-// Configuración de columnas para DataGrid
+    // Procesa solo las columnas necesarias
+    rows = datos.map((dato) => ({
+      id: dato.id,
+      nombres: dato.nombres,
+      correo: dato.correo,
+      mensaje: dato.mensaje,
+      fecha_hora: new Date(dato.fecha_hora).toLocaleString(),
+    }));
+  } else {
+    errorMessage = 'Error al obtener los mensajes del servidor.';
+  }
+} catch (error) {
+  errorMessage = 'No se pudo conectar con el servidor.';
+  console.error('Error al conectar con la API:', error);
+}
+
 const columns = [
   { field: 'id', headerName: 'ID', width: 80 },
   { field: 'nombres', headerName: 'Nombre', width: 150 },
@@ -19,17 +35,18 @@ const columns = [
   { field: 'mensaje', headerName: 'Mensaje', width: 300 },
   { field: 'fecha_hora', headerName: 'Fecha y Hora', width: 200 },
 ];
-
-const rows = mensajes.map((mensaje) => ({
-  id: mensaje.id,
-  nombres: mensaje.nombres,
-  correo: mensaje.correo,
-  mensaje: mensaje.mensaje,
-  fecha_hora: new Date(mensaje.fecha_hora).toLocaleString(),
-}));
 ---
-
 <Layout>
   <h1>Panel de Administración</h1>
-  <DataGridComponent rows={rows} columns={columns} client:only="react" />
+
+  <!-- Mostrar mensaje de error si ocurre -->
+  {errorMessage && <div class="alert-error">{errorMessage}</div>}
+
+  <!-- Renderizar el DataGrid solo si hay datos -->
+  {rows.length > 0 ? (
+    <DataGridComponent rows={rows} columns={columns} client:only="react" />
+  ) : (
+    !errorMessage && <p>No hay mensajes disponibles.</p>
+  )}
 </Layout>
+console.log('Base URL:', import.meta.env.PUBLIC_API_BASE_URL);

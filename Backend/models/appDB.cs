@@ -9,7 +9,6 @@ namespace Backend.Models
         public DbSet<Dato> Datos { get; set; } = null!;
         public DbSet<Usuario> Usuarios { get; set; } = null!;
 
-        public DbSet<Login> Logins { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Dato>(entity =>

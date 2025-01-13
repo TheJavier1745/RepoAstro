@@ -104,3 +104,11 @@ C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\obj\Debug\net9.0\refint\Backen
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.pdb
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.genruntimeconfig.cache
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\obj\Debug\net9.0\ref\Backend.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\backend\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

@@ -3,7 +3,8 @@ import Layout from '../layouts/BlogPost.astro';
 import Formulario from '../components/formulario.jsx'; // Importa el componente React
 ---
 
-<Layout>
-  <h1>Formulario de Contacto</h1>
+<Layout title="Contáctanos" description="Página de contacto" pubDate={new Date()}>
+  <h5>Si deseas contratar nuestro servicios rellena este formulario</h5> 
+  <br>
   <Formulario client:only="react" />
 </Layout>

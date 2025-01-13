@@ -1,16 +1,52 @@
+import React, { useState, useRef } from "react";
+import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import BadgeIcon from "@mui/icons-material/Badge";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import MessageIcon from "@mui/icons-material/Message";
 
-import React, { useState } from "react";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+function validarRut(rut) {
+  const rutLimpio = rut.replace(/\./g, "").replace(/-/g, "").toUpperCase();
+  if (!/^[0-9]+[0-9K]$/.test(rutLimpio)) {
+    return false;
+  }
+  const cuerpo = rutLimpio.slice(0, -1);
+  const dv = rutLimpio.slice(-1);
+  let suma = 0;
+  let multiplicador = 2;
+  for (let i = cuerpo.length - 1; i >= 0; i--) {
+    suma += multiplicador * parseInt(cuerpo[i]);
+    multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+  }
+  const resto = 11 - (suma % 11);
+  const dvEsperado = resto === 11 ? "0" : resto === 10 ? "K" : resto.toString();
+  return dv === dvEsperado;
+}
+
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
-  const [alertOpen, setAlertOpen] = useState(false);
   const [alertType, setAlertType] = useState("success");
+  const [showAlert, setShowAlert] = useState(false);
+  const [loading, setLoading] = useState(false); // Estado para el indicador de carga
+  const formRef = useRef(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+
+    // Validar el RUT
+    if (!validarRut(data.rut)) {
+      setAlertMessage("El RUT ingresado no es válido. Asegúrate de ingresarlo sin puntos y con guion.");
+      setAlertType("error");
+      setShowAlert(true);
+      scrollToForm();
+      return;
+    }
+
+    setLoading(true); // Activar el indicador de carga
 
     try {
       const response = await fetch("http://localhost:5079/api/formularioAPI", {
@@ -19,59 +55,161 @@ const Formulario = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        setAlertMessage("Formulario enviado con éxito.");
-        setAlertType("success");
-        event.target.reset();
-      } else {
-        setAlertMessage(result.error || "Error al enviar los datos.");
-        setAlertType("error");
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || "Error al enviar los datos.");
       }
+
+      setAlertMessage("Formulario enviado con éxito.");
+      setAlertType("success");
+      event.target.reset();
     } catch (error) {
-      setAlertMessage("No se pudo conectar con el servidor.");
+      console.error("Error al enviar los datos:", error);
+      setAlertMessage(error.message || "No se pudo conectar con el servidor.");
       setAlertType("error");
     } finally {
-      setAlertOpen(true);
+      setLoading(false); // Desactivar el indicador de carga
+      setShowAlert(true);
+      scrollToForm();
     }
   };
 
-  const handleCloseAlert = () => setAlertOpen(false);
+  const scrollToForm = () => {
+    if (formRef.current) {
+      window.scrollTo({
+        top: formRef.current.offsetTop - 50,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "0 auto" }}>
-      <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="nombre">Nombre:</label>
-        <input type="text" id="nombres" name="nombres" required />
-      </div>
-      <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="apellido">Apellido:</label>
-        <input type="text" id="apellidos" name="apellidos" required />
-      </div>
-      <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="rut">RUT:</label>
-        <input type="text" id="rut" name="rut" required />
-      </div>
-      <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="correo">Correo Electrónico:</label>
-        <input type="email" id="correo" name="correo" required />
-      </div>
-      <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" required />
-      </div>
-      <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
-      </div>
-      <button type="submit">Enviar</button>
-      <Snackbar open={alertOpen} autoHideDuration={4000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity={alertType}>
+    <Box
+      ref={formRef}
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        maxWidth: "600px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        padding: 3,
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        backgroundColor: "#fff",
+      }}
+    >
+      {showAlert && (
+        <Alert severity={alertType} sx={{ marginBottom: 2 }}>
           {alertMessage}
         </Alert>
-      </Snackbar>
-    </form>
+      )}
+      <TextField
+        label="Nombre"
+        id="nombres"
+        name="nombres"
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <PersonIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        label="Apellido"
+        id="apellidos"
+        name="apellidos"
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <BadgeIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        label="RUT"
+        id="rut"
+        name="rut"
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <CreditCardIcon />
+            </InputAdornment>
+          ),
+        }}
+        onChange={(e) => {
+          e.target.value = e.target.value.replace(/[^0-9kK-]/g, "").replace(/\./g, "");
+        }}
+      />
+      <TextField
+        label="Correo Electrónico"
+        id="correo"
+        name="correo"
+        type="email"
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <EmailIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        label="Teléfono"
+        id="telefono"
+        name="telefono"
+        type="tel"
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <PhoneIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        label="Mensaje"
+        id="mensaje"
+        name="mensaje"
+        multiline
+        rows={4}
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <MessageIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <Button
+        variant="contained"
+        type="submit"
+        fullWidth
+        disabled={loading} // Deshabilitar el botón mientras está cargando
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : "Enviar"}
+      </Button>
+    </Box>
   );
 };
 

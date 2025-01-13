@@ -5,13 +5,12 @@ export async function post({ request }) {
   });
 
   try {
-    const body = await request.json(); // Obtiene los datos enviados desde el formulario
-
-    // Llama al backend en C#
+    const body = await request.json(); 
+  
     const response = await fetch('http://localhost:5079/api/formularioAPI', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body), // Reenvía los datos al backend
+      body: JSON.stringify(body), 
     });
 
     const result = await response.json();

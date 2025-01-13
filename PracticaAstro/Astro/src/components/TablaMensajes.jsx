@@ -6,8 +6,8 @@ const DataGridComponent = ({ rows, columns }) => {
   return (
     <Box sx={{ height: 600, width: '100%' }}>
       <DataGrid
-        rows={rows} // Datos procesados en el frontend
-        columns={columns} // Configuración de columnas
+        rows={rows} 
+        columns={columns} 
         pageSize={10}
         rowsPerPageOptions={[10, 20, 50]}
         slots={{ toolbar: GridToolbar }}

@@ -42,14 +42,20 @@ app.MapPost("/api/login", async (appDB context, Usuario loginRequest) =>
         return Results.Json(new { Message = "Todos los campos son obligatorios" }, statusCode: 400);
     }
 
-    var user = await context.Usuarios
-        .FirstOrDefaultAsync(u => u.Correo == loginRequest.Correo && u.Contrasena == loginRequest.Contrasena);
+    Console.WriteLine($"Correo recibido: {loginRequest.Correo}");
+    Console.WriteLine($"Contraseña recibida: {loginRequest.Contrasena}");
+
+var user = await context.Usuarios
+    .FirstOrDefaultAsync(u => u.Correo.Trim() == loginRequest.Correo.Trim() &&
+                              u.Contrasena.Trim() == loginRequest.Contrasena.Trim());
 
     if (user == null)
     {
+        Console.WriteLine("Usuario no encontrado o credenciales incorrectas.");
         return Results.Json(new { Message = "Correo o contraseña inválidos" }, statusCode: 401);
-
     }
+
+    Console.WriteLine($"Usuario autenticado: {user.Nombre}, Tipo: {user.TipoUsuario}");
 
     return Results.Ok(new
     {

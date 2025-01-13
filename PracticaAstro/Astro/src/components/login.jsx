@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import "../styles/Formulario.css"; // Ruta relativa al archivo CSS
+import "../styles/formulario.css"; // Ruta relativa al archivo CSS
 
 const Login = () => {
   const [alerta, setAlerta] = useState(null);
@@ -15,10 +15,10 @@ const Login = () => {
     event.preventDefault();
 
     const correo = event.target.correo.value.trim();
-    const clave = event.target.clave.value.trim();
+    const contrasena = event.target.contrasena.value.trim();
 
     // Validar campos vacíos
-    if (!correo || !clave) {
+    if (!correo || !contrasena) {
       setAlerta({ tipo: "error", mensaje: "Todos los campos son obligatorios." });
       scrollToAlert();
       return;
@@ -32,10 +32,10 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5034/api/login", {
+      const response = await fetch('http://localhost:5079/api/login', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ correo, clave }),
+        body: JSON.stringify({ correo, contrasena }),
       });
 
       if (!response.ok) {
@@ -103,8 +103,8 @@ const Login = () => {
           <span className="material-icons">lock</span>
           <input
             type="password"
-            id="clave"
-            name="clave"
+            id="contrasena"
+            name="contrasena"
             placeholder="Clave"
             required
           />

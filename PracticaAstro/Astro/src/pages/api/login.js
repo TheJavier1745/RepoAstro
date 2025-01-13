@@ -7,8 +7,7 @@ export async function post({ request }) {
     try {
       const body = await request.json();
   
-      // Enviar las credenciales al backend
-      const response = await fetch("http://localhost:5034/api/login", {
+      const response = await fetch('http://localhost:5079/api/login', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

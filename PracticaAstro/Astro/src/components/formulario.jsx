@@ -1,7 +1,7 @@
+
 import React, { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
@@ -9,33 +9,30 @@ const Formulario = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-  
+
     try {
-      const response = await fetch("/api/formularioAPI", {
+      const response = await fetch("http://localhost:5079/api/formularioAPI", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-  
-      if (!response.ok) {
-        const errorText = await response.text(); // Captura el error
-        console.error("Error en la respuesta:", errorText);
-        throw new Error("Error al enviar los datos.");
-      }
-  
+
       const result = await response.json();
-      console.log("Respuesta del servidor:", result);
-      alert("Formulario enviado con éxito.");
-      event.target.reset();
+
+      if (response.ok) {
+        setAlertMessage("Formulario enviado con éxito.");
+        setAlertType("success");
+        event.target.reset();
+      } else {
+        setAlertMessage(result.error || "Error al enviar los datos.");
+        setAlertType("error");
+      }
     } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      alert(error.message || "No se pudo conectar con el servidor.");
-    }
-    
-    finally {
+      setAlertMessage("No se pudo conectar con el servidor.");
+      setAlertType("error");
+    } finally {
       setAlertOpen(true);
     }
   };
@@ -46,11 +43,11 @@ const Formulario = () => {
     <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "0 auto" }}>
       <div style={{ marginBottom: "15px" }}>
         <label htmlFor="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required />
+        <input type="text" id="nombres" name="nombres" required />
       </div>
       <div style={{ marginBottom: "15px" }}>
         <label htmlFor="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required />
+        <input type="text" id="apellidos" name="apellidos" required />
       </div>
       <div style={{ marginBottom: "15px" }}>
         <label htmlFor="rut">RUT:</label>

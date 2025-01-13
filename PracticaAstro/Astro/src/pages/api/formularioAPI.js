@@ -1,5 +1,3 @@
-import { prisma } from '../../../prisma/prisma';
-
 export async function post({ request }) {
   const headers = new Headers({
     "Access-Control-Allow-Origin": "*",
@@ -7,36 +5,32 @@ export async function post({ request }) {
   });
 
   try {
-    const body = await request.json();
+    const body = await request.json(); // Obtiene los datos enviados desde el formulario
 
-    const { nombre, apellido, rut, correo, telefono, mensaje } = body;
-
-    if (!nombre || !apellido || !rut || !correo || !telefono || !mensaje) {
-      return new Response(
-        JSON.stringify({ error: "Todos los campos son obligatorios." }),
-        { status: 400, headers }
-      );
-    }
-
-    const savedData = await prisma.datos.create({
-      data: {
-        nombres: nombre,
-        apellidos: apellido,
-        rut,
-        correo,
-        telefono,
-        mensaje,
-      },
+    // Llama al backend en C#
+    const response = await fetch('http://localhost:5079/api/formularioAPI', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body), // Reenvía los datos al backend
     });
 
-    return new Response(
-      JSON.stringify({ success: "Formulario enviado con éxito.", data: savedData }),
-      { status: 200, headers }
-    );
+    const result = await response.json();
+
+    if (response.ok) {
+      return new Response(
+        JSON.stringify({ success: "Formulario enviado con éxito.", data: result }),
+        { status: 200, headers }
+      );
+    } else {
+      return new Response(
+        JSON.stringify({ error: result.error || "Error al guardar los datos." }),
+        { status: response.status, headers }
+      );
+    }
   } catch (error) {
-    console.error("Error en el servidor:", error);
+    console.error("Error al conectar con el backend:", error);
     return new Response(
-      JSON.stringify({ error: "Error al guardar los datos." }),
+      JSON.stringify({ error: "No se pudo conectar con el servidor." }),
       { status: 500, headers }
     );
   }

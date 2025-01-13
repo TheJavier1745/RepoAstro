@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dpHCge/3MFw=",
+  "dgSpecHash": "1vn/Q5O3MAQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\Backend\\Backend.csproj",
+  "projectFilePath": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\backend\\Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jenni\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\jenni\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.0\\microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",

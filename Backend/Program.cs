@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4321") // Puerto de Astro
+                          policy.WithOrigins("http://localhost:4321") 
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                       });
@@ -58,5 +58,41 @@ app.MapPost("/api/login", async (appDB context, Usuario loginRequest) =>
         Nombre = user.Nombre
     });
 });
+
+//endpoint para agregar en el formulario
+app.MapPost("/api/formularioAPI", async (HttpContext context, appDB db) =>
+{
+    try
+    {
+        // Leer los datos enviados en el cuerpo de la solicitud
+        var data = await context.Request.ReadFromJsonAsync<Dato>();
+        if (data == null)
+            return Results.BadRequest(new { error = "Datos inválidos." });
+
+        // Crear un nuevo registro basado en el modelo Dato
+        var nuevoDato = new Dato
+        {
+            Nombres = data.Nombres,
+            Apellidos = data.Apellidos,
+            Rut = data.Rut,
+            Correo = data.Correo,
+            Telefono = data.Telefono,
+            Mensaje = data.Mensaje,
+            FechaHora = DateTime.Now // Se genera automáticamente
+        };
+
+        // Guardar en la base de datos
+        db.Datos.Add(nuevoDato);
+        await db.SaveChangesAsync();
+
+        return Results.Ok(new { success = "Formulario enviado con éxito." });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error:", ex.Message);
+        return Results.Problem("Ocurrió un error al guardar los datos.");
+    }
+});
+
 
 app.Run();

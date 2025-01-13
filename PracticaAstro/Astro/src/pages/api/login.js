@@ -26,7 +26,7 @@ export async function post({ request }) {
       } else {
         return new Response(
           JSON.stringify({
-            error: result.error || "Correo o contraseña inválidos.",
+            error: result.Message || "Correo o contraseña inválidos.",
           }),
           { status: response.status, headers }
         );

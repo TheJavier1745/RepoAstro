@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\backend\\Backend.csproj": {}
+    "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\backend\\Backend.csproj": {
+    "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\backend\\Backend.csproj",
+        "projectPath": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\Backend\\Backend.csproj",
         "packagesPath": "C:\\Users\\jenni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\backend\\obj\\",
+        "outputPath": "C:\\Users\\jenni\\Documents\\GitHub\\RepoAstro\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jenni\\AppData\\Roaming\\NuGet\\NuGet.Config"

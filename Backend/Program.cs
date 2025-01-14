@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Backend.Models;
 
-// Configuración de servicios
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<appDB>(options =>
@@ -27,26 +26,29 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key no está configurada.")
-        ))
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key no está configurada.")
+            ))
+        };
+    });
+
 builder.Services.AddAuthorization();
+
 var app = builder.Build();
 app.UseCors("_myAllowSpecificOrigins");
-app.UseAuthentication(); 
-app.UseAuthorization(); 
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Endpoint para login
 app.MapPost("/api/login", async (appDB context, Usuario loginRequest) =>
@@ -79,16 +81,17 @@ app.MapPost("/api/login", async (appDB context, Usuario loginRequest) =>
         expires: DateTime.Now.AddHours(1),
         signingCredentials: creds
     );
-     Console.WriteLine($"Token generado: {token}");
+
     return Results.Ok(new
     {
         Message = "Inicio de sesión exitoso",
         Token = new JwtSecurityTokenHandler().WriteToken(token),
-        TipoUsuario = user.TipoUsuario,
+        tipoUsuario = user.TipoUsuario,
         Nombre = user.Nombre
     });
 });
 
+// Endpoint para validar el token
 app.MapPost("/api/validateToken", async (HttpContext context) =>
 {
     var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
@@ -121,8 +124,17 @@ app.MapPost("/api/validateToken", async (HttpContext context) =>
         return Results.Json(new { message = "Token inválido o expirado." }, statusCode: 401);
     }
 });
-app.MapGet("/api/mensajes", async (appDB context) =>
+
+// Endpoint para mensajes protegidos
+app.MapGet("/api/mensajes", [Authorize] async (HttpContext httpContext, appDB context) =>
 {
+    var userRole = httpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+
+    if (userRole != "admin")
+    {
+        return Results.Json(new { Message = "Acceso denegado. Solo los administradores pueden acceder." }, statusCode: 403);
+    }
+
     try
     {
         var datos = await context.Datos
@@ -145,5 +157,30 @@ app.MapGet("/api/mensajes", async (appDB context) =>
     }
 });
 
+app.MapPost("/api/formularioAPI", async (appDB context, Dato datoRequest) =>
+{
+    try
+    {
+        var nuevoDato = new Dato
+        {
+            Nombres = datoRequest.Nombres,
+            Apellidos = datoRequest.Apellidos,
+            Rut = datoRequest.Rut,
+            Correo = datoRequest.Correo,
+            Telefono = datoRequest.Telefono,
+            Mensaje = datoRequest.Mensaje,
+            FechaHora = DateTime.Now
+        };
 
+        context.Datos.Add(nuevoDato);
+        await context.SaveChangesAsync();
+
+        return Results.Ok(new { Message = "Formulario enviado con éxito." });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error al guardar el formulario:", ex.Message);
+        return Results.Json(new { Message = "Error al enviar el formulario." }, statusCode: 500);
+    }
+});
 app.Run();

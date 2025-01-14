@@ -1,39 +1,37 @@
 import React, { useEffect, useState } from "react";
-import DataGridComponent from "./TablaMensajes";
-import CircularProgress from "@mui/material/CircularProgress";
-import Alert from "@mui/material/Alert";
+import DataGridComponent from "./TablaMensajes"; // Asegúrate de tener este componente creado
 
 const AdminPanel = () => {
-  const [rows, setRows] = useState([]); // Datos para el DataGrid
-  const [loading, setLoading] = useState(true); // Indicador de carga
-  const [errorMessage, setErrorMessage] = useState(""); // Mensaje de error
+  const [rows, setRows] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token"); // Obtener el token
-      if (!token) {
-        throw new Error("No se encontró el token de autenticación. Por favor, inicia sesión.");
-      }
+      // Obtener el token del localStorage
+      const token = localStorage.getItem('token');
+      console.log(token);
+      if (!token) throw new Error("No se encontró el token. Por favor, inicia sesión.");
 
+      // Solicitar los datos al servidor
       const response = await fetch("http://localhost:5079/api/mensajes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Enviar el token en los headers
         },
       });
 
       if (!response.ok) {
-        const errorResponse = await response.text(); // Capturar el error devuelto por el backend
-        throw new Error(errorResponse || "Error al obtener los mensajes del servidor.");
+        if (response.status === 401) {
+          throw new Error("Token inválido o expirado. Por favor, inicia sesión nuevamente.");
+        } else {
+          throw new Error("Error al obtener los datos del servidor.");
+        }
       }
 
-      const responseBody = await response.text();
-      if (!responseBody) {
-        throw new Error("El servidor devolvió una respuesta vacía.");
-      }
+      const datos = await response.json();
 
-      const datos = JSON.parse(responseBody); // Parsear el JSON
+      // Mapear los datos para el DataGrid
       setRows(
         datos.map((dato) => ({
           id: dato.id,
@@ -52,10 +50,7 @@ const AdminPanel = () => {
         }))
       );
     } catch (error) {
-      setErrorMessage(error.message || "No se pudo conectar con el servidor.");
-      console.error("Error al conectar con la API:", error);
-    } finally {
-      setLoading(false); // Detener el indicador de carga
+      setErrorMessage(error.message);
     }
   };
 
@@ -63,29 +58,24 @@ const AdminPanel = () => {
     fetchData();
   }, []);
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h2>Panel de Administración</h2>
-      {loading ? (
-        <CircularProgress />
-      ) : errorMessage ? (
-        <Alert severity="error">{errorMessage}</Alert>
-      ) : rows.length > 0 ? (
-        <DataGridComponent rows={rows} columns={columns} />
-      ) : (
-        <p>No hay mensajes disponibles.</p>
-      )}
-    </div>
+  if (errorMessage) {
+    return <div className="alert-error">{errorMessage}</div>;
+  }
+
+  return rows.length > 0 ? (
+    <DataGridComponent
+      rows={rows}
+      columns={[
+        { field: "id", headerName: "ID", width: 80 },
+        { field: "nombres", headerName: "Nombre", width: 150 },
+        { field: "correo", headerName: "Correo", width: 250 },
+        { field: "mensaje", headerName: "Mensaje", width: 300 },
+        { field: "fecha_hora", headerName: "Fecha y Hora", width: 200 },
+      ]}
+    />
+  ) : (
+    <p>No hay mensajes disponibles.</p>
   );
 };
-
-// Configuración de las columnas del DataGrid
-const columns = [
-  { field: "id", headerName: "ID", width: 80 },
-  { field: "nombres", headerName: "Nombre", width: 150 },
-  { field: "correo", headerName: "Correo", width: 250 },
-  { field: "mensaje", headerName: "Mensaje", width: 300 },
-  { field: "fecha_hora", headerName: "Fecha y Hora", width: 200 },
-];
 
 export default AdminPanel;

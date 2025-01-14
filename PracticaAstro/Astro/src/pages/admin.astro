@@ -3,8 +3,9 @@ import Layout from '../layouts/BlogPost.astro';
 import AdminPanel from '../components/Admin.jsx';
 ---
 
-<Layout pubDate={new Date()}>
+<Layout title="Panel de Administración" pubDate={new Date()}>
   <AdminPanel client:only="react" />
+   
 </Layout>
 
 <style>

@@ -57,6 +57,7 @@ const AdminPanel = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  
 
   if (errorMessage) {
     return <div className="alert-error">{errorMessage}</div>;

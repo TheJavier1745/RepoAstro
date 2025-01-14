@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+import LogoutComponent from '../components/logout.jsx'; // Componente de cierre de sesión
+---
+
+<Layout title="Cerrando sesión" description="Cierre de sesión en progreso" pubDate={new Date()}>
+  <LogoutComponent client:only="react" />
+</Layout>

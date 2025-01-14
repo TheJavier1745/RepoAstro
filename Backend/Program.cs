@@ -183,4 +183,5 @@ app.MapPost("/api/formularioAPI", async (appDB context, Dato datoRequest) =>
         return Results.Json(new { Message = "Error al enviar el formulario." }, statusCode: 500);
     }
 });
+
 app.Run();

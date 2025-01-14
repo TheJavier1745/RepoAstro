@@ -30,7 +30,6 @@ const AdminPanel = () => {
       }
 
       const datos = await response.json();
-
       // Mapear los datos para el DataGrid
       setRows(
         datos.map((dato) => ({
@@ -57,24 +56,38 @@ const AdminPanel = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+    
+  
   if (errorMessage) {
     return <div className="alert-error">{errorMessage}</div>;
   }
-
-  return rows.length > 0 ? (
-    <DataGridComponent
-      rows={rows}
-      columns={[
-        { field: "id", headerName: "ID", width: 80 },
-        { field: "nombres", headerName: "Nombre", width: 150 },
-        { field: "correo", headerName: "Correo", width: 250 },
-        { field: "mensaje", headerName: "Mensaje", width: 300 },
-        { field: "fecha_hora", headerName: "Fecha y Hora", width: 200 },
-      ]}
-    />
-  ) : (
-    <p>No hay mensajes disponibles.</p>
+  return (
+    <div>
+      <h1>Panel de Administración</h1>
+      {/* Otros componentes del panel */}
+      <button
+        style={{ marginTop: "20px", padding: "10px 20px", cursor: "pointer" }}
+        onClick={() => {
+          window.location.href = "/logout";
+        }}
+      >
+        Cerrar Sesión
+      </button>
+      {rows.length > 0 ? (
+        <DataGridComponent
+          rows={rows}
+          columns={[
+            { field: "id", headerName: "ID", width: 80 },
+            { field: "nombres", headerName: "Nombre", width: 150 },
+            { field: "correo", headerName: "Correo", width: 250 },
+            { field: "mensaje", headerName: "Mensaje", width: 300 },
+            { field: "fecha_hora", headerName: "Fecha y Hora", width: 200 },
+          ]}
+        />
+      ) : (
+        <p>No hay mensajes disponibles.</p>
+      )}
+    </div>
   );
 };
 

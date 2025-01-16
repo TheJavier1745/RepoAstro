@@ -1,8 +1,12 @@
 import React, { useState, useRef } from "react";
 import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import BadgeIcon from "@mui/icons-material/Badge";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EmailIcon from "@mui/icons-material/Email";
-import PasswordIcon from "@mui/icons-material/Password";
+import PhoneIcon from "@mui/icons-material/Phone";
+import MessageIcon from "@mui/icons-material/Message";
+import PasswordIcon from '@mui/icons-material/Password';
 
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
@@ -75,10 +79,26 @@ const Formulario = () => {
           {alertMessage}
         </Alert>
       )}
+      
+      <TextField
+        label="Tipo de Usuario"
+        id="tipoUsuario"
+        name="tipoUsuario"
+        value="admin"
+        InputProps={{
+          readOnly: true,
+          startAdornment: (
+            <InputAdornment position="start">
+              <PersonIcon />
+            </InputAdornment>
+          ),
+        }}
+        fullWidth
+      />
       <TextField
         label="Nombre"
-        id="nombres"
-        name="nombres"
+        id="nombre"
+        name="nombre"
         required
         fullWidth
         InputProps={{
@@ -105,10 +125,10 @@ const Formulario = () => {
         }}
       />
       <TextField
-        label="Contrasena"
+        input type="password"
+        label="Contraseña"
         id="contrasena"
         name="contrasena"
-        type="password"
         required
         fullWidth
         InputProps={{
@@ -132,8 +152,18 @@ const Formulario = () => {
       >
         {loading ? <CircularProgress size={24} color="inherit" /> : "Enviar"}
       </Button>
+      <Button
+        variant="contained"
+        color="error"
+        onClick={() => {
+          window.location.href = "/admin";
+        }}
+        sx={{ marginTop: 2 }}
+      >
+        Regresar sin hacer cambios
+      </Button>
     </Box>
   );
 };
 
-export default FormularioAgregarAdmin;
+export default Formulario;

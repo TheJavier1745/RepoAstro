@@ -23,6 +23,15 @@ namespace Backend.Models
                 entity.Property(e => e.Mensaje).HasColumnName("mensaje");
                 entity.Property(e => e.FechaHora).HasColumnName("fecha_hora");
             });
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.ToTable("usuarios"); 
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.TipoUsuario).HasColumnName("tipoUsuario");
+                entity.Property(e => e.Nombre).HasColumnName("nombre");
+                entity.Property(e => e.Correo).HasColumnName("correo");
+                entity.Property(e => e.Contrasena).HasColumnName("contrasena");
+            });
         }
     }
 }

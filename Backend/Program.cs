@@ -183,28 +183,26 @@ app.MapPost("/api/formularioAPI", async (appDB context, Dato datoRequest) =>
         return Results.Json(new { Message = "Error al enviar el formulario." }, statusCode: 500);
     }
 });
-app.MapPost("/api/formularioAgregarAdmin", async (appDB context, Dato datoRequest) =>
+app.MapPost("/api/formularioAgregarAdmin", async (appDB context, Usuario datoRequest) =>
 {
     try
     {
-        var nuevoDato = new Dato
+        var nuevoUsuario = new Usuario
         {
-            tipoUsuario = 'admin',
-            Nombres = datoRequest.Nombres,
+            TipoUsuario = datoRequest.TipoUsuario,
+            Nombre = datoRequest.Nombre,
             Correo = datoRequest.Correo,
-            Contrasena = datoRequest.Telefono,
-            Mensaje = datoRequest.Mensaje,
-            FechaHora = DateTime.Now
+            Contrasena = datoRequest.Contrasena,
         };
 
-        context.Datos.Add(nuevoDato);
+        context.Usuarios.Add(nuevoUsuario);
         await context.SaveChangesAsync();
 
-        return Results.Ok(new { Message = "Formulario enviado con éxito." });
+        return Results.Ok(new { Message = "Usuario agregado con éxito." });
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Error al guardar el formulario:", ex.Message);
+        Console.WriteLine("Error al guardar el usuario:", ex.Message);
         return Results.Json(new { Message = "Error al enviar el formulario." }, statusCode: 500);
     }
 });

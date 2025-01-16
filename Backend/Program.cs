@@ -223,20 +223,24 @@ app.MapPost("/api/forgot-password", async (appDB context, Usuario userRequest, B
     return Results.Ok(new { Message = "Código enviado al correo." });
 });
 // Restablecer contraseña
-app.MapPost("/api/reset-password", async (appDB context, Usuario resetRequest) =>
+app.MapPost("/api/reset-password", async (appDB context, ResetPasswordRequest resetRequest) =>
 {
-    // Aquí estamos buscando al usuario por correo y el código
-    var user = await context.Usuarios.FirstOrDefaultAsync(u => u.Correo == resetRequest.Correo && u.Contrasena == resetRequest.Contrasena);
+    // Verificar si el correo y el código coinciden
+    var user = await context.Usuarios
+        .FirstOrDefaultAsync(u => u.Correo == resetRequest.Correo && u.Contrasena == resetRequest.Codigo);
 
     if (user == null)
     {
         return Results.Json(new { Message = "Código inválido o expirado." }, statusCode: 400);
     }
 
-    user.Contrasena = resetRequest.Nombre; 
-    await context.SaveChangesAsync(); 
+    // Actualizar la contraseña con la nueva
+    user.Contrasena = resetRequest.NuevaContrasena; // Actualizar con la nueva contraseña
+
+    await context.SaveChangesAsync(); // Guardar cambios en la base de datos
 
     return Results.Ok(new { Message = "Contraseña actualizada correctamente." });
 });
+
 
 app.Run();

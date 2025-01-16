@@ -9,7 +9,7 @@ const ResetPasswordForm = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation(); // Obtiene los parámetros de la URL
 
-  // Obtener el correo de la URL (por ejemplo, /reset-password?email=correo@example.com)
+
   const email = new URLSearchParams(location.search).get("email");
 
   const handleSubmit = async (event) => {

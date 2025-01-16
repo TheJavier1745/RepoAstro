@@ -3,7 +3,7 @@ import Layout from '../layouts/BlogPost.astro';
 import AdminPanel from '../components/Admin.jsx';
 ---
 
-<Layout title="Panel de Administración" pubDate={new Date()}>
+<Layout title="Panel de Administración" description="Cierre de sesión en progreso" pubDate={new Date()}>
   <AdminPanel client:only="react" />
    
 </Layout>

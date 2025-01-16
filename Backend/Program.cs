@@ -44,7 +44,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-
+builder.Services.AddScoped<Backend.Services.EmailService>();
 var app = builder.Build();
 app.UseCors("_myAllowSpecificOrigins");
 app.UseAuthentication();
@@ -182,6 +182,61 @@ app.MapPost("/api/formularioAPI", async (appDB context, Dato datoRequest) =>
         Console.WriteLine("Error al guardar el formulario:", ex.Message);
         return Results.Json(new { Message = "Error al enviar el formulario." }, statusCode: 500);
     }
+});
+
+
+// Enviar código de recuperación
+app.MapPost("/api/forgot-password", async (appDB context, Usuario userRequest, Backend.Services.EmailService emailService) =>
+{
+    var user = await context.Usuarios.FirstOrDefaultAsync(u => u.Correo == userRequest.Correo);
+
+    if (user == null)
+    {
+        return Results.Json(new { Message = "Correo no registrado." }, statusCode: 404);
+    }
+
+    // Validar que el correo no sea nulo o vacío
+    if (string.IsNullOrEmpty(user.Correo))
+    {
+        return Results.Json(new { Message = "El usuario no tiene un correo válido registrado." }, statusCode: 400);
+    }
+
+    var codigo = new Random().Next(100000, 999999).ToString();
+
+    try
+    {
+        emailService.EnviarCorreo(
+            user.Correo,
+            "Código de recuperación de contraseña",
+            $"Tu código de recuperación es: {codigo}"
+        );
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+        return Results.Json(new { Message = "Error al enviar el correo." }, statusCode: 500);
+    }
+
+    user.Contrasena = codigo;
+    await context.SaveChangesAsync();
+
+    return Results.Ok(new { Message = "Código enviado al correo." });
+});
+// Restablecer contraseña
+app.MapPost("/api/reset-password", async (appDB context, Usuario resetRequest) =>
+{
+    // Aquí estamos buscando al usuario por correo y el código
+    var user = await context.Usuarios.FirstOrDefaultAsync(u => u.Correo == resetRequest.Correo && u.Contrasena == resetRequest.Contrasena);
+
+    if (user == null)
+    {
+        return Results.Json(new { Message = "Código inválido o expirado." }, statusCode: 400);
+    }
+
+    user.Contrasena = resetRequest.Nombre; 
+    await context.SaveChangesAsync(); 
+
+    return Results.Ok(new { Message = "Contraseña actualizada correctamente." });
 });
 
 app.Run();

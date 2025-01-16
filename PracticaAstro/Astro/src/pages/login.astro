@@ -1,9 +1,10 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
-import LoginComponent from '../components/login.jsx'; // Componente del formulario de inicio de sesión
+import LoginComponent from '../components/login.jsx'; 
+import App from "../components/_app.jsx";
 ---
 
 <Layout title="" description="Formulario de inicio de sesión" pubDate={new Date()}>
-  
   <LoginComponent client:only="react" />
+  <App client:only="react" />
 </Layout>

@@ -73,6 +73,14 @@ const AdminPanel = () => {
       >
         Cerrar Sesión
       </button>
+      <button
+        style={{ marginTop: "20px", padding: "10px 20px", cursor: "pointer" }}
+        onClick={() => {
+          window.location.href = "/agregarUsuario";
+        }}
+      >
+        Agregar un Usuario
+      </button>
       {rows.length > 0 ? (
         <DataGridComponent
           rows={rows}

@@ -241,6 +241,29 @@ app.MapPost("/api/reset-password", async (appDB context, ResetPasswordRequest re
 
     return Results.Ok(new { Message = "Contraseña actualizada correctamente." });
 });
+//Agregar un nuevo usuario
+app.MapPost("/api/formularioAgregarAdmin", async (appDB context, Usuario datoRequest) =>
+{
+    try
+    {
+        var nuevoUsuario = new Usuario
+        {
+            TipoUsuario = datoRequest.TipoUsuario,
+            Nombre = datoRequest.Nombre,
+            Correo = datoRequest.Correo,
+            Contrasena = datoRequest.Contrasena,
+        };
 
+        context.Usuarios.Add(nuevoUsuario);
+        await context.SaveChangesAsync();
+
+        return Results.Ok(new { Message = "Usuario agregado con éxito." });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error al guardar el usuario:", ex.Message);
+        return Results.Json(new { Message = "Error al enviar el formulario." }, statusCode: 500);
+    }
+});
 
 app.Run();

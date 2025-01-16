@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+import FormularioAgregarAdmin from '../components/formularioAgregarAdmin.jsx'; // Importa el componente React
+---
+
+<Layout title="Agregar un administrador" description="Administrador" pubDate={new Date()}>
+  <h5>Indique los datos del usuario al que quiere agregar:</h5> 
+  <br>
+  <FormularioAgregarAdmin client:only="react" />
+</Layout>

@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Backend.Models;
+using Backend.utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +56,7 @@ app.MapPost("/api/login", async (appDB context, Usuario loginRequest) =>
 {
     var user = await context.Usuarios
         .FirstOrDefaultAsync(u => u.Correo.Trim() == loginRequest.Correo.Trim() &&
-                                  u.Contrasena.Trim() == loginRequest.Contrasena.Trim());
+                                  u.Contrasena.Trim() == HashHelper.HashSHA512(loginRequest.Contrasena.Trim()));
 
     if (user == null)
     {
@@ -235,7 +236,7 @@ app.MapPost("/api/reset-password", async (appDB context, ResetPasswordRequest re
     }
 
     // Actualizar la contraseña con la nueva
-    user.Contrasena = resetRequest.NuevaContrasena; // Actualizar con la nueva contraseña
+    user.Contrasena = HashHelper.HashSHA512(resetRequest.NuevaContrasena); // Actualizar con la nueva contraseña
 
     await context.SaveChangesAsync(); // Guardar cambios en la base de datos
 
@@ -244,6 +245,7 @@ app.MapPost("/api/reset-password", async (appDB context, ResetPasswordRequest re
 //Agregar un nuevo usuario
 app.MapPost("/api/formularioAgregarAdmin", async (appDB context, Usuario datoRequest) =>
 {
+    
     try
     {
         var nuevoUsuario = new Usuario
@@ -251,7 +253,7 @@ app.MapPost("/api/formularioAgregarAdmin", async (appDB context, Usuario datoReq
             TipoUsuario = datoRequest.TipoUsuario,
             Nombre = datoRequest.Nombre,
             Correo = datoRequest.Correo,
-            Contrasena = datoRequest.Contrasena,
+            Contrasena = HashHelper.HashSHA512(datoRequest.Contrasena)
         };
 
         context.Usuarios.Add(nuevoUsuario);

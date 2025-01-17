@@ -1,11 +1,7 @@
 import React, { useState, useRef } from "react";
 import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import BadgeIcon from "@mui/icons-material/Badge";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EmailIcon from "@mui/icons-material/Email";
-import PhoneIcon from "@mui/icons-material/Phone";
-import MessageIcon from "@mui/icons-material/Message";
 import PasswordIcon from '@mui/icons-material/Password';
 
 const Formulario = () => {

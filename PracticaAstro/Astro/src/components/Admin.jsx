@@ -13,7 +13,7 @@ const AdminPanel = () => {
       if (!token) throw new Error("No se encontró el token. Por favor, inicia sesión.");
 
       // Solicitar los datos al servidor
-      const response = await fetch("http://localhost:5079/api/mensajes", {
+      const response = await fetch("http://localhost:5079/api/admin/mensajes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -1,14 +1,18 @@
 import React, { useState, useRef } from "react";
 import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import BadgeIcon from "@mui/icons-material/Badge";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import MessageIcon from "@mui/icons-material/Message";
 import PasswordIcon from '@mui/icons-material/Password';
 
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
   const [showAlert, setShowAlert] = useState(false);
-  const [loading, setLoading] = useState(false); // Estado para el indicador de carga
+  const [loading, setLoading] = useState(false); 
   const formRef = useRef(null);
 
   const handleSubmit = async (event) => {
@@ -16,10 +20,10 @@ const Formulario = () => {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    setLoading(true); // Activar el indicador de carga
+    setLoading(true); 
 
     try {
-      const response = await fetch("http://localhost:5079/api/formularioAgregarAdmin", {
+      const response = await fetch("http://localhost:5079/api/admin/add-admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

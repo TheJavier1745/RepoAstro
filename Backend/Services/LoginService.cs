@@ -9,22 +9,19 @@ using System.Threading.Tasks;
 
 namespace Backend.Services
 {
-    public interface ILoginService
-    {
-        Task<LoginResult> LoginAsync(Usuario usuario);
-    }
-
     public class LoginService : ILoginService
     {
         private readonly ILoginRepository _loginRepository;
         private readonly IConfiguration _configuration;
 
+        // Constructor que inyecta el repositorio y la configuración
         public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
         {
             _loginRepository = loginRepository;
-            _configuration = configuration; 
+            _configuration = configuration;
         }
 
+        // Método para iniciar sesión y generar el token
         public async Task<LoginResult> LoginAsync(Usuario usuario)
         {
             if (usuario == null || string.IsNullOrEmpty(usuario.Correo) || string.IsNullOrEmpty(usuario.Contrasena))
@@ -37,7 +34,7 @@ namespace Backend.Services
             if (user == null)
                 return null;
 
-            var token = GenerateJwtToken(user); 
+            var token = GenerateJwtToken(user);
 
             return new LoginResult
             {
@@ -47,9 +44,10 @@ namespace Backend.Services
             };
         }
 
+        // Método para generar el JWT token
         private string GenerateJwtToken(Usuario user)
         {
-            var claims = new[] 
+            var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.Nombre),
                 new Claim(ClaimTypes.NameIdentifier, user.Correo),
@@ -63,7 +61,7 @@ namespace Backend.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(1), 
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds
             );
 
@@ -71,10 +69,11 @@ namespace Backend.Services
         }
     }
 
+    // Resultado del Login
     public class LoginResult
     {
-        public required string Token { get; set; }
-        public required string TipoUsuario { get; set; }
-        public required string Nombre { get; set; }
+        public string Token { get; set; }
+        public string TipoUsuario { get; set; }
+        public string Nombre { get; set; }
     }
 }

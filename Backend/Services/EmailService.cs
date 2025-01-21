@@ -6,7 +6,7 @@ namespace Backend.Services
 {
     public class EmailService
     {
-        // Constructor y métodos del servicio
+
         private readonly IConfiguration _configuration;
 
         public EmailService(IConfiguration configuration)
@@ -14,7 +14,7 @@ namespace Backend.Services
             _configuration = configuration;
         }
 
-public void EnviarCorreo(string destinatario, string asunto, string contenido)
+public async Task EnviarCorreo(string destinatario, string asunto, string contenido)
 {
     if (string.IsNullOrEmpty(destinatario))
         throw new ArgumentException("El destinatario no puede ser nulo o vacío.", nameof(destinatario));
@@ -23,7 +23,7 @@ public void EnviarCorreo(string destinatario, string asunto, string contenido)
     if (string.IsNullOrEmpty(contenido))
         throw new ArgumentException("El contenido no puede ser nulo o vacío.", nameof(contenido));
 
-    // Lógica para enviar correo
+
     var client = new SmtpClient("smtp.gmail.com")
     {
         Port = 587,

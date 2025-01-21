@@ -3,6 +3,7 @@ using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers
 {
@@ -12,57 +13,44 @@ namespace Backend.Controllers
     {
         private readonly IUsuarioService _usuarioService;
         private readonly IConfiguration _configuration;
+        private readonly IPasswordRecoveryService _passwordRecoveryService;
+        private readonly appDB _context;
         
-        public UsuarioController(IUsuarioService usuarioService, IConfiguration configuration)
+ public UsuarioController(IUsuarioService usuarioService, appDB context, IConfiguration configuration, IPasswordRecoveryService passwordRecoveryService)
+    {
+        _usuarioService = usuarioService;
+        _configuration = configuration;
+        _passwordRecoveryService = passwordRecoveryService;
+        _context = context; 
+    }
+
+  [HttpPost]
+public async Task<IActionResult> ForgotPassword([FromBody] Usuario userRequest)
+{
+    try
+    {
+        var recoveryCode = await _passwordRecoveryService.GenerateRecoveryCodeAsync(userRequest.Correo);
+
+        var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == userRequest.Correo);
+
+        if (user == null)
         {
-            _usuarioService = usuarioService;
-            _configuration = configuration; 
+            return BadRequest(new { Message = "Correo no registrado." });
         }
 
+        user.Contrasena = recoveryCode;
+        await _context.SaveChangesAsync(); 
 
-        [HttpPost]
-        public async Task<IActionResult> ForgotPassword([FromBody] Usuario userRequest)
-        {
-            var user = await _usuarioService.GetUsuarioByCorreoAsync(userRequest.Correo);
+        await _passwordRecoveryService.SendRecoveryCodeEmailAsync(userRequest.Correo, recoveryCode);
 
-            if (user == null)
-            {
-                return BadRequest(new { Message = "Correo no registrado." });
-            }
-            
-            var recoveryCode = new Random().Next(100000, 999999).ToString();
+        return Ok(new { Message = "Código de recuperación enviado." });
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new { Message = $"Error: {ex.Message}" });  // Asegúrate de que la respuesta sea un objeto JSON
+    }
+}
 
-            user.Contrasena = recoveryCode;
-            await _usuarioService.ChangePasswordAsync(user.Correo, user.Contrasena, recoveryCode); // Llamada a servicio para cambiar la contraseña
 
-            try
-            {
-                var emailService = new EmailService(_configuration); 
-                emailService.EnviarCorreo(
-                    user.Correo,
-                    "Código de recuperación de contraseña",
-                    $"Tu código de recuperación es: {recoveryCode}"
-                );
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Error al enviar el correo." });
-            }
-
-            return Ok(new { Message = "Código de recuperación enviado." });
-        }
-
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest resetRequest)
-        {
-            var result = await _usuarioService.ChangePasswordAsync(resetRequest.Correo, resetRequest.NuevaContrasena, resetRequest.Codigo);
-
-            if (string.IsNullOrEmpty(result))
-            {
-                return BadRequest(new { Message = "Código inválido o expirado." });
-            }
-
-            return Ok(new { Message = "Contraseña actualizada correctamente." });
-        }
     }
 }

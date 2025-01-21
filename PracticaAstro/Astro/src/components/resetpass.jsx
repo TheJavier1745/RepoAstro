@@ -8,8 +8,6 @@ const ResetPasswordForm = () => {
   const [alerta, setAlerta] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation(); // Obtiene los parámetros de la URL
-
-
   const email = new URLSearchParams(location.search).get("email");
 
   const handleSubmit = async (event) => {
@@ -35,7 +33,7 @@ const ResetPasswordForm = () => {
       const response = await fetch("http://localhost:5079/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ codigo, nuevaContrasena, correo: email }),
+        body: JSON.stringify({ codigo, nuevaContrasena, correo: email }), // Asegúrate de pasar el email
       });
 
       const data = await response.json();

@@ -3,6 +3,8 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import LoginIcon from '@mui/icons-material/Send';
 
 const Login = () => {
   const [alerta, setAlerta] = useState(null);
@@ -62,9 +64,9 @@ const Login = () => {
           <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required />
         </div>
 
-        <button type="submit" className="btn-primary" disabled={loading}>
+        <Button variant="contained" type="submit" className="btn-primary" disabled={loading} startIcon={!loading && <LoginIcon />}>
           {loading ? <CircularProgress size={24} style={{ color: "white" }} /> : "Ingresar"}
-        </button>
+        </Button>
       </form>
 
       <div style={{ marginTop: "10px", textAlign: "center" }}>

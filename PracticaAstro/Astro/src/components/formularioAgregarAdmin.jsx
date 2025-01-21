@@ -1,12 +1,10 @@
 import React, { useState, useRef } from "react";
 import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import BadgeIcon from "@mui/icons-material/Badge";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EmailIcon from "@mui/icons-material/Email";
-import PhoneIcon from "@mui/icons-material/Phone";
-import MessageIcon from "@mui/icons-material/Message";
 import PasswordIcon from '@mui/icons-material/Password';
+import SendIcon from '@mui/icons-material/Send';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
@@ -149,6 +147,7 @@ const Formulario = () => {
           alignItems: "center",
           justifyContent: "center",
         }}
+        startIcon={!loading && <SendIcon />}
       >
         {loading ? <CircularProgress size={24} color="inherit" /> : "Enviar"}
       </Button>
@@ -159,6 +158,7 @@ const Formulario = () => {
           window.location.href = "/admin";
         }}
         sx={{ marginTop: 2 }}
+        startIcon={<ArrowBackIcon />}
       >
         Regresar sin hacer cambios
       </Button>

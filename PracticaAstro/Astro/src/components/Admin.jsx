@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DataGridComponent from "./TablaMensajes"; // Asegúrate de tener este componente creado
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 const AdminPanel = () => {
   const [rows, setRows] = useState([]);
@@ -65,22 +68,32 @@ const AdminPanel = () => {
     <div>
       <h1>Panel de Administración</h1>
       {/* Otros componentes del panel */}
-      <button
-        style={{ marginTop: "20px", padding: "10px 20px", cursor: "pointer" }}
-        onClick={() => {
-          window.location.href = "/logout";
-        }}
-      >
-        Cerrar Sesión
-      </button>
-      <button
-        style={{ marginTop: "20px", padding: "10px 20px", cursor: "pointer" }}
-        onClick={() => {
-          window.location.href = "/agregarUsuario";
-        }}
-      >
-        Agregar un Usuario
-      </button>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+        <Button
+          variant="contained"
+          color="error"
+          style={{ padding: "10px 20px", cursor: "pointer", marginRight: "20px" }}
+          onClick={() => {
+            window.location.href = "/logout";
+          }}
+          startIcon={<LogoutIcon />}
+        >
+          Cerrar Sesión
+        </Button>
+        <Button
+          variant="contained"
+          style={{ padding: "10px 20px", cursor: "pointer" }}
+          onClick={() => {
+            window.location.href = "/agregarUsuario";
+          }}
+          startIcon={<PersonAddIcon />}
+        >
+          Agregar un Usuario
+        </Button>
+      </div>
+      <p>
+
+      </p>
       {rows.length > 0 ? (
         <DataGridComponent
           rows={rows}

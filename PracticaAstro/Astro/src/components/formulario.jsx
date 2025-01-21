@@ -6,6 +6,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MessageIcon from "@mui/icons-material/Message";
+import SendIcon from '@mui/icons-material/Send';
 
 function validarRut(rut) {
   const rutLimpio = rut.replace(/\./g, "").replace(/-/g, "").toUpperCase();
@@ -206,6 +207,7 @@ const Formulario = () => {
           alignItems: "center",
           justifyContent: "center",
         }}
+        startIcon={!loading && <SendIcon />}
       >
         {loading ? <CircularProgress size={24} color="inherit" /> : "Enviar"}
       </Button>

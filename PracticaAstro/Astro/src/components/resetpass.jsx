@@ -40,6 +40,9 @@ const ResetPasswordForm = () => {
 
       if (response.ok) {
         setAlerta({ tipo: "success", mensaje: "Contraseña actualizada con éxito." });
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
       } else {
         setAlerta({ tipo: "error", mensaje: data.Message || "Error al actualizar la contraseña." });
       }

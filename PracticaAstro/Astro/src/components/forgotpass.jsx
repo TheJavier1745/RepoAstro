@@ -4,6 +4,7 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import { forgotPassword } from "../pages/api/forgotpass"; // 
+import SendIcon from '@mui/icons-material/Send';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ const ForgotPassword = () => {
       const data = await forgotPassword(email); 
       if (data.success) {
         setAlerta({ tipo: "success", mensaje: data.message });
+        
 
     
         navigate(`/reset-password?email=${email}`);
@@ -58,7 +60,7 @@ const ForgotPassword = () => {
           />
         </div>
 
-        <button type="submit" className="btn-primary" disabled={loading}>
+        <button type="submit" className="btn-primary" disabled={loading} variant="contained" startIcon={!loading && <SendIcon />}>
           {loading ? <CircularProgress size={24} style={{ color: "white" }} /> : "Enviar"}
         </button>
       </form>

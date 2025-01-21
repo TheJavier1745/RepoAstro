@@ -1,5 +1,6 @@
 using Backend.Models;
 using Backend.Services;
+using Backend.utils;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace Backend.Controllers
                     TipoUsuario = datoRequest.TipoUsuario,
                     Nombre = datoRequest.Nombre,
                     Correo = datoRequest.Correo,
-                    Contrasena = datoRequest.Contrasena,
+                    Contrasena = HashHelper.HashSHA512(datoRequest.Contrasena),
                 };
 
                 _context.Usuarios.Add(nuevoUsuario);

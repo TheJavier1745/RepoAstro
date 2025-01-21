@@ -1,5 +1,6 @@
 using Backend.Models;
 using Backend.Services;
+using Backend.utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest r
         return BadRequest(new { Message = "Código inválido o expirado." });
     }
 
-    user.Contrasena = resetRequest.NuevaContrasena;
+    user.Contrasena = HashHelper.HashSHA512(resetRequest.NuevaContrasena);
     await _context.SaveChangesAsync();
 
     try

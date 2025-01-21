@@ -1,5 +1,6 @@
 using Backend.Repositories;
 using Backend.Models;
+using Backend.utils;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
@@ -29,11 +30,12 @@ namespace Backend.Services
                 return null; 
             }
 
-            var user = await _loginRepository.ValidateUserAsync(usuario.Correo, usuario.Contrasena);
+            var user = await _loginRepository.ValidateUserAsync(usuario.Correo, HashHelper.HashSHA512(usuario.Contrasena));
 
             if (user == null)
+            {
                 return null;
-
+            }
             var token = GenerateJwtToken(user);
 
             return new LoginResult

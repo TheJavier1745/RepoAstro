@@ -1,4 +1,5 @@
 using Backend.Models;
+using Backend.utils;
 using Backend.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,7 +32,7 @@ namespace Backend.Services
                 return "Usuario o contraseña incorrectos.";
             }
 
-            user.Contrasena = nuevaContrasena;
+            user.Contrasena = HashHelper.HashSHA512(nuevaContrasena);
             await _context.SaveChangesAsync();
 
             return "Contraseña actualizada correctamente.";

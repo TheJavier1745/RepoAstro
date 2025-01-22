@@ -5,6 +5,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import LoginIcon from '@mui/icons-material/Send';
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
 
 const Login = () => {
   const [alerta, setAlerta] = useState(null);
@@ -55,15 +59,50 @@ const Login = () => {
         </Stack>
       )}
 
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className="form" style={{ maxWidth: "400px" }}>
+        {/* Campo de correo electrónico */}
         <div className="form-group">
-          <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required />
+          <TextField
+            type="email"
+            id="correo"
+            name="correo"
+            label="Correo Electrónico"
+            variant="outlined"
+            required
+            fullWidth
+            style={{ marginBottom: "20px" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
         </div>
 
+        {/* Campo de contraseña */}
         <div className="form-group">
-          <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required />
+          <TextField
+            type="password"
+            id="contrasena"
+            name="contrasena"
+            label="Contraseña"
+            variant="outlined"
+            required
+            fullWidth
+            style={{ marginBottom: "20px" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
         </div>
 
+        {/* Botón de enviar */}
         <Button variant="contained" type="submit" className="btn-primary" disabled={loading} startIcon={!loading && <LoginIcon />}>
           {loading ? <CircularProgress size={24} style={{ color: "white" }} /> : "Ingresar"}
         </Button>

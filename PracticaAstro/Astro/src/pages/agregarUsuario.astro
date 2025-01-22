@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
-import FormularioAgregarAdmin from '../components/formularioAgregarAdmin.jsx'; // Importa el componente React
+import FormularioAgregarAdmin from '../components/formularioAgregarAdmin.jsx'; 
+const token = Astro.cookies.get('token'); 
+if (!token) {
+  Astro.redirect('/login');
+}
 ---
 
 <Layout title="Agregar un administrador" description="Administrador" pubDate={new Date()}>

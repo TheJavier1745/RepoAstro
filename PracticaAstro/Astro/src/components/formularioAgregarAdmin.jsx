@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
@@ -6,24 +6,49 @@ import PasswordIcon from '@mui/icons-material/Password';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
+  const [isTokenValid, setIsTokenValid] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false); 
   const formRef = useRef(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setAlertMessage("No se encontró el token. Por favor, inicia sesión.");
+      setAlertType("error");
+      setShowAlert(true);
+      setIsTokenValid(false);
+
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
-    setLoading(true); 
+    setLoading(true);
 
     try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setAlertMessage("No se encontró el token. Por favor, inicia sesión.");
+        setAlertType("error");
+        setShowAlert(true); 
+        return;
+      }
+
       const response = await fetch("http://localhost:5079/api/admin/add-admin", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
         body: JSON.stringify(data),
       });
 
@@ -40,7 +65,7 @@ const Formulario = () => {
       setAlertMessage(error.message || "No se pudo conectar con el servidor.");
       setAlertType("error");
     } finally {
-      setLoading(false); // Desactivar el indicador de carga
+      setLoading(false); 
       setShowAlert(true);
       scrollToForm();
     }
@@ -54,6 +79,14 @@ const Formulario = () => {
       });
     }
   };
+
+  if (!isTokenValid) {
+    return (
+      <Box sx={{ textAlign: "center", padding: 2 }}>
+        <Alert severity="error">{alertMessage}</Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -77,7 +110,7 @@ const Formulario = () => {
           {alertMessage}
         </Alert>
       )}
-      
+
       <TextField
         label="Tipo de Usuario"
         id="tipoUsuario"
@@ -123,7 +156,7 @@ const Formulario = () => {
         }}
       />
       <TextField
-        input type="password"
+        type="password"
         label="Contraseña"
         id="contrasena"
         name="contrasena"
@@ -141,7 +174,7 @@ const Formulario = () => {
         variant="contained"
         type="submit"
         fullWidth
-        disabled={loading} // Deshabilitar el botón mientras está cargando
+        disabled={loading} 
         sx={{
           display: "flex",
           alignItems: "center",

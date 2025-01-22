@@ -3,6 +3,9 @@ import { useLocation } from "react-router-dom"; // Para acceder a los parámetro
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Button, TextField, InputAdornment } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
 
 const ResetPasswordForm = () => {
   const [alerta, setAlerta] = useState(null);
@@ -33,7 +36,7 @@ const ResetPasswordForm = () => {
       const response = await fetch("http://localhost:5079/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ codigo, nuevaContrasena, correo: email }), // Asegúrate de pasar el email
+        body: JSON.stringify({ codigo, nuevaContrasena, correo: email }),
       });
 
       const data = await response.json();
@@ -54,26 +57,84 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="contact-form">
-      <h2>Introduce el código y tu nueva contraseña</h2>
+    <div className="contact-form" style={{ width: "100%", maxWidth: "400px", margin: "0 auto", padding: "20px", backgroundColor: "#f9f9f9", borderRadius: "8px" }}>
+      <h2 style={{ textAlign: "center", fontSize: "24px", marginBottom: "20px" }}>Restablecer Contraseña</h2>
+      <p style={{ textAlign: "center", marginBottom: "20px" }}>Introduce el código y tu nueva contraseña.</p>
+
       {alerta && (
         <Stack sx={{ width: "100%", marginBottom: "15px" }} spacing={2}>
           <Alert severity={alerta.tipo}>{alerta.mensaje}</Alert>
         </Stack>
       )}
+
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input type="text" id="codigo" name="codigo" placeholder="Código de Recuperación" required />
-        </div>
-        <div className="form-group">
-          <input type="password" id="nuevaContrasena" name="nuevaContrasena" placeholder="Nueva Contraseña" required />
-        </div>
-        <div className="form-group">
-          <input type="password" id="confirmarContrasena" name="confirmarContrasena" placeholder="Confirmar Contraseña" required />
-        </div>
-        <button type="submit" className="btn-primary" disabled={loading}>
+        {/* Campo de Código de Recuperación */}
+        <TextField
+          type="text"
+          id="codigo"
+          name="codigo"
+          label="Código de Recuperación"
+          placeholder="Código de Recuperación"
+          required
+          fullWidth
+          margin="normal"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* Campo de Nueva Contraseña */}
+        <TextField
+          type="password"
+          id="nuevaContrasena"
+          name="nuevaContrasena"
+          label="Nueva Contraseña"
+          placeholder="Nueva Contraseña"
+          required
+          fullWidth
+          margin="normal"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* Campo de Confirmar Contraseña */}
+        <TextField
+          type="password"
+          id="confirmarContrasena"
+          name="confirmarContrasena"
+          label="Confirmar Contraseña"
+          placeholder="Confirmar Contraseña"
+          required
+          fullWidth
+          margin="normal"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* Botón para Enviar */}
+        <Button
+          variant="contained"
+          type="submit"
+          fullWidth
+          disabled={loading}
+          sx={{ marginTop: "16px" }}
+        >
           {loading ? <CircularProgress size={24} style={{ color: "white" }} /> : "Restablecer Contraseña"}
-        </button>
+        </Button>
       </form>
     </div>
   );

@@ -25,7 +25,7 @@ namespace Backend.Controllers
             try
             {
                 
-                dato.FechaHora = DateTime.Now;
+                dato.Fecha_Hora = DateTime.Now;
 
                 await _datoService.AddDatoAsync(dato);
                 string asunto="Nuevo mensaje de contacto";

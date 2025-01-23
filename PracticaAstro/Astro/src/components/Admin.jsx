@@ -10,17 +10,15 @@ const AdminPanel = () => {
 
   const fetchData = async () => {
     try {
-      // Obtener el token del localStorage
       const token = localStorage.getItem('token');
       console.log(token);
       if (!token) throw new Error("No se encontró el token. Por favor, inicia sesión.");
 
-      // Solicitar los datos al servidor
       const response = await fetch("http://localhost:5079/api/admin/mensajes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Enviar el token en los headers
+          Authorization: `Bearer ${token}`, 
         },
       });
 
@@ -33,20 +31,20 @@ const AdminPanel = () => {
       }
 
       const datos = await response.json();
-      // Mapear los datos para el DataGrid
+      datos.forEach(dato => {
+        console.log(dato.fecha_Hora);
+      });
       setRows(
         datos.map((dato) => ({
           id: dato.id,
           nombres: dato.nombres,
           correo: dato.correo,
           mensaje: dato.mensaje,
-          fecha_hora: dato.fecha_hora
-            ? new Date(dato.fecha_hora).toLocaleString("es-ES", {
+          fecha_Hora: dato.fecha_Hora
+            ? new Date(dato.fecha_Hora).toLocaleDateString("es-ES", {
                 year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
               })
             : "Fecha no disponible",
         }))
@@ -102,7 +100,7 @@ const AdminPanel = () => {
             { field: "nombres", headerName: "Nombre", width: 150 },
             { field: "correo", headerName: "Correo", width: 250 },
             { field: "mensaje", headerName: "Mensaje", width: 300 },
-            { field: "fecha_hora", headerName: "Fecha y Hora", width: 200 },
+            { field: "fecha_Hora", headerName: "Fecha y Hora", width: 200 },
           ]}
         />
       ) : (

@@ -9,6 +9,6 @@ namespace Backend.Models
         public string Correo { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public string Mensaje { get; set; } = string.Empty;
-        public DateTime FechaHora { get; set; }
+        public DateTime Fecha_Hora { get; set; }
     }
 }

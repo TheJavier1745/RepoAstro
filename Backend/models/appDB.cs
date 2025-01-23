@@ -21,7 +21,7 @@ namespace Backend.Models
                 entity.Property(e => e.Correo).HasColumnName("correo");
                 entity.Property(e => e.Telefono).HasColumnName("telefono");
                 entity.Property(e => e.Mensaje).HasColumnName("mensaje");
-                entity.Property(e => e.FechaHora).HasColumnName("fecha_hora");
+                entity.Property(e => e.Fecha_Hora).HasColumnName("fecha_hora");
             });
             modelBuilder.Entity<Usuario>(entity =>
             {

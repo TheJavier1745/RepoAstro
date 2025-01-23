@@ -30,7 +30,7 @@ const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
   const [showAlert, setShowAlert] = useState(false);
-  const [loading, setLoading] = useState(false); // Estado para el indicador de carga
+  const [loading, setLoading] = useState(false); 
   const formRef = useRef(null);
 
   const handleSubmit = async (event) => {
@@ -47,7 +47,7 @@ const Formulario = () => {
       return;
     }
 
-    setLoading(true); // Activar el indicador de carga
+    setLoading(true); 
 
     try {
       const response = await fetch("http://localhost:5079/api/formularioAPI", {

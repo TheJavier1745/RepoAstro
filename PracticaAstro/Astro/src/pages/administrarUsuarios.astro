@@ -1,10 +1,10 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
-import PanelAdmin from '../components/TablaAdministracionUsuarios.jsx';
+import UsuariosAdminPage from '../components/TablaAdministracionUsuarios.jsx';
 ---
 
 <Layout title="Panel de Administración" pubDate={new Date()}>
-  <PanelAdmin client:only="react" />
+  <UsuariosAdminPage client:only="react" />
    
 </Layout>
 

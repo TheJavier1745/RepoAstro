@@ -3,55 +3,36 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const DataGridComponent = ({ rows, columns }) => {
-  const [loading, setLoading] = useState(true); // Estado de carga
+const DataGridComponent = ({ rows, columns ,onDelete}) => {
+  const [loading, setLoading] = useState(true); 
 
-  // Simular carga de datos
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false); // Cambiar a false cuando los datos estén listos
-    }, 1500); // Simula un tiempo de carga de 1.5 segundos
+      setLoading(false); 
+    }, 1500);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <Box sx={{ height: 600, width: '100%' }}>
-      {loading ? ( // Mostrar CircularProgress mientras se carga
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
+    <div style={{ height: 600, width: '100%' }}>
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
           <CircularProgress />
-        </Box>
+        </div>
       ) : (
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10, 20, 50]}
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-            },
-          }}
           disableColumnFilter={false}
           disableColumnSelector={false}
           disableDensitySelector={false}
-          loading={loading} // Aquí se indica el estado de carga
-          sx={{
-            '& .MuiDataGrid-toolbarContainer': {
-              justifyContent: 'flex-end',
-            },
-          }}
         />
       )}
-    </Box>
+    </div>
   );
 };
+
 
 export default DataGridComponent;

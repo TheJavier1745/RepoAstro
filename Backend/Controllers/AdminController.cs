@@ -35,6 +35,28 @@ namespace Backend.Controllers
                 return BadRequest(new { Message = $"Error al obtener los mensajes: {ex.Message}" });
             }
         }
+        [HttpDelete("eliminar-usuario/{id}")]
+        public async Task<IActionResult> EliminarUsuario(int id)
+        {
+            try
+            {
+                var usuario = await _context.Usuarios.FindAsync(id);
+                if (usuario == null)
+                {
+                    return NotFound(new { Message = "Usuario no encontrado." });
+                }
+
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { Message = "Usuario eliminado con éxito." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = $"Error al eliminar el usuario: {ex.Message}" });
+            }
+        }
+    
 
         [HttpPost("add-admin")]
         public async Task<IActionResult> AddAdmin([FromBody] Usuario datoRequest)
@@ -65,5 +87,18 @@ namespace Backend.Controllers
                 return StatusCode(500, new { Message = "Error al enviar el formulario." });
             }
         }
+        [HttpGet("usuarios")]
+public async Task<IActionResult> GetUsuarios()
+{
+    try
+    {
+        var usuarios = await _context.Usuarios.ToListAsync(); // Asumiendo que usas Entity Framework para obtener los usuarios
+        return Ok(usuarios);
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new { Message = $"Error al obtener los usuarios: {ex.Message}" });
+    }
+}
     }
 }

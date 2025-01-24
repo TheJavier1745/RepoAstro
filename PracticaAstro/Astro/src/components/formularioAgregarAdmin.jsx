@@ -6,11 +6,11 @@ import PasswordIcon from '@mui/icons-material/Password';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-
 const Formulario = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
   const [isTokenValid, setIsTokenValid] = useState(true);
+  const [tipoUsuario, setUserType] = useState(""); 
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false); 
   const formRef = useRef(null);
@@ -22,7 +22,17 @@ const Formulario = () => {
       setAlertType("error");
       setShowAlert(true);
       setIsTokenValid(false);
+      return;
+    }
 
+    const decodedToken = decodeJWT(token);  // Usamos la función decodeJWT para decodificar el token
+    setUserType(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);  // Extraemos el rol del token
+
+    if (decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== "admin") {
+      setAlertMessage("Acceso denegado. Solo los administradores pueden agregar usuarios.");
+      setAlertType("error");
+      setShowAlert(true);
+      setIsTokenValid(false);  // Bloqueamos el acceso si el tipo de usuario no es admin
     }
   }, []);
 
@@ -197,6 +207,13 @@ const Formulario = () => {
       </Button>
     </Box>
   );
+};
+
+const decodeJWT = (token) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const decodedData = JSON.parse(atob(base64)); 
+  return decodedData; 
 };
 
 export default Formulario;

@@ -14,10 +14,12 @@ namespace Backend.Controllers
     {
         private readonly IDatoService _datoService;
         private readonly appDB _context;
-        public AdminController(IDatoService datoService, appDB context)
+        private readonly EmailService _emailService;
+        public AdminController(IDatoService datoService, appDB context, EmailService emailService)
         {
             _datoService = datoService;
             _context = context;
+            _emailService = emailService;
         }
 
         [HttpGet("mensajes")]
@@ -49,8 +51,13 @@ namespace Backend.Controllers
 
                 _context.Usuarios.Add(nuevoUsuario);
                 await _context.SaveChangesAsync();
+                await _emailService.EnviarCorreo(
+                    nuevoUsuario.Correo, 
+                    "Tu cuenta ha sido creada",
+                    $"Hola {datoRequest.Nombre}, tu cuenta ha sido creada. Tu contraseña temporal es: {datoRequest.Contrasena}. Por favor, cámbiala lo antes posible desde la opción 'Olvidaste tu contraseña'."
+                );
 
-                return Ok(new { Message = "Usuario agregado con éxito." });
+                return Ok(new { Message = "Usuario agregado con éxito. Se envió un correo con la contraseña temporal." });
             }
             catch (Exception ex)
             {

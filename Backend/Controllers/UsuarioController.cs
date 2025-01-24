@@ -47,7 +47,7 @@ public async Task<IActionResult> ForgotPassword([FromBody] Usuario userRequest)
     }
     catch (Exception ex)
     {
-        return BadRequest(new { Message = $"Error: {ex.Message}" });  // Asegúrate de que la respuesta sea un objeto JSON
+        return BadRequest(new { Message = $"Error: {ex.Message}" });  
     }
 }
 

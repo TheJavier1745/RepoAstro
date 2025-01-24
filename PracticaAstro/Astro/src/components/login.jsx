@@ -38,7 +38,7 @@ const Login = () => {
         if (data.tipoUsuario === "admin") {
           window.location.href = "/admin";
         } else {
-          window.location.href = "/";
+          window.location.href = "/admin";
         }
       } else {
         setAlerta({ tipo: "error", mensaje: data.Message || "Correo o contraseña inválidos." });

@@ -127,7 +127,7 @@ const AdminPanel = () => {
           ]}
         />
       ) : (
-        <p>No hay mensajes disponibles.</p>
+        <p></p>
       )}
     </div>
   );

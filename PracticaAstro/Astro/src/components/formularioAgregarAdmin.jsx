@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { TextField, Button, Alert, Box, InputAdornment, CircularProgress, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import PasswordIcon from '@mui/icons-material/Password';
@@ -13,6 +13,7 @@ const Formulario = () => {
   const [tipoUsuario, setUserType] = useState(""); 
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false); 
+  const [roles, setRoles] = useState([]); 
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -25,16 +26,23 @@ const Formulario = () => {
       return;
     }
 
-    const decodedToken = decodeJWT(token);  // Usamos la función decodeJWT para decodificar el token
-    setUserType(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);  // Extraemos el rol del token
+    const decodedToken = decodeJWT(token); 
+    setUserType(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);  
 
     if (decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] !== "admin") {
       setAlertMessage("Acceso denegado. Solo los administradores pueden agregar usuarios.");
       setAlertType("error");
       setShowAlert(true);
-      setIsTokenValid(false);  // Bloqueamos el acceso si el tipo de usuario no es admin
+      setIsTokenValid(false); 
     }
+
+    fetchRoles();  
   }, []);
+
+  const fetchRoles = async () => {
+
+    setRoles(["admin", "Delegado"]);  
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -121,21 +129,23 @@ const Formulario = () => {
         </Alert>
       )}
 
-      <TextField
-        label="Tipo de Usuario"
-        id="tipoUsuario"
-        name="tipoUsuario"
-        value="admin"
-        InputProps={{
-          readOnly: true,
-          startAdornment: (
-            <InputAdornment position="start">
-              <PersonIcon />
-            </InputAdornment>
-          ),
-        }}
-        fullWidth
-      />
+      <FormControl fullWidth>
+        <InputLabel>Tipo de Usuario</InputLabel>
+        <Select
+          label="Tipo de Usuario"
+          id="tipoUsuario"
+          name="tipoUsuario"
+          required
+          defaultValue=""
+        >
+          {roles.map((role) => (
+            <MenuItem key={role} value={role}>
+              {role}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
       <TextField
         label="Nombre"
         id="nombre"

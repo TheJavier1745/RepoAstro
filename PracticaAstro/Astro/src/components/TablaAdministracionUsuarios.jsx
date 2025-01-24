@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 
-const AdminPanel = () => {
+const PanelAdmin = () => {
   const [rows, setRows] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [tipoUsuario, setUserType] = useState(""); 
@@ -141,4 +141,4 @@ const decodeJWT = (token) => {
   return decodedData; 
 };
 
-export default AdminPanel;
+export default PanelAdmin;

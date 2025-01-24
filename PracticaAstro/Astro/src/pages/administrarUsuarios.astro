@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+import PanelAdmin from '../components/TablaAdministracionUsuarios.jsx';
+---
+
+<Layout title="Panel de Administración" pubDate={new Date()}>
+  <PanelAdmin client:only="react" />
+   
+</Layout>
+
+<style>
+  .alert-error {
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #ffe5e5;
+    border: 1px solid red;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+</style>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from "react"; 
 import { TextField, Button, Alert, Box, InputAdornment, CircularProgress } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import BadgeIcon from "@mui/icons-material/Badge";
@@ -7,6 +7,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MessageIcon from "@mui/icons-material/Message";
 import SendIcon from '@mui/icons-material/Send';
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 function validarRut(rut) {
   const rutLimpio = rut.replace(/\./g, "").replace(/-/g, "").toUpperCase();
@@ -31,14 +33,30 @@ const Formulario = () => {
   const [alertType, setAlertType] = useState("success");
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false); 
+  const [captchaVerified, setCaptchaVerified] = useState("");  
   const formRef = useRef(null);
+
+
+  const onCaptchaChange = (value) => {
+    console.log("reCAPTCHA response:", value);  
+    setCaptchaVerified(!!value);  
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+    const recaptchaResponse = grecaptcha.getResponse();  
+    console.log("reCAPTCHA response on submit:", recaptchaResponse); 
 
-    // Validar el RUT
+    if (recaptchaResponse.length === 0) {
+      setAlertMessage("Por favor, verifica que no eres un robot.");
+      setAlertType("error");
+      setShowAlert(true);
+      scrollToForm();
+      return; 
+    }
+
     if (!validarRut(data.rut)) {
       setAlertMessage("El RUT ingresado no es válido. Asegúrate de ingresarlo sin puntos y con guion.");
       setAlertType("error");
@@ -47,17 +65,21 @@ const Formulario = () => {
       return;
     }
 
-    setLoading(true); 
+    setLoading(true);  
 
     try {
-      const response = await fetch("http://localhost:5079/api/formularioAPI", {
+      const response = await fetch("http://localhost:5079/api/formularioAPI?recaptchaResponse=" + recaptchaResponse, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          recaptchaResponse,
+        }),
       });
 
       if (!response.ok) {
         const result = await response.json();
+        console.log(result.errors); 
         throw new Error(result.error || "Error al enviar los datos.");
       }
 
@@ -69,7 +91,7 @@ const Formulario = () => {
       setAlertMessage(error.message || "No se pudo conectar con el servidor.");
       setAlertType("error");
     } finally {
-      setLoading(false); // Desactivar el indicador de carga
+      setLoading(false);  
       setShowAlert(true);
       scrollToForm();
     }
@@ -197,11 +219,17 @@ const Formulario = () => {
           ),
         }}
       />
+
+      {/* reCAPTCHA */}
+      <ReCAPTCHA
+        sitekey="6LeZ38QqAAAAABULxZS0Do4CB1RM1NtLxAkhwdcX"  
+        onChange={onCaptchaChange}
+      />
       <Button
         variant="contained"
         type="submit"
         fullWidth
-        disabled={loading} // Deshabilitar el botón mientras está cargando
+        disabled={loading || !captchaVerified}  
         sx={{
           display: "flex",
           alignItems: "center",

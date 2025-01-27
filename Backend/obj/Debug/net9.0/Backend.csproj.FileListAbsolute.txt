@@ -226,3 +226,4 @@ C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\ref
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.pdb
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.genruntimeconfig.cache
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\ref\Backend.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Newtonsoft.Json.dll

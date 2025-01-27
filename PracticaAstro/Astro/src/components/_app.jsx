@@ -16,7 +16,6 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPasswordForm />} /> {/* Ruta para restablecer la contraseña */}
         <Route path="/agregarUsuario" element={<FormularioAgregarAdmin />} />
         <Route path="/administrarUsuarios" element={<TablaAdmin />} />
-
       </Routes>
     </Router>
   );

@@ -4,26 +4,34 @@ import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 
 const AdminPanel = () => {
   const [rows, setRows] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [tipoUsuario, setUserType] = useState(""); 
-
-
+  const [isInactive, setIsInactive] = useState(false); 
 
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) throw new Error("No se encontró el token. Por favor, inicia sesión.");
-      
+
       const decodedToken = decodeJWT(token);  
-      setUserType(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]); 
+      setUserType(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
+
+
+      if (decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "inactivo") {
+        setIsInactive(true); 
+        return; 
+      }
+
       const response = await fetch("http://localhost:5079/api/admin/mensajes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -63,6 +71,16 @@ const AdminPanel = () => {
     window.location.href = "/login";  
   };
 
+  if (isInactive) {
+    return (
+      <Box sx={{ textAlign: "center", padding: 2 }}>
+        <Alert severity="error">
+          Usuario inactivo, por favor contactarse con soporte.
+        </Alert>
+      </Box>
+    );
+  }
+
   if (errorMessage) {
     return <div className="alert-error">{errorMessage}</div>;
   }
@@ -95,7 +113,6 @@ const AdminPanel = () => {
           </Button>
         )}
 
-
         {tipoUsuario === "admin" && (
           <Button
             variant="contained"
@@ -111,7 +128,7 @@ const AdminPanel = () => {
       </div>
 
       <p>
-      <h5>Solicitudes pendientes</h5>
+        <h5>Solicitudes pendientes</h5>
         Bienvenido al panel de administración. Aquí podrás ver los mensajes de
         contacto recibidos a través del formulario de contacto de la página web.
       </p>
@@ -127,12 +144,11 @@ const AdminPanel = () => {
           ]}
         />
       ) : (
-        <p></p>
+        <p>No hay mensajes disponibles.</p>
       )}
     </div>
   );
 };
-
 
 const decodeJWT = (token) => {
   const base64Url = token.split('.')[1];

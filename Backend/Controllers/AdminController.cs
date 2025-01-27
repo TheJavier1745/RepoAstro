@@ -87,12 +87,67 @@ namespace Backend.Controllers
                 return StatusCode(500, new { Message = "Error al enviar el formulario." });
             }
         }
+
+ [HttpPut("activar-inactivar-usuario/{id}")]
+public async Task<IActionResult> ActivarInactivarUsuario(int id, [FromBody] string nuevoTipo)
+{
+    try
+    {
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null)
+        {
+            return NotFound(new { Message = "Usuario no encontrado." });
+        }
+
+        if (nuevoTipo == "inactivo")
+        {
+            usuario.TipoUsuario = "inactivo";
+        }
+
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new { Message = "Estado del usuario actualizado correctamente." });
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new { Message = $"Error al actualizar el usuario: {ex.Message}" });
+    }
+}
+
+[HttpPut("cambiar-tipo-usuario/{id}")]
+public async Task<IActionResult> CambiarTipoUsuario(int id, [FromBody] string nuevoTipo)
+{
+    try
+    {
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null)
+        {
+            return NotFound(new { Message = "Usuario no encontrado." });
+        }
+
+        if (nuevoTipo != "admin" && nuevoTipo != "Delegado" && nuevoTipo != "inactivo")
+        {
+            return BadRequest(new { Message = "Tipo de usuario inválido." });
+        }
+
+        usuario.TipoUsuario = nuevoTipo;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { Message = $"Tipo de usuario actualizado a {nuevoTipo}." });
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new { Message = $"Error al actualizar el tipo de usuario: {ex.Message}" });
+    }
+}
+
         [HttpGet("usuarios")]
 public async Task<IActionResult> GetUsuarios()
 {
     try
     {
-        var usuarios = await _context.Usuarios.ToListAsync(); // Asumiendo que usas Entity Framework para obtener los usuarios
+        var usuarios = await _context.Usuarios.ToListAsync(); 
         return Ok(usuarios);
     }
     catch (Exception ex)

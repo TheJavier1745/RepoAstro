@@ -41,7 +41,7 @@ const Formulario = () => {
 
   const fetchRoles = async () => {
 
-    setRoles(["admin", "Delegado"]);  
+    setRoles(["admin", "Delegado","inactivo"]);  
   };
 
   const handleSubmit = async (event) => {

@@ -1,7 +1,10 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
 import IndicadoresEconomicos from '../components/IndicadoresEconomicos.jsx';
-import BotonesComplejos from '../components/BotonesComplejos.jsx';
+import BotonesComplejos from '../components/botonescomplejos.jsx';
+import DogAPI from '../components/dogApi.jsx';
+import JokeAPI from '../components/jokeApi.jsx';
+
 ---
 
 <Layout
@@ -42,6 +45,14 @@ import BotonesComplejos from '../components/BotonesComplejos.jsx';
   <section id="indicadores" class="indicadores-container">
     <IndicadoresEconomicos client:only="react" />
   </section>
+  <!-- Sección de feriados -->
+  <section id="feriados" class="feriados-container">
+    <DogAPI client:only="react" />
+  </section>
+    <!-- Sección de chistes -->
+    <section id="chistes" class="chistes-container">
+      <JokeAPI client:only="react" />
+    </section>
 
   <style>
     .hero-logo {

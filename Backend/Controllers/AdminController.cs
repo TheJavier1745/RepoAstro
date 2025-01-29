@@ -145,15 +145,23 @@ public async Task<IActionResult> CambiarTipoUsuario(int id, [FromBody] string nu
         [HttpGet("usuarios")]
 public async Task<IActionResult> GetUsuarios()
 {
-    try
+ try
     {
-        var usuarios = await _context.Usuarios.ToListAsync(); 
-        return Ok(usuarios);
+        var usuarios = await _context.Usuarios.ToListAsync();
+
+        var usuariosDto = usuarios.Select(u => new UsuarioDto
+        {
+            Id = u.Id,
+            Nombre = u.Nombre,
+            Correo = u.Correo,
+            TipoUsuario = u.TipoUsuario
+        }).ToList();
+
+        return Ok(usuariosDto);
     }
     catch (Exception ex)
     {
         return BadRequest(new { Message = $"Error al obtener los usuarios: {ex.Message}" });
     }
-}
-    }
+}   }
 }

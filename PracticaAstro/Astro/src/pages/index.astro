@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
-import BotonesComplejos from '../components/botonescomplejos.jsx';
+import IndicadoresEconomicos from '../components/IndicadoresEconomicos.jsx';
+import BotonesComplejos from '../components/BotonesComplejos.jsx';
 ---
 
 <Layout
@@ -29,6 +30,7 @@ import BotonesComplejos from '../components/botonescomplejos.jsx';
     <BotonesComplejos client:only="react" />
   </section>
 
+
   <section class="about">
     <h2 class="section-title">Quiénes Somos</h2>
     <p>
@@ -36,14 +38,12 @@ import BotonesComplejos from '../components/botonescomplejos.jsx';
     </p>
     <a href="/contact" class="btn-primary">Contáctanos</a>
   </section>
+  <!-- Sección de indicadores económicos -->
+  <section id="indicadores" class="indicadores-container">
+    <IndicadoresEconomicos client:only="react" />
+  </section>
 
   <style>
-    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-    html {
-      scroll-behavior: smooth;
-    }
-
     .hero-logo {
       max-width: 100px;
       height: auto;
@@ -134,9 +134,12 @@ import BotonesComplejos from '../components/botonescomplejos.jsx';
     .about {
       text-align: center;
     }
-  </style>
 
-  <script>
-    AOS.init();
-  </script>
+    .indicadores-container {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+  </style>
 </Layout>

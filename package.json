@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@astrojs/react": "^4.1.2",
+    "@astrojs/react": "^4.2.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.3.1",
@@ -9,6 +9,7 @@
     "@mui/x-data-grid-generator": "^7.23.5",
     "@prisma/client": "^6.2.1",
     "@types/react": "^19.0.3",
+    "aos": "^2.3.4",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",

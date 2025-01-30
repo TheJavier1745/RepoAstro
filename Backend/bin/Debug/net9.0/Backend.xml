@@ -29,9 +29,253 @@
             <param name="datoRequest">Datos del nuevo usuario.</param>
             <returns>Mensaje de éxito.</returns>
         </member>
-        <member name="P:Backend.Models.Usuario.Id">
+        <member name="T:Backend.Controllers.ContactanosController">
+            <summary>
+            Controlador que gestiona los mensajes de contacto y la validación de reCAPTCHA.
+            </summary>
+        </member>
+        <member name="M:Backend.Controllers.ContactanosController.EnviarMensaje(Backend.Models.Dato,System.String)">
+            <summary>
+            Envía un mensaje de contacto después de validar el reCAPTCHA.
+            </summary>
+            <param name="dato">Objeto que contiene los datos del mensaje de contacto.</param>
+            <param name="recaptchaResponse">Respuesta del reCAPTCHA proporcionada por el cliente.</param>
+            <returns>Resultado del envío del mensaje.</returns>
+            <response code="200">Mensaje enviado correctamente.</response>
+            <response code="400">Error de validación o fallo en el envío del mensaje.</response>
+        </member>
+        <member name="T:Backend.Controllers.LoginController">
+            <summary>
+            Controlador de autenticación que permite a los usuarios iniciar sesión.
+            </summary>
+        </member>
+        <member name="M:Backend.Controllers.LoginController.Login(Backend.Models.Usuario)">
+            <summary>
+            Permite a un usuario iniciar sesión en el sistema y obtener un token JWT.
+            </summary>
+            <param name="loginRequest">Objeto que contiene el correo y la contraseña del usuario.</param>
+            <returns>Un token JWT si la autenticación es exitosa.</returns>
+            <response code="200">Inicio de sesión exitoso, se devuelve el token JWT.</response>
+            <response code="401">Correo o contraseña inválidos.</response>
+        </member>
+        <member name="T:Backend.Controllers.ResetPasswordController">
+            <summary>
+            Controlador para el restablecimiento de contraseñas de usuarios.
+            </summary>
+        </member>
+        <member name="M:Backend.Controllers.ResetPasswordController.ResetPassword(Backend.Models.ResetPasswordRequest)">
+            <summary>
+            Restablece la contraseña de un usuario después de verificar el código de recuperación.
+            </summary>
+            <param name="resetRequest">Solicitud de restablecimiento de contraseña, que incluye correo, código y nueva contraseña.</param>
+            <returns>Mensaje de confirmación o error.</returns>
+            <response code="200">Contraseña restablecida con éxito.</response>
+            <response code="400">Solicitud inválida o código de recuperación incorrecto.</response>
+        </member>
+        <member name="T:Backend.Controllers.UsuarioController">
+            <summary>
+            Controlador para gestionar la recuperación de contraseñas.
+            </summary>
+        </member>
+        <member name="M:Backend.Controllers.UsuarioController.ForgotPassword(Backend.Models.Usuario)">
+            <summary>
+            Genera un código de recuperación de contraseña y lo envía al correo proporcionado.
+            </summary>
+            <param name="userRequest">Solicitud que contiene el correo del usuario.</param>
+            <returns>Mensaje indicando si el código fue enviado correctamente o si hubo algún error.</returns>
+            <response code="200">Código de recuperación enviado con éxito.</response>
+            <response code="400">Correo no registrado o error al generar el código.</response>
+        </member>
+        <member name="T:Backend.Models.appDB">
+            <summary>
+            Representa el contexto de la base de datos de la aplicación.
+            </summary>
+        </member>
+        <member name="M:Backend.Models.appDB.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{Backend.Models.appDB})">
+            <summary>
+            Inicializa una nueva instancia del contexto de la base de datos.
+            </summary>
+            <param name="options">Opciones de configuración del contexto de la base de datos.</param>
+        </member>
+        <member name="P:Backend.Models.appDB.Datos">
+            <summary>
+            Tabla de datos del formulario de contacto.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.appDB.Usuarios">
+            <summary>
+            Tabla de usuarios del sistema.
+            </summary>
+        </member>
+        <member name="M:Backend.Models.appDB.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configura el mapeo entre las entidades y las tablas de la base de datos.
+            </summary>
+            <param name="modelBuilder">Constructor del modelo utilizado para definir las relaciones y propiedades.</param>
+        </member>
+        <member name="T:Backend.Models.Dato">
+            <summary>
+            Representa los datos enviados a través del formulario de contacto.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Id">
+            <summary>
+            Identificador único del dato. 
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Nombres">
+            <summary>
+            Nombre del usuario que envía el mensaje.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Apellidos">
+            <summary>
+            Apellido del usuario que envía el mensaje.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Rut">
+            <summary>
+            Rut del usuario que envía el mensaje.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Correo">
+            <summary>
+            Correo del usuario que envía el mensaje.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Telefono">
+            <summary>
+            Teléfono del usuario que envía el mensaje.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Mensaje">
+            <summary>
+            Mensaje enviado por el usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Dato.Fecha_Hora">
+            <summary>
+            Fecha y hora en que se envió el mensaje.
+            </summary>
+        </member>
+        <member name="T:Backend.Models.JwtSettings">
+            <summary>   
+            Representa la configuración de JWT.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.JwtSettings.Key">
+            <summary>   
+            Clave secreta para firmar los tokens.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.JwtSettings.Issuer">
+            <summary>
+            Tiempo de expiración de los tokens en minutos.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.JwtSettings.Audience">
+            <summary>
+            Emisor de los tokens.
+            </summary>
+        </member>
+        <member name="T:Backend.Models.ReCaptchaResponse">
+            <summary>
+            Representa la respuesta de reCAPTCHA.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ReCaptchaResponse.Success">
+            <summary>
+            Indica si la validación de reCAPTCHA fue exitosa.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ReCaptchaResponse.ChallengeTs">
+            <summary>
+            Timestamp de la validación.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ReCaptchaResponse.Hostname">
+            <summary>
+            Hostname del sitio que solicitó la validación.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ReCaptchaResponse.ErrorCodes">
+            <summary>
+            Lista de errores devueltos por el servidor de reCAPTCHA.
+            </summary>
+        </member>
+        <member name="T:Backend.Models.ResetPasswordRequest">
+            <summary>
+            Representa la solicitud de reseteo de contraseña.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ResetPasswordRequest.Correo">
+            <summary>
+            Correo del usuario que solicita el reseteo de contraseña.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ResetPasswordRequest.Codigo">
+            <summary>
+            Código de verificación enviado al correo del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ResetPasswordRequest.NuevaContrasena">
+            <summary>
+            Nueva contraseña del usuario.
+            </summary>
+        </member>
+        <member name="T:Backend.Models.Usuario">
             <summary>
             Representa un usuario dentro del sistema.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Usuario.Id">
+            <summary>
+            Identificador único del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Usuario.TipoUsuario">
+            <summary>
+            Tipo de usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Usuario.Nombre">
+            <summary>
+            Nombre del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Usuario.Correo">
+            <summary>
+            Correo del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.Usuario.Contrasena">
+            <summary>
+            Contraseña del usuario.
+            </summary>
+        </member>
+        <member name="T:Backend.Models.UsuarioDto">
+            <summary>
+            Representa un usuario dentro del sistema (este es para no mostrar la contraseña en la consulta).
+            </summary>}
+        </member>
+        <member name="P:Backend.Models.UsuarioDto.Id">
+            <summary>
+            Identificador único del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.UsuarioDto.Nombre">
+            <summary>
+            Nombre del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.UsuarioDto.Correo">
+            <summary>
+            Correo del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.UsuarioDto.TipoUsuario">
+            <summary>
+            Tipo de usuario.
             </summary>
         </member>
     </members>

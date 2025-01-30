@@ -5,13 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuración de la base de datos
 builder.Services.AddDbContext<appDB>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(8, 0, 32)))
 );
+
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IDatoService, DatoService>();
@@ -20,7 +24,6 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IDatoRepository, DatoRepository>();
 builder.Services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
 builder.Services.AddScoped<EmailService>();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -36,18 +39,53 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("_myAllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("http://localhost:4321")  
+        policy.WithOrigins("http://localhost:4321")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
 
-var app = builder.Build();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "API de Consultora AP",
+        Version = "v1",
+        Description = "API para administración y gestión de usuarios, formularios y autenticación.",
+        Contact = new OpenApiContact
+        {
+            Name = "Consultora AP",
+            Email = "consultoraap079@gmail.com",
+            Url = new Uri("https://localhost:5079")
+        }
+    });
+
+    c.AddServer(new OpenApiServer
+    {
+        Url = "http://localhost:5079/",
+        Description = "Servidor de desarrollo"
+    });
+
+    var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+builder.Services.AddControllers();
+
+var app = builder.Build(); 
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+    });
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

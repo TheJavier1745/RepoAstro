@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Backend</name>
+    </assembly>
+    <members>
+        <member name="T:AdminController">
+            <summary>
+            Controlador para la administración de usuarios y mensajes.
+            </summary>
+        </member>
+        <member name="M:AdminController.GetMensajes">
+            <summary>
+            Obtiene todos los mensajes de la base de datos.
+            </summary>
+            <returns>Lista de mensajes.</returns>
+        </member>
+        <member name="M:AdminController.EliminarUsuario(System.Int32)">
+            <summary>
+            Elimina un usuario por su ID.
+            </summary>
+            <param name="id">ID del usuario a eliminar.</param>
+            <returns>Mensaje de éxito o error.</returns>
+        </member>
+        <member name="M:AdminController.AddAdmin(Backend.Models.Usuario)">
+            <summary>
+            Agrega un nuevo administrador.
+            </summary>
+            <param name="datoRequest">Datos del nuevo usuario.</param>
+            <returns>Mensaje de éxito.</returns>
+        </member>
+        <member name="P:Backend.Models.Usuario.Id">
+            <summary>
+            Representa un usuario dentro del sistema.
+            </summary>
+        </member>
+    </members>
+</doc>

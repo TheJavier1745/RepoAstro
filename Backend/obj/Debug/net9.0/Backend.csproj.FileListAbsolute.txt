@@ -227,3 +227,8 @@ C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Bac
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.genruntimeconfig.cache
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\ref\Backend.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Backend.xml
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.xml

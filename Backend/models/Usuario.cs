@@ -2,6 +2,9 @@ namespace Backend.Models
 {
     public class Usuario
     {
+        /// <summary>
+        /// Representa un usuario dentro del sistema.
+        /// </summary>
         public int Id { get; set; }
         public string TipoUsuario { get; set; } = string.Empty;
         public string Nombre { get; set; } = string.Empty;

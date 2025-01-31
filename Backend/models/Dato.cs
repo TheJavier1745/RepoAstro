@@ -6,7 +6,7 @@ namespace Backend.Models
     public class Dato
     {
         /// <summary>
-        /// Identificador único del dato. 
+        /// Identificador único del dato, no es necesario declararlo, ya que incrementa automáticamente.
         /// </summary>
         public int Id { get; set; }
         /// <summary>

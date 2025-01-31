@@ -6,7 +6,7 @@ namespace Backend.Models
     public class Usuario
     {
         /// <summary>
-        /// Identificador único del usuario.
+        /// Identificador único del usuario, no es necesario declararlo, ya que incrementa automáticamente.
         /// </summary>
         public int Id { get; set; }
         /// <summary>

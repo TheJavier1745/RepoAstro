@@ -120,7 +120,7 @@
         </member>
         <member name="P:Backend.Models.Dato.Id">
             <summary>
-            Identificador único del dato. 
+            Identificador único del dato, no es necesario declararlo, ya que incrementa automáticamente.
             </summary>
         </member>
         <member name="P:Backend.Models.Dato.Nombres">
@@ -230,7 +230,7 @@
         </member>
         <member name="P:Backend.Models.Usuario.Id">
             <summary>
-            Identificador único del usuario.
+            Identificador único del usuario, no es necesario declararlo, ya que incrementa automáticamente.
             </summary>
         </member>
         <member name="P:Backend.Models.Usuario.TipoUsuario">

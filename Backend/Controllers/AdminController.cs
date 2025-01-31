@@ -81,7 +81,7 @@ public class AdminController : ControllerBase
     /// <returns>Mensaje de éxito.</returns>
     [HttpPost("add-admin")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(400)]
     public async Task<IActionResult> AddAdmin([FromBody] Usuario datoRequest)
     {
         try
@@ -106,7 +106,7 @@ public class AdminController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { Message = "Error al enviar el formulario." });
+            return StatusCode(400, new { Message = "Error al enviar el formulario." });
         }
     }
 }

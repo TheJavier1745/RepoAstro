@@ -38,7 +38,7 @@ namespace Backend.Controllers
                 return Unauthorized(new { Message = "Correo o contraseña inválidos." });
             }
 
-            return Ok(new
+            return Ok(new LoginResult
             {
                 Token = result.Token,
                 TipoUsuario = result.TipoUsuario,

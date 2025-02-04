@@ -29,21 +29,6 @@
             <param name="datoRequest">Datos del nuevo usuario.</param>
             <returns>Mensaje de éxito.</returns>
         </member>
-        <member name="T:Backend.Controllers.ContactanosController">
-            <summary>
-            Controlador que gestiona los mensajes de contacto y la validación de reCAPTCHA.
-            </summary>
-        </member>
-        <member name="M:Backend.Controllers.ContactanosController.EnviarMensaje(Backend.Models.Dato,System.String)">
-            <summary>
-            Envía un mensaje de contacto después de validar el reCAPTCHA.
-            </summary>
-            <param name="dato">Objeto que contiene los datos del mensaje de contacto.</param>
-            <param name="recaptchaResponse">Respuesta del reCAPTCHA proporcionada por el cliente.</param>
-            <returns>Resultado del envío del mensaje.</returns>
-            <response code="200">Mensaje enviado correctamente.</response>
-            <response code="400">Error de validación o fallo en el envío del mensaje.</response>
-        </member>
         <member name="T:Backend.Controllers.LoginController">
             <summary>
             Controlador de autenticación que permite a los usuarios iniciar sesión.
@@ -57,20 +42,6 @@
             <returns>Un token JWT si la autenticación es exitosa.</returns>
             <response code="200">Inicio de sesión exitoso, se devuelve el token JWT.</response>
             <response code="401">Correo o contraseña inválidos.</response>
-        </member>
-        <member name="T:Backend.Controllers.ResetPasswordController">
-            <summary>
-            Controlador para el restablecimiento de contraseñas de usuarios.
-            </summary>
-        </member>
-        <member name="M:Backend.Controllers.ResetPasswordController.ResetPassword(Backend.Models.ResetPasswordRequest)">
-            <summary>
-            Restablece la contraseña de un usuario después de verificar el código de recuperación.
-            </summary>
-            <param name="resetRequest">Solicitud de restablecimiento de contraseña, que incluye correo, código y nueva contraseña.</param>
-            <returns>Mensaje de confirmación o error.</returns>
-            <response code="200">Contraseña restablecida con éxito.</response>
-            <response code="400">Solicitud inválida o código de recuperación incorrecto.</response>
         </member>
         <member name="T:Backend.Controllers.UsuarioController">
             <summary>

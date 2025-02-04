@@ -4,24 +4,27 @@ using Microsoft.Extensions.Configuration;
 
 namespace Backend.Services
 {
-    public class EmailService
+    public class EmailService:IEmailService
     {
 
-        private readonly IConfiguration _configuration;
+    private readonly IConfiguration _configuration;
 
-        public EmailService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+    public EmailService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
 
 public async Task EnviarCorreo(string destinatario, string asunto, string contenido)
 {
-    if (string.IsNullOrEmpty(destinatario))
-        throw new ArgumentException("El destinatario no puede ser nulo o vacío.", nameof(destinatario));
-    if (string.IsNullOrEmpty(asunto))
-        throw new ArgumentException("El asunto no puede ser nulo o vacío.", nameof(asunto));
-    if (string.IsNullOrEmpty(contenido))
-        throw new ArgumentException("El contenido no puede ser nulo o vacío.", nameof(contenido));
+    if (string.IsNullOrEmpty(destinatario) || string.IsNullOrEmpty(asunto) || string.IsNullOrEmpty(contenido))
+    {
+        throw new ArgumentException("Los parámetros no pueden ser nulos o vacíos.");
+    }
+
+    var smtpHost = _configuration["Smtp:Host"];
+    var smtpPort = int.Parse(_configuration["Smtp:Port"]);
+    var smtpUser = _configuration["Smtp:Username"];
+    var smtpPass = _configuration["Smtp:Password"];
 
 
     var client = new SmtpClient("smtp.gmail.com")

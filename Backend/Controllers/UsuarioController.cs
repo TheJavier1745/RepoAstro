@@ -48,7 +48,7 @@ namespace Backend.Controllers
                 var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == userRequest.Correo);
                 if (user == null)
                 {
-                    return BadRequest(new { Message = "Correo no registrado." });
+                    return BadRequest(new ApiResponse{ Message = "Correo no registrado." });
                 }
 
                 // Guardar el código temporalmente como la contraseña
@@ -58,7 +58,7 @@ namespace Backend.Controllers
                 // Enviar el correo con el código
                 await _passwordRecoveryService.SendRecoveryCodeEmailAsync(userRequest.Correo, recoveryCode);
 
-                return Ok(new { Message = "Código de recuperación enviado." });
+                return Ok(new ApiResponse{ Message = "Código de recuperación enviado." });
             }
             catch (Exception ex)
             {

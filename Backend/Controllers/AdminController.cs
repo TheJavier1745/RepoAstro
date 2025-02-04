@@ -15,9 +15,9 @@ public class AdminController : ControllerBase
 {
     private readonly IDatoService _datoService;
     private readonly appDB _context;
-    private readonly EmailService _emailService;
+    private readonly IEmailService _emailService;
 
-    public AdminController(IDatoService datoService, appDB context, EmailService emailService)
+    public AdminController(IDatoService datoService, appDB context, IEmailService emailService)
     {
         _datoService = datoService;
         _context = context;

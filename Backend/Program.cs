@@ -8,8 +8,6 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Configuración de la base de datos
 builder.Services.AddDbContext<appDB>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(8, 0, 32)))
@@ -23,7 +21,9 @@ builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IDatoRepository, DatoRepository>();
 builder.Services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
-builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<IEmailService,EmailService>();
+builder.Services.AddScoped<IReCaptchaService, ReCaptchaService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

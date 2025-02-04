@@ -99,7 +99,7 @@ const TablaAdministracionUsuarios = () => {
         return (
           <>
             {/* Lista desplegable para elegir el tipo de usuario */}
-            <FormControl variant="filled" style={{ marginRight: 10 }}>
+            <FormControl variant="filled" style={{ marginRight: 10, minWidth: 120 }}>
               <InputLabel>Tipo</InputLabel>
               <Select
                 value={userType}

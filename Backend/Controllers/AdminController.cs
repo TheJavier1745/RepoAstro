@@ -15,9 +15,9 @@ public class AdminController : ControllerBase
 {
     private readonly IDatoService _datoService;
     private readonly appDB _context;
-    private readonly IEmailService _emailService;
+    private readonly EmailService _emailService;
 
-    public AdminController(IDatoService datoService, appDB context, IEmailService emailService)
+    public AdminController(IDatoService datoService, appDB context, EmailService emailService)
     {
         _datoService = datoService;
         _context = context;
@@ -107,6 +107,93 @@ public class AdminController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(400, new { Message = "Error al enviar el formulario." });
+        }
+    }
+    /// <summary>
+    /// Activar o inactivar usuario.
+    /// </summary>
+    /// <param name="nuevoTipo">Activa o desactiva un usuario.</param>
+    /// <returns>Mensaje de éxito o error.</returns>
+    [HttpPut("activar-inactivar-usuario/{id}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> ActivarInactivarUsuario(int id, [FromBody] string nuevoTipo)
+    {
+        try
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound(new { Message = "Usuario no encontrado." });
+            }
+
+            if (nuevoTipo == "inactivo")
+            {
+                usuario.TipoUsuario = "inactivo";
+            }
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Estado del usuario actualizado correctamente." });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(400, new { Message = "Error al editar al usuario." });
+        }
+    }
+
+    /// <summary>
+    /// Modificar el tipo de usuario.
+    /// </summary>
+    /// <param name="nuevoTipo">Modifica el tipo de usuario.</param>
+    /// <returns>Mensaje de éxito o error.</returns>
+    [HttpPut("cambiar-tipo-usuario/{id}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> CambiarTipoUsuario(int id, [FromBody] string nuevoTipo)
+    {
+        try
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound(new { Message = "Usuario no encontrado." });
+            }
+
+            if (nuevoTipo != "admin" && nuevoTipo != "Delegado" && nuevoTipo != "inactivo")
+            {
+                return BadRequest(new { Message = "Tipo de usuario invÃ¡lido." });
+            }
+
+            usuario.TipoUsuario = nuevoTipo;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = $"Tipo de usuario actualizado a {nuevoTipo}." });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(400, new { Message = "Error al editar al usuario." });
+        }
+    }
+    /// <summary>
+    /// Consigue una lista de los usuarios y sus datos de contacto.
+    /// </summary>
+    /// <param name="usuarios">Datos del usuario.</param>
+    /// <returns>Mensaje de éxito o error.</returns>
+    [HttpGet("usuarios")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> GetUsuarios()
+    {
+        try
+        {
+            var usuarios = await _context.Usuarios.ToListAsync(); 
+            return Ok(usuarios);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(400, new { Message = "Error al editar al usuario." });
         }
     }
 }

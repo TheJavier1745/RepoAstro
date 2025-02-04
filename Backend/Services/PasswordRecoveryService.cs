@@ -15,11 +15,11 @@ namespace Backend.Services
 
     public class PasswordRecoveryService : IPasswordRecoveryService
     {
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         private readonly appDB _context;
         private readonly IConfiguration _configuration;
 
-        public PasswordRecoveryService(EmailService emailService, appDB context, IConfiguration configuration)
+        public PasswordRecoveryService(IEmailService emailService, appDB context, IConfiguration configuration)
         {
             _emailService = emailService;
             _context = context;

@@ -234,14 +234,6 @@ C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.A
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.xml
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Castle.Core.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Moq.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.abstractions.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.assert.dll

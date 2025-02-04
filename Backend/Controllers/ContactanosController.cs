@@ -25,34 +25,28 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EnviarMensaje([FromBody] Dato dato, [FromQuery] string recaptchaResponse)
-        {
-            if (string.IsNullOrEmpty(recaptchaResponse))
-            {
-                return BadRequest(new ApiResponse { Message = "El campo recaptchaResponse es obligatorio." });
-            }
+public async Task<IActionResult> EnviarMensaje([FromBody] Dato dato, [FromQuery] string recaptchaResponse)
+{
+    if (string.IsNullOrEmpty(recaptchaResponse))
+    {
+        return BadRequest(new ApiResponse { Message = "El campo recaptchaResponse es obligatorio." });
+    }
 
-            var recaptchaValid = await _reCaptchaService.ValidateReCaptchaAsync(recaptchaResponse);
-            if (!recaptchaValid)
-            {
-                return BadRequest(new ApiResponse { Message = "Verificación reCAPTCHA fallida. Por favor, intenta de nuevo." });
-            }
+    try
+    {
+        dato.Fecha_Hora = DateTime.Now;
+        await _datoService.AddDatoAsync(dato);
 
-            try
-            {
-                dato.Fecha_Hora = DateTime.Now;
-                await _datoService.AddDatoAsync(dato);
+        string asunto = "Nuevo mensaje de contacto";
+        string contenido = $"Nombre: {dato.Nombres} <br> Correo: {dato.Correo} <br> Teléfono: {dato.Telefono} <br> Mensaje: {dato.Mensaje}";
+        await _emailService.EnviarCorreo("consultoraap079@gmail.com", asunto, contenido);
 
-                string asunto = "Nuevo mensaje de contacto";
-                string contenido = $"Nombre: {dato.Nombres} <br> Correo: {dato.Correo} <br> Teléfono: {dato.Telefono} <br> Mensaje: {dato.Mensaje}";
-                await _emailService.EnviarCorreo("consultoraap079@gmail.com", asunto, contenido);
-
-                return Ok(new ApiResponse { Message = "Mensaje enviado correctamente." });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse { Message = $"Error al enviar el mensaje: {ex.Message}" });
-            }
-        }
+        return Ok(new ApiResponse { Message = "Mensaje enviado correctamente." });
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new ApiResponse { Message = $"Error al enviar el mensaje: {ex.Message}" });
+    }
+}
     }
 }

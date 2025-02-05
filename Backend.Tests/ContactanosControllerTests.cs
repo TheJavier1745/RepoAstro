@@ -20,7 +20,7 @@ namespace Backend.Tests.Controllers
 
             recaptchaServiceMock
                 .Setup(service => service.ValidateReCaptchaAsync(It.IsAny<string>()))
-                .ReturnsAsync(true);  // Simula un reCAPTCHA válido
+                .ReturnsAsync(true);  
 
             var controller = new ContactanosController(datoServiceMock.Object, emailServiceMock.Object, recaptchaServiceMock.Object);
 
@@ -43,10 +43,8 @@ namespace Backend.Tests.Controllers
                     It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            // Act
             var result = await controller.EnviarMensaje(dato, "mocked-recaptcha");
 
-            // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsType<ApiResponse>(okResult.Value);
             Assert.Equal("Mensaje enviado correctamente.", response.Message);
@@ -55,14 +53,13 @@ namespace Backend.Tests.Controllers
         [Fact]
         public async Task EnviarMensaje_WithInvalidRecaptcha_ReturnsBadRequest()
         {
-            // Arrange
             var datoServiceMock = new Mock<IDatoService>();
             var emailServiceMock = new Mock<IEmailService>();
             var recaptchaServiceMock = new Mock<IReCaptchaService>();
 
             recaptchaServiceMock
                 .Setup(service => service.ValidateReCaptchaAsync(It.IsAny<string>()))
-                .ReturnsAsync(false);  // Simula un reCAPTCHA inválido
+                .ReturnsAsync(false); 
 
             var controller = new ContactanosController(datoServiceMock.Object, emailServiceMock.Object, recaptchaServiceMock.Object);
 
@@ -73,11 +70,7 @@ namespace Backend.Tests.Controllers
                 Telefono = "123456789",
                 Mensaje = "Mensaje de prueba."
             };
-
-            // Act
             var result = await controller.EnviarMensaje(dato, "invalid-recaptcha");
-
-            // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             var response = Assert.IsType<ApiResponse>(badRequestResult.Value);
             Assert.Equal("Verificación reCAPTCHA fallida. Por favor, intenta de nuevo.", response.Message);

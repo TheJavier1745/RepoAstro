@@ -31,7 +31,11 @@ public async Task<IActionResult> EnviarMensaje([FromBody] Dato dato, [FromQuery]
     {
         return BadRequest(new ApiResponse { Message = "El campo recaptchaResponse es obligatorio." });
     }
-
+    var isRecaptchaValid=await _reCaptchaService.ValidateReCaptchaAsync(recaptchaResponse);
+    if (!isRecaptchaValid)
+    {
+         return BadRequest(new ApiResponse { Message = "Verificación reCAPTCHA fallida. Por favor, intenta de nuevo." });
+    }
     try
     {
         dato.Fecha_Hora = DateTime.Now;

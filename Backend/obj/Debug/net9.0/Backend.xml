@@ -29,6 +29,27 @@
             <param name="datoRequest">Datos del nuevo usuario.</param>
             <returns>Mensaje de éxito.</returns>
         </member>
+        <member name="M:AdminController.ActivarInactivarUsuario(System.Int32,System.String)">
+            <summary>
+            Activar o inactivar usuario.
+            </summary>
+            <param name="nuevoTipo">Activa o desactiva un usuario.</param>
+            <returns>Mensaje de éxito o error.</returns>
+        </member>
+        <member name="M:AdminController.CambiarTipoUsuario(System.Int32,System.String)">
+            <summary>
+            Modificar el tipo de usuario.
+            </summary>
+            <param name="nuevoTipo">Modifica el tipo de usuario.</param>
+            <returns>Mensaje de éxito o error.</returns>
+        </member>
+        <member name="M:AdminController.GetUsuarios">
+            <summary>
+            Consigue una lista de los usuarios y sus datos de contacto.
+            </summary>
+            <param name="usuarios">Datos del usuario.</param>
+            <returns>Mensaje de éxito o error.</returns>
+        </member>
         <member name="T:Backend.Controllers.LoginController">
             <summary>
             Controlador de autenticación que permite a los usuarios iniciar sesión.

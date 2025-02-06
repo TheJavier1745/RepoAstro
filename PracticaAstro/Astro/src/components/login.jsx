@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import LoginIcon from '@mui/icons-material/Send';
 import PersonIcon from "@mui/icons-material/Person";
@@ -13,6 +13,14 @@ import TextField from "@mui/material/TextField";
 const Login = () => {
   const [alerta, setAlerta] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/admin");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,6 +33,7 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:5079/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -35,16 +44,14 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        if (data.tipoUsuario === "admin") {
-          window.location.href = "/admin";
-        } else {
-          window.location.href = "/admin";
-        }
+        navigate("/admin");
       } else {
         setAlerta({ tipo: "error", mensaje: data.Message || "Correo o contraseña inválidos." });
       }
     } catch (error) {
       setAlerta({ tipo: "error", mensaje: "No se pudo conectar con el servidor." });
+    } finally {
+      setLoading(false);
     }
   };
 

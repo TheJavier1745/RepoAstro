@@ -239,3 +239,16 @@ C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.abstrac
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.assert.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.core.dll
 C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.execution.dotnet.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Backend.xml
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Castle.Core.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Moq.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.abstractions.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.assert.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.core.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.execution.dotnet.dll
+C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.xml

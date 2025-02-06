@@ -18,9 +18,9 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/admin");
+      window.location.replace("/admin");
     }
-  }, [navigate]);
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,7 +44,7 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
-        navigate("/admin");
+        window.location.replace("/admin");
       } else {
         setAlerta({ tipo: "error", mensaje: data.Message || "Correo o contraseña inválidos." });
       }

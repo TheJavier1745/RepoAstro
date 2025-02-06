@@ -1,4 +1,4 @@
-// DogAPI.jsx
+
 import React, { useState, useEffect } from 'react';
 import { CircularProgress, Box, Button, Typography, MenuItem, Select } from '@mui/material';
 
@@ -8,8 +8,6 @@ const DogAPI = () => {
   const [error, setError] = useState(null);
   const [breeds, setBreeds] = useState([]);
   const [selectedBreed, setSelectedBreed] = useState('');
-
-  // Función para obtener una imagen aleatoria de un perro
   const fetchRandomDog = async () => {
     setLoading(true);
     try {
@@ -23,7 +21,6 @@ const DogAPI = () => {
     }
   };
 
-  // Función para obtener todas las razas disponibles
   const fetchBreeds = async () => {
     try {
       const response = await fetch('https://dog.ceo/api/breeds/list/all');
@@ -34,7 +31,6 @@ const DogAPI = () => {
     }
   };
 
-  // Función para obtener una imagen de una raza específica
   const fetchBreedImage = async (breed) => {
     setLoading(true);
     try {
@@ -48,7 +44,6 @@ const DogAPI = () => {
     }
   };
 
-  // Cargar imagen aleatoria y lista de razas al montar el componente
   useEffect(() => {
     fetchRandomDog();
     fetchBreeds();

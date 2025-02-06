@@ -13,7 +13,6 @@ namespace Backend.Tests.Controllers
         [Fact]
         public async Task EnviarMensaje_WithValidRecaptcha_ReturnsOk()
         {
-            // Arrange
             var datoServiceMock = new Mock<IDatoService>();
             var emailServiceMock = new Mock<IEmailService>();
             var recaptchaServiceMock = new Mock<IReCaptchaService>();

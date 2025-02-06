@@ -41,21 +41,14 @@ namespace Backend.Controllers
         {
             try
             {
-                // Generar el código de recuperación
                 var recoveryCode = await _passwordRecoveryService.GenerateRecoveryCodeAsync(userRequest.Correo);
-
-                // Verificar si el usuario existe
                 var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == userRequest.Correo);
                 if (user == null)
                 {
                     return BadRequest(new ApiResponse{ Message = "Correo no registrado." });
                 }
-
-                // Guardar el código temporalmente como la contraseña
                 user.Contrasena = recoveryCode;
                 await _context.SaveChangesAsync();
-
-                // Enviar el correo con el código
                 await _passwordRecoveryService.SendRecoveryCodeEmailAsync(userRequest.Correo, recoveryCode);
 
                 return Ok(new ApiResponse{ Message = "Código de recuperación enviado." });

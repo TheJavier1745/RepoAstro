@@ -29,7 +29,6 @@ namespace Backend.Models
         /// <param name="modelBuilder">Constructor del modelo utilizado para definir las relaciones y propiedades.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuración de la entidad Dato
             modelBuilder.Entity<Dato>(entity =>
             {
                 entity.ToTable("datos"); 
@@ -43,7 +42,6 @@ namespace Backend.Models
                 entity.Property(e => e.Fecha_Hora).HasColumnName("fecha_hora");
             });
 
-            // Configuración de la entidad Usuario
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.ToTable("usuarios"); 

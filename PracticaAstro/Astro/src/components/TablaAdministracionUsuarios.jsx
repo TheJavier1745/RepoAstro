@@ -10,7 +10,7 @@ const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [userToDelete, setUserToDelete] = useState(null); // Almacenar el id del usuario a eliminar
+  const [userToDelete, setUserToDelete] = useState(null); 
 
   useEffect(() => {
     fetchUsuarios();
@@ -89,16 +89,15 @@ const TablaAdministracionUsuarios = () => {
       headerName: 'Acciones',
       width: 250,
       renderCell: (params) => {
-        const [userType, setUserType] = useState(params.row.tipoUsuario); // Estado local por cada fila
+        const [userType, setUserType] = useState(params.row.tipoUsuario); 
 
         const handleTypeChange = (e) => {
-          setUserType(e.target.value); // Cambiar el tipo localmente
-          handleChangeUserType(params.row.id, e.target.value); // Llamar a la función para actualizar en la base de datos
+          setUserType(e.target.value); 
+          handleChangeUserType(params.row.id, e.target.value); 
         };
 
         return (
           <>
-            {/* Lista desplegable para elegir el tipo de usuario */}
             <FormControl variant="filled" style={{ marginRight: 10, minWidth: 120 }}>
               <InputLabel>Tipo</InputLabel>
               <Select
@@ -110,8 +109,6 @@ const TablaAdministracionUsuarios = () => {
                 <MenuItem value="inactivo">Inactivo</MenuItem>
               </Select>
             </FormControl>
-
-            {/* Eliminar solo si el usuario está inactivo */}
             {userType === "inactivo" && (
               <IconButton onClick={() => handleDeleteUser(params.row.id)} color="error">
                 <DeleteIcon />

@@ -1,6 +1,5 @@
 export async function get() {
     try {
-        // Obtener el token desde el almacenamiento local
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -14,7 +13,7 @@ export async function get() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`, // Incluir el token en el encabezado
+                "Authorization": `Bearer ${token}`,
             },
         });
 

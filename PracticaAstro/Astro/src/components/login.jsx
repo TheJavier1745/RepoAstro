@@ -60,7 +60,6 @@ const Login = () => {
       )}
 
       <form onSubmit={handleSubmit} className="form" style={{ maxWidth: "400px" }}>
-        {/* Campo de correo electrónico */}
         <div className="form-group">
           <TextField
             type="email"
@@ -80,8 +79,6 @@ const Login = () => {
             }}
           />
         </div>
-
-        {/* Campo de contraseña */}
         <div className="form-group">
           <TextField
             type="password"
@@ -101,8 +98,6 @@ const Login = () => {
             }}
           />
         </div>
-
-        {/* Botón de enviar */}
         <Button variant="contained" type="submit" className="btn-primary" disabled={loading} startIcon={!loading && <LoginIcon />}>
           {loading ? <CircularProgress size={24} style={{ color: "white" }} /> : "Ingresar"}
         </Button>

@@ -1,4 +1,3 @@
-// JokeAPI.jsx
 import React, { useState, useEffect } from 'react';
 import { CircularProgress, Box, Button, Typography, Select, MenuItem } from '@mui/material';
 
@@ -6,9 +5,9 @@ const JokeAPI = () => {
   const [joke, setJoke] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [category, setCategory] = useState('Any'); // Categoría por defecto
+  const [category, setCategory] = useState('Any'); 
 
-  // Función para obtener un chiste de la API
+
   const fetchJoke = async () => {
     setLoading(true);
     setError(null);
@@ -28,8 +27,6 @@ const JokeAPI = () => {
       setLoading(false);
     }
   };
-
-  // Cargar un chiste inicial al montar el componente
   useEffect(() => {
     fetchJoke();
   }, []);

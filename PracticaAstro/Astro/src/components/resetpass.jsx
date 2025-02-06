@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; // Para acceder a los parámetros de la URL
+import { useLocation } from "react-router-dom"; 
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -10,7 +10,7 @@ import PersonIcon from "@mui/icons-material/Person";
 const ResetPasswordForm = () => {
   const [alerta, setAlerta] = useState(null);
   const [loading, setLoading] = useState(false);
-  const location = useLocation(); // Obtiene los parámetros de la URL
+  const location = useLocation(); 
   const email = new URLSearchParams(location.search).get("email");
 
   const handleSubmit = async (event) => {
@@ -68,7 +68,6 @@ const ResetPasswordForm = () => {
       )}
 
       <form onSubmit={handleSubmit}>
-        {/* Campo de Código de Recuperación */}
         <TextField
           type="text"
           id="codigo"
@@ -86,8 +85,6 @@ const ResetPasswordForm = () => {
             ),
           }}
         />
-
-        {/* Campo de Nueva Contraseña */}
         <TextField
           type="password"
           id="nuevaContrasena"
@@ -106,7 +103,6 @@ const ResetPasswordForm = () => {
           }}
         />
 
-        {/* Campo de Confirmar Contraseña */}
         <TextField
           type="password"
           id="confirmarContrasena"
@@ -124,8 +120,6 @@ const ResetPasswordForm = () => {
             ),
           }}
         />
-
-        {/* Botón para Enviar */}
         <Button
           variant="contained"
           type="submit"

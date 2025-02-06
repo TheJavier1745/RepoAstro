@@ -51,7 +51,6 @@ const ForgotPassword = () => {
       )}
 
       <form onSubmit={handleSubmit}>
-        {/* Campo de correo electrónico */}
         <TextField
           type="email"
           label="Correo Electrónico"
@@ -70,7 +69,6 @@ const ForgotPassword = () => {
           }}
         />
 
-        {/* Botón de enviar */}
         <Button
           variant="contained"
           type="submit"

@@ -4,8 +4,6 @@ interface Props {
 }
 
 const { date } = Astro.props;
-
-// Verifica si date no es válido y define un valor predeterminado si es necesario
 const safeDate = date ? new Date(date) : null;
 ---
 <time datetime={safeDate ? safeDate.toISOString() : ''}>

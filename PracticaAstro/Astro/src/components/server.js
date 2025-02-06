@@ -8,8 +8,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-
-// Ruta para obtener todos los mensajes
 app.get('/api/mensajes', async (req, res) => {
   try {
     const mensajes = await prisma.mensaje.findMany({
@@ -22,7 +20,6 @@ app.get('/api/mensajes', async (req, res) => {
   }
 });
 
-// Ruta para crear un nuevo mensaje
 app.post('/api/mensajes', async (req, res) => {
   const { nombres, correo, mensaje } = req.body;
   try {
@@ -35,8 +32,6 @@ app.post('/api/mensajes', async (req, res) => {
     res.status(500).json({ error: 'Error al crear el mensaje.' });
   }
 });
-
-// Iniciar el servidor
 const PORT = process.env.PORT || 4321;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);

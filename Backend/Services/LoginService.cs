@@ -15,14 +15,12 @@ namespace Backend.Services
         private readonly ILoginRepository _loginRepository;
         private readonly IConfiguration _configuration;
 
-        // Constructor que inyecta el repositorio y la configuración
+  
         public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
         {
             _loginRepository = loginRepository;
             _configuration = configuration;
         }
-
-        // Método para iniciar sesión y generar el token
         public async Task<LoginResult> LoginAsync(Usuario usuario)
         {
             if (usuario == null || string.IsNullOrEmpty(usuario.Correo) || string.IsNullOrEmpty(usuario.Contrasena))
@@ -45,8 +43,6 @@ namespace Backend.Services
                 Nombre = user.Nombre
             };
         }
-
-        // Método para generar el JWT token
         private string GenerateJwtToken(Usuario user)
         {
             var claims = new[]
@@ -70,8 +66,6 @@ namespace Backend.Services
             return new JwtSecurityTokenHandler().WriteToken(token); 
         }
     }
-
-    // Resultado del Login
     public class LoginResult
     {
         public string Token { get; set; }

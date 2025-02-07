@@ -46,7 +46,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				top: 0;
 				right: -300px; /* Oculto fuera de la vista */
 				width: 250px;
-				height: 100%;
+				height: 7%;
 				background-color: #f1f1f1;
 				padding: 1em;
 				border-radius: 10px 0 0 10px;
@@ -55,7 +55,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			}
 
 			.sidebar.open {
-				right: 0; /* Mostrar el menú */
+				right: 1; /* Mostrar el menú */
 			}
 
 			.menu-toggle {
@@ -73,6 +73,12 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 			.menu-toggle:hover {
 				background-color: #495057;
+			}
+
+			/* Estilos para desplazar el contenido cuando el menú está abierto */
+			.content-shift {
+				transform: translateX(-250px);
+				transition: transform 0.3s ease;
 			}
 
 			.hero-image {
@@ -132,7 +138,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	<body>
 		<Header />
 		<button class="menu-toggle" onmouseover="openMenu()" onclick="toggleMenu()">☰ Menú</button>
-		<main>
+		<main id="main-content">
 			<div class="content">
 				<div class="title">
 					<div class="date">
@@ -172,17 +178,33 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<script>
 			function toggleMenu() {
 				const sidebar = document.getElementById('sidebar');
+				const mainContent = document.getElementById('main-content');
+				const menuToggle = document.querySelector('.menu-toggle');
 				sidebar.classList.toggle('open');
+				mainContent.classList.toggle('content-shift');
+				if (sidebar.classList.contains('open')) {
+					menuToggle.textContent = '☰ Cerrar';
+				} else {
+					menuToggle.textContent = '☰ Menú';
+				}
 			}
 
 			function openMenu() {
 				const sidebar = document.getElementById('sidebar');
+				const mainContent = document.getElementById('main-content');
+				const menuToggle = document.querySelector('.menu-toggle');
 				sidebar.classList.add('open');
+				mainContent.classList.add('content-shift');
+				menuToggle.textContent = '☰ Cerrar';
 			}
 
 			function closeMenu() {
 				const sidebar = document.getElementById('sidebar');
+				const mainContent = document.getElementById('main-content');
+				const menuToggle = document.querySelector('.menu-toggle');
 				sidebar.classList.remove('open');
+				mainContent.classList.remove('content-shift');
+				menuToggle.textContent = '☰ Menú';
 			}
 
 			// Asegúrate de que el evento onmouseover y onclick estén correctamente configurados

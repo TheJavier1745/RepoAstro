@@ -40,15 +40,39 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				padding-right: 2em;
 			}
 
+			/* Estilos para el menú desplegable */
 			.sidebar {
-				flex: 1;
+				position: fixed;
+				top: 0;
+				right: -250px; /* Oculto fuera de la vista */
+				width: 250px;
+				height: 100%;
 				background-color: #f1f1f1;
 				padding: 1em;
-				border-radius: 10px;
+				border-radius: 10px 0 0 10px;
 				box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-				position: sticky;
-				top: 20px; /* Adjust the top value as needed */
-				height: fit-content; /* Ensure the sidebar height adjusts to its content */
+				transition: right 0.3s ease;
+			}
+
+			.sidebar.open {
+				right: 0; /* Mostrar el menú */
+			}
+
+			.menu-toggle {
+				position: fixed;
+				top: 80px; /* Mueve el botón más abajo */
+				right: 20px;
+				background-color: #343a40;
+				color: #ffffff;
+				border: none;
+				padding: 10px;
+				border-radius: 5px;
+				cursor: pointer;
+				z-index: 1000;
+			}
+
+			.menu-toggle:hover {
+				background-color: #495057;
 			}
 
 			.hero-image {
@@ -107,6 +131,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 	<body>
 		<Header />
+		<button class="menu-toggle" onmouseover="openMenu()" onclick="toggleMenu()">☰ Menú</button>
 		<main>
 			<div class="content">
 				<div class="title">
@@ -130,7 +155,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					<slot />
 				</div>
 			</div>
-			<aside class="sidebar">
+			<aside class="sidebar" id="sidebar" onmouseover="openMenu()" onmouseout="closeMenu()">
 				<div style="display: flex; align-items: center; justify-content: space-between;">
 					<h2>Ir a...</h2>
 					<img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="logo pequeño para acompañar" style="width: 50px; height: auto; margin-left: 1em;" />
@@ -144,5 +169,27 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			</aside>
 		</main>
 		<Footer />
+		<script>
+			function toggleMenu() {
+				const sidebar = document.getElementById('sidebar');
+				sidebar.classList.toggle('open');
+			}
+
+			function openMenu() {
+				const sidebar = document.getElementById('sidebar');
+				sidebar.classList.add('open');
+			}
+
+			function closeMenu() {
+				const sidebar = document.getElementById('sidebar');
+				sidebar.classList.remove('open');
+			}
+
+			// Asegúrate de que el evento onmouseover y onclick estén correctamente configurados
+			document.querySelector('.menu-toggle').addEventListener('mouseover', openMenu);
+			document.querySelector('.menu-toggle').addEventListener('click', toggleMenu);
+			document.getElementById('sidebar').addEventListener('mouseover', openMenu);
+			document.getElementById('sidebar').addEventListener('mouseout', closeMenu);
+		</script>
 	</body>
 </html>

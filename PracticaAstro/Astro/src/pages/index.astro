@@ -8,24 +8,23 @@ import JokeAPI from '../components/jokeApi.jsx';
 ---
 
 <Layout
-  title="Consultora AP Ltda"
+
   description="Soluciones integrales para potenciar tu negocio"
   heroImage=""
   pubDate={new Date('January 02 2025')}
 >
-  <section class="hero">
-    <div class="hero-content">
-      <img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="Logo de Consultora AP Ltda" class="hero-logo">
-      <h1 class="hero-title">Bienvenido a Consultora AP Ltda</h1>
-      <p class="hero-subtitle">
-        Soluciones integrales para potenciar tu negocio.
-      </p>
-      <a href="#servicios" class="btn-primary">Conoce nuestros servicios</a>
-    </div>
-  </section>
-
+<section class="hero">
+  <div class="hero-content">
+    <img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="Logo de Consultora AP Ltda" class="hero-logo">
+    <h1 class="hero-title">Bienvenido a Consultora AP Ltda</h1>
+    <p class="hero-subtitle">
+      Soluciones integrales para potenciar tu negocio.
+    </p>
+    <a href="#servicios" class="btn-primary">Conoce nuestros servicios</a>
+  </div>
+</section>
   <section class="image-section">
-    <img src="/src/utilitarios/1500x844_consultoria_ahorro.png" alt="Consultoría y ahorro" class="featured-image">
+
   </section>
 
   <section id="servicios" class="admin-container">
@@ -53,6 +52,24 @@ import JokeAPI from '../components/jokeApi.jsx';
     </section>
 
   <style>
+.hero {
+  position: relative;
+  height: 120vh; 
+  width: 105vw;
+  margin-top: -219px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+              url('/src/utilitarios/1500x844_consultoria_ahorro.png') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+
     .hero-logo {
       max-width: 100px;
       height: auto;
@@ -60,25 +77,39 @@ import JokeAPI from '../components/jokeApi.jsx';
       margin: 0 auto 20px auto;
       border-radius: 10px;
     }
+.hero-content {
+    color: white;
+    padding: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 50px; 
+    line-height: 1.;
+    color: white;
+}
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 50px;
+    color: white;
+}
 
-    .hero-content {
-      text-align: center;
-    }
+.btn-primary {
+    padding: 15px 30px;
+    background-color:rgb(51, 157, 222);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
-    .btn-primary {
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      display: inline-block;
-      margin-top: 40px;
-      margin-bottom: 60px;
-    }
-
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
+.btn-primary:hover {
+    background-color:rgb(58, 141, 243);
+    transform: scale(1.05);
+}
 
     .image-section {
       text-align: center;

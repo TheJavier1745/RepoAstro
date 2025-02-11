@@ -8,37 +8,31 @@ const images = [
   {
     url: '/src/utilitarios/servicios-de-consultoría-a-empresas.jpg',
     title: 'Consultoría Empresarial',
-    width: '33%',
     color: '#FFFFFF',
   },
   {
     url: '/src/utilitarios/adobestock-467965537-1024x684.jpeg',
     title: 'Gestión Financiera',
-    width: '33%',
     color: '#FFFFFF',
   },
   {
     url: '/src/utilitarios/b2ap3_amp_trabajo-consultoria-empresa.jpg',
     title: 'Capacitación',
-    width: '33%',
     color: '#FFFFFF',
   },
 ];
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
-  height: 200,
+  height: 300, // Mantener una buena altura visible
+  width: '150%', // Se asegura de usar el espacio completo de la columna
   [theme.breakpoints.down('sm')]: {
-    width: '100% !important', 
-    height: 100,
+    height: 150,
   },
   '&:hover, &.Mui-focusVisible': {
     zIndex: 1,
     '& .MuiImageBackdrop-root': {
       opacity: 0.15,
-    },
-    '& .MuiImageMarked-root': {
-      opacity: 0,
     },
     '& .MuiTypography-root': {
       border: '4px solid currentColor',
@@ -77,8 +71,17 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 
-const botonescomplejos = () => (
-  <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
+const BotonesComplejos = () => (
+  <Box
+    sx={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, minmax(300px, 1fr))', // Asegura que se adapten al espacio
+      gap: 19, // Espaciado entre botones
+      padding: '20px',
+      justifyItems: 'start', // Alinea los botones hacia la izquierda
+      marginLeft: '-300px', // Desplaza aún más los botones hacia la izquierda
+    }}
+  >
     {images.map((image) => (
       <ImageButton
         focusRipple
@@ -88,19 +91,20 @@ const botonescomplejos = () => (
           color: image.color,
         }}
       >
-        {}
         <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
         <ImageBackdrop className="MuiImageBackdrop-root" />
         <span>
           <Typography
             component="span"
-            variant="subtitle1"
+            variant="h6"
             color="inherit"
             sx={{
               position: 'relative',
               p: 4,
               pt: 2,
               pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+              fontWeight: 'bold',
+              fontSize: '1.5rem',
             }}
           >
             {image.title}
@@ -112,4 +116,4 @@ const botonescomplejos = () => (
   </Box>
 );
 
-export default botonescomplejos;
+export default BotonesComplejos;

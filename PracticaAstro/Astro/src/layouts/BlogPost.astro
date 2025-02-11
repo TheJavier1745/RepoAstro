@@ -47,7 +47,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				top: 0;
 				right: -300px; /* Oculto fuera de la vista */
 				width: 250px;
-				height: 7%; /* Ajusta la altura */
+				height: 8%; /* Ajusta la altura */
 				background-color: #f1f1f1;
 				padding: 1em;
 				border-radius: 10px 0 0 10px;
@@ -203,6 +203,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				mainContent.classList.remove('content-shift');
 				menuToggle.textContent = '☰ Menú';
 			}
+			
 
 			// Asegúrate de que el evento onmouseover y onclick estén correctamente configurados
 			document.querySelector('.menu-toggle').addEventListener('mouseover', openMenu);
@@ -216,6 +217,13 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				const scrollTop = window.scrollY;
 				sidebar.style.top = `${scrollTop}px`;
 			});
+			  document.querySelector('.btn-primary').addEventListener('click', function (e) {
+    e.preventDefault(); // Evita el salto brusco por defecto
+    document.querySelector('#servicios').scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+  
 		</script>
 	</body>
 </html>

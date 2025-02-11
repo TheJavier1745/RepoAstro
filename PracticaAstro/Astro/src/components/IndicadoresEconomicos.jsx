@@ -5,6 +5,7 @@ const IndicadoresEconomicos = () => {
   const [datosEconomicos, setDatosEconomicos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const today = new Date().toLocaleDateString();
 
   useEffect(() => {
     const obtenerDatos = async () => {
@@ -27,25 +28,24 @@ const IndicadoresEconomicos = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-        <CircularProgress />
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+        <CircularProgress size={20} />
       </Box>
     );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div style={{ fontSize: '0.8em', color: 'red' }}>Error: {error}</div>;
   }
 
   return (
-    <Box sx={{ padding: '20px' }}>
-      <h2>Indicadores Económicos</h2>
-      <p><strong>Unidad de Fomento (UF):</strong> {datosEconomicos.uf.valor} Pesos</p>
-      <p><strong>Dólar Observado:</strong> {datosEconomicos.dolar.valor}</p>
-      <p><strong>Euro:</strong> {datosEconomicos.euro.valor}</p>
-      <p><strong>Índice de Precios al Consumidor (IPC):</strong> {datosEconomicos.ipc.valor} %</p>
-      <p><strong>Unidad Tributaria Mensual (UTM):</strong> {datosEconomicos.utm.valor} Pesos</p>
-
+    <Box sx={{ padding: '10px', fontSize: '1em', textAlign: 'center' }}>
+      <h5 style={{ margin: '0 0 10px 0' }}>Indicadores Económicos ({today})</h5>
+      <p><strong>UF:</strong> {datosEconomicos.uf.valor} Pesos</p>
+      <p><strong>Dólar:</strong> {datosEconomicos.dolar.valor} Pesos</p>
+      <p><strong>Euro:</strong> {datosEconomicos.euro.valor} Pesos</p>
+      <p><strong>IPC:</strong> {datosEconomicos.ipc.valor} %</p>
+      <p><strong>UTM:</strong> {datosEconomicos.utm.valor} Pesos</p>
     </Box>
   );
 };

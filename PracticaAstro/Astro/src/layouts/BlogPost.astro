@@ -53,7 +53,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				top: 0;
 				right: -300px; /* Oculto fuera de la vista */
 				width: 250px;
-				height: 8%; /* Ajusta la altura */
+				height: 7%; /* Ajusta la altura */
 				background-color: #f1f1f1;
 				padding: 1em;
 				border-radius: 10px 0 0 10px;
@@ -62,7 +62,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			}
 
 			.sidebar.open {
-				right: 0; /* Mostrar el menú */
+				right: 1; /* Mostrar el menú */
 			}
 
 			.menu-toggle {
@@ -212,6 +212,19 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			document.querySelector('.menu-toggle').addEventListener('click', toggleMenu);
 			document.getElementById('sidebar').addEventListener('mouseover', openMenu);
 			document.getElementById('sidebar').addEventListener('mouseout', closeMenu);
+						// Asegúrate de que el menú siga el recorrido del usuario en la página
+			window.addEventListener('scroll', () => {
+				const sidebar = document.getElementById('sidebar');
+				const scrollTop = window.scrollY;
+				sidebar.style.top = `${scrollTop}px`;
+			});
+			  document.querySelector('.btn-primary').addEventListener('click', function (e) {
+    e.preventDefault(); // Evita el salto brusco por defecto
+    document.querySelector('#servicios').scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+  
 		</script>
 	</body>
 </html>

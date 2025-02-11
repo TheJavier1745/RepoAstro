@@ -47,7 +47,7 @@ const ImageSrc = styled('span')({
   top: 0,
   bottom: 0,
   backgroundSize: 'cover',
-  backgroundPosition: 'center 40%',
+  backgroundPosition: 'center 33%',
 });
 
 const ImageBackdrop = styled('span')(({ theme }) => ({
@@ -78,8 +78,10 @@ const BotonesComplejos = () => (
       gridTemplateColumns: 'repeat(3, minmax(300px, 1fr))', // Asegura que se adapten al espacio
       gap: 19, // Espaciado entre botones
       padding: '20px',
-      justifyItems: 'start', // Alinea los botones hacia la izquierda
-      marginLeft: '-300px', // Desplaza aún más los botones hacia la izquierda
+      justifyItems: 'center', // Alinea los botones hacia la izquierda
+      justifyContent: 'center', // Centra el contenedor morado en el centro horizontal
+      alignItems: 'center',
+      marginRight: '-30px'
     }}
   >
     {images.map((image) => (

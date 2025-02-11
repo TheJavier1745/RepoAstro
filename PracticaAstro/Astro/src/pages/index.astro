@@ -49,11 +49,18 @@ import JokeAPI from '../components/jokeApi.jsx';
 </section>
 
 <style>
+/* Evitar el scroll horizontal */
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 .hero {
   position: relative;
   height: 120vh;
-  width: 100vw;
-  margin-top: -219px;
+  width: 150vw;
+  margin-top: -145px;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -70,7 +77,7 @@ import JokeAPI from '../components/jokeApi.jsx';
   position: relative;
   padding: 80px 20px;
   height: 35vh;
-  width: 97.5vw;
+  width: 300%;
   margin-top: -90px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
               url('/src/utilitarios/nosotros1.jpg') no-repeat center center;

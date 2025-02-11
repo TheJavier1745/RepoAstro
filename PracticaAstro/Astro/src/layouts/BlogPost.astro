@@ -29,11 +29,17 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				flex-direction: column;
 				width: calc(100% - 4em);
 				max-width: 1200px; /* Ajusta el ancho máximo */
-				margin: 2em auto;
+				margin: 2em auto; /* Centrado horizontal */
 				padding: 2em;
 				background-color: #ffffff;
 				border-radius: 10px;
 				box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+			}
+
+			.no-margins-page {
+				margin: 0 auto !important;
+				padding: 8px !important;
+				max-width: 1000% !important;
 			}
 
 			.content {
@@ -56,7 +62,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			}
 
 			.sidebar.open {
-				right: 1; /* Mostrar el menú */
+				right: 0; /* Mostrar el menú */
 			}
 
 			.menu-toggle {
@@ -104,8 +110,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				line-height: 1.8;
 			}
 
-			
-
 			.title {
 				margin-bottom: 1em;
 				padding: 1em 0;
@@ -135,7 +139,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	<body>
 		<Header />
 		<button class="menu-toggle" onmouseover="openMenu()" onclick="toggleMenu()">☰ Menú</button>
-		<main id="main-content">
+		<main id="main-content" class="no-margins-page">
 			<div class="content">
 				<div class="title">
 					<div class="date">
@@ -203,27 +207,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				mainContent.classList.remove('content-shift');
 				menuToggle.textContent = '☰ Menú';
 			}
-			
 
-			// Asegúrate de que el evento onmouseover y onclick estén correctamente configurados
 			document.querySelector('.menu-toggle').addEventListener('mouseover', openMenu);
 			document.querySelector('.menu-toggle').addEventListener('click', toggleMenu);
 			document.getElementById('sidebar').addEventListener('mouseover', openMenu);
 			document.getElementById('sidebar').addEventListener('mouseout', closeMenu);
-
-			// Asegúrate de que el menú siga el recorrido del usuario en la página
-			window.addEventListener('scroll', () => {
-				const sidebar = document.getElementById('sidebar');
-				const scrollTop = window.scrollY;
-				sidebar.style.top = `${scrollTop}px`;
-			});
-			  document.querySelector('.btn-primary').addEventListener('click', function (e) {
-    e.preventDefault(); // Evita el salto brusco por defecto
-    document.querySelector('#servicios').scrollIntoView({
-      behavior: 'smooth'
-    });
-  });
-  
 		</script>
 	</body>
 </html>

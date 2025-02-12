@@ -143,64 +143,64 @@ const BotonesComplejos = () => {
 
  
     <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
-      <Box
-        className="zoom-in"
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '60%',
-          backgroundColor: 'white',
-          borderRadius: '10px',
-          padding: '20px',
-          boxShadow: 24,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        {/* Lado izquierdo: Imagen */}
-        <Box
-          sx={{
-            width: '40%',
-            height: '100%',
-            backgroundImage: `url(${selectedService?.url})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderRadius: '8px',
-          }}
-        />
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+>
+  <Box
+    className="zoom-in"
+    sx={{
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '60%',
+      backgroundColor: 'white',
+      borderRadius: '10px',
+      padding: '20px',
+      boxShadow: 24,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+    }}
+  >
+    {/* Lado izquierdo: Imagen */}
+    <Box
+      sx={{
+        width: '40%',
+        height: '100%',
+        backgroundImage: `url(${selectedService?.url})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        borderRadius: '8px',
+      }}
+    />
 
-        {/* Lado derecho: Texto */}
-        <Box
-          sx={{
-            width: '55%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            padding: '20px',
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
-            {selectedService?.title}
-          </Typography>
-          <Typography variant="body1" sx={{ marginBottom: '20px' }}>
-            {selectedService?.description}
-          </Typography>
-          <Button variant="contained" color="primary" onClick={handleClose} sx={{ alignSelf: 'flex-end' }}>
-            Cerrar
-          </Button>
-        </Box>
-      </Box>
-    </Modal>
+    {/* Lado derecho: Texto */}
+    <Box
+      sx={{
+        width: '55%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: '20px',
+      }}
+    >
+      <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
+        {selectedService?.title}
+      </Typography>
+      <Typography variant="body1" sx={{ marginBottom: '20px' }}>
+        {selectedService?.description}
+      </Typography>
+      <Button variant="contained" color="primary" onClick={handleClose} sx={{ alignSelf: 'flex-end' }}>
+        Cerrar
+      </Button>
+    </Box>
+  </Box>
+</Modal>
     </>
   );
 };

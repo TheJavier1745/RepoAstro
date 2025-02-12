@@ -21,6 +21,7 @@ import JokeAPI from '../components/jokeApi.jsx';
     <a href="#servicios" class="btn-primary">Conoce nuestros servicios</a>
   </div>
 </section>
+
 <section class="image-section"></section>
 
 <section class="about">
@@ -28,15 +29,27 @@ import JokeAPI from '../components/jokeApi.jsx';
   <p>
     En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
   </p>
-  <a href="/contact" class="btn-primary">Contáctanos</a>
+  <!-- Modificado: Ahora el botón lleva a "Acerca de Nosotros" -->
+  <a href="/about" class="btn-primary">Acerca de Nosotros</a>
 </section>
 
 <section id="servicios" class="admin-container">
   <br><br>
   <h2 class="section-title black-title">Nuestros servicios</h2>
   <BotonesComplejos client:only="react" />
-
+  
+  <!-- Nuevo botón agregado debajo de los servicios -->
+<section class="contactanos">
+<br><br>
+  <h2 class="section-title black-title">¿Deseas contar con nuestros servicios?</h2>
+  <p>
+    En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
+  </p>
+  <div class="btn-container">
+    <a href="/contact" class="btn-primary">Contáctanos</a>
+  </div>
 </section>
+
 <DogAPI client:only="react" />
 
 <!-- Sección de chistes -->
@@ -45,7 +58,6 @@ import JokeAPI from '../components/jokeApi.jsx';
 </section>
 
 <style>
-/* Evitar el scroll horizontal */
 body {
   overflow-x: hidden;
   margin: 0;
@@ -73,18 +85,26 @@ body {
   position: relative;
   padding: 80px 20px;
   height: 35vh;
-  width: 300%; /* Se mantiene */
+  width: 300%;
   margin-top: -45px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
               url('/src/utilitarios/nosotros1.jpg') no-repeat center center;
   background-size: cover;
-  background-position: center -50px; /* Ajuste para evitar el blanco inicial */
+  background-position: center -50px; 
   background-attachment: fixed;
   text-align: center;
   left: 50%;
   transform: translateX(-50%);
   color: white;
   will-change: background-position;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%; /* Asegura que ocupa todo el ancho disponible */
+  text-align: center;
 }
 .about p {
   font-size: 1.3rem;
@@ -134,6 +154,15 @@ body {
 .btn-primary:hover {
   background-color: rgb(58, 141, 243);
   transform: scale(1.05);
+}
+
+
+.services-contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%; 
 }
 
 .image-section {
@@ -189,4 +218,4 @@ body {
   margin-top: 40px;
 }
 </style>
-</Layout> 
+</Layout>

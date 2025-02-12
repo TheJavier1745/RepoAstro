@@ -55,7 +55,7 @@ body {
 .hero {
   position: relative;
   height: 120vh;
-  width: 100vw; /* Cambiado de 150vw a 100vw */
+  width: 150vw; 
   margin-top: -145px;
   left: 50%;
   transform: translateX(-50%);
@@ -73,17 +73,19 @@ body {
   position: relative;
   padding: 80px 20px;
   height: 35vh;
-  width: 100vw; /* Cambiado de 300% a 100vw */
-  margin-top: -90px;
+  width: 300%; /* Se mantiene */
+  margin-top: -45px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
               url('/src/utilitarios/nosotros1.jpg') no-repeat center center;
   background-size: cover;
-  color: white;
+  background-position: center -50px; /* Ajuste para evitar el blanco inicial */
+  background-attachment: fixed;
   text-align: center;
   left: 50%;
   transform: translateX(-50%);
+  color: white;
+  will-change: background-position;
 }
-
 .about p {
   font-size: 1.3rem;
   margin-bottom: 30px;
@@ -187,4 +189,4 @@ body {
   margin-top: 40px;
 }
 </style>
-</Layout>
+</Layout> 

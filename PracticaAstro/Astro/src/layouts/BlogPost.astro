@@ -224,6 +224,13 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       behavior: 'smooth'
     });
   });
+  window.addEventListener("scroll", function () {
+    let aboutSection = document.querySelector(".about");
+    let scrollPosition = window.scrollY;
+
+    // Ajuste para que el movimiento de la imagen sea más controlado
+    aboutSection.style.backgroundPosition = `center ${-500 + scrollPosition * 0.5}px`;
+  });
   
 		</script>
 	</body>

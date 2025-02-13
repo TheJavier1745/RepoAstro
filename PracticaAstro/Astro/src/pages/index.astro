@@ -29,8 +29,8 @@ import JokeAPI from '../components/jokeApi.jsx';
   <p>
     En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
   </p>
-  <!-- Modificado: Ahora el botón lleva a "Acerca de Nosotros" -->
-  <a href="/about" class="btn-primary">Acerca de Nosotros</a>
+    <a href="/about" class="btn-primary">Acerca de Nosotros</a>
+  </div>
 </section>
 
 <section id="servicios" class="admin-container">
@@ -40,7 +40,7 @@ import JokeAPI from '../components/jokeApi.jsx';
   
   <!-- Nuevo botón agregado debajo de los servicios -->
 <section class="contactanos">
-<br><br>
+  <br><br>
   <h2 class="section-title black-title">¿Deseas contar con nuestros servicios?</h2>
   <p>
     En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
@@ -103,13 +103,13 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  width: 100%; /* Asegura que ocupa todo el ancho disponible */
+  width: 100%;
   text-align: center;
 }
 .about p {
   font-size: 1.3rem;
   margin-bottom: 30px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  text-shadow: 2px 2px 5px rgba(14, 10, 10, 0.7);
 }
 
 .hero-logo {
@@ -142,17 +142,21 @@ body {
 
 .btn-primary {
   padding: 15px 30px;
-  background-color: rgb(51, 157, 222);
+  background-color: rgb(18, 147, 227);
   color: white;
   text-decoration: none;
   border-radius: 50px;
   font-size: 1.2rem;
   font-weight: bold;
+  text-align: center;
+  display: inline-block;
+   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Efecto de elevación */
 }
 
 .btn-primary:hover {
-  background-color: rgb(58, 141, 243);
+  background-color: rgb(97, 165, 233);
   transform: scale(1.05);
 }
 

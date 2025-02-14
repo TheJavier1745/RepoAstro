@@ -29,7 +29,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				flex-direction: column;
 				width: calc(100% - 4em);
 				max-width: 1200px; /* Ajusta el ancho máximo */
-				margin: 2em auto; /* Centrado horizontal */
+				margin: 6em auto 2em auto; /* Centrado horizontal y margen superior para el header fijo */
 				padding: 2em;
 				background-color: #ffffff;
 				border-radius: 10px;
@@ -45,47 +45,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.content {
 				flex: 3;
 				padding-right: 2em;
-			}
-
-			/* Estilos para el menú desplegable */
-			.sidebar {
-				position: fixed;
-				top: 0;
-				right: -300px; /* Oculto fuera de la vista */
-				width: 250px;
-				height: 8%; /* Ajusta la altura */
-				background-color: #f1f1f1;
-				padding: 1em;
-				border-radius: 10px 0 0 10px;
-				box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-				transition: right 0.3s ease;
-			}
-
-			.sidebar.open {
-				right: 1; /* Mostrar el menú */
-			}
-
-			.menu-toggle {
-				position: fixed;
-				top: 80px; /* Mueve el botón más abajo */
-				right: 20px;
-				background-color: #343a40;
-				color: #ffffff;
-				border: none;
-				padding: 10px;
-				border-radius: 5px;
-				cursor: pointer;
-				z-index: 1000;
-			}
-
-			.menu-toggle:hover {
-				background-color: #495057;
-			}
-
-			/* Estilos para desplazar el contenido cuando el menú está abierto */
-			.content-shift {
-				transform: translateX(-250px);
-				transition: transform 0.3s ease;
 			}
 
 			.hero-image {
@@ -138,7 +97,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 	<body>
 		<Header />
-		<button class="menu-toggle" onmouseover="openMenu()" onclick="toggleMenu()">☰ Menú</button>
 		<main id="main-content" class="no-margins-page">
 			<div class="content">
 				<div class="title">
@@ -162,76 +120,10 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					<slot />
 				</div>
 			</div>
-			<aside class="sidebar" id="sidebar" onmouseover="openMenu()" onmouseout="closeMenu()">
-				<div style="display: flex; align-items: center; justify-content: space-between;">
-					<h2>Ir a...</h2>
-					<img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="logo pequeño para acompañar" style="width: 50px; height: auto; margin-left: 1em;" />
-				</div>
-				<ul>
-					<li><a href="/"><span class="material-icons">home</span> Inicio</a></li>
-					<li><a href="/blog"><span class="material-icons">chat</span> Testimonios</a></li>
-					<li><a href="/about"><span class="material-icons">info</span> Acerca de nosotros</a></li>
-					<li><a href="/contact"><span class="material-icons">contact_mail</span> Contáctanos</a></li>
-				</ul>
-			</aside>
 		</main>
 		<Footer />
 		<script>
-			function toggleMenu() {
-				const sidebar = document.getElementById('sidebar');
-				const mainContent = document.getElementById('main-content');
-				const menuToggle = document.querySelector('.menu-toggle');
-				sidebar.classList.toggle('open');
-				mainContent.classList.toggle('content-shift');
-				if (sidebar.classList.contains('open')) {
-					menuToggle.textContent = '☰ Cerrar';
-				} else {
-					menuToggle.textContent = '☰ Menú';
-				}
-			}
-
-			function openMenu() {
-				const sidebar = document.getElementById('sidebar');
-				const mainContent = document.getElementById('main-content');
-				const menuToggle = document.querySelector('.menu-toggle');
-				sidebar.classList.add('open');
-				mainContent.classList.add('content-shift');
-				menuToggle.textContent = '☰ Cerrar';
-			}
-
-			function closeMenu() {
-				const sidebar = document.getElementById('sidebar');
-				const mainContent = document.getElementById('main-content');
-				const menuToggle = document.querySelector('.menu-toggle');
-				sidebar.classList.remove('open');
-				mainContent.classList.remove('content-shift');
-				menuToggle.textContent = '☰ Menú';
-			}
-
-			document.querySelector('.menu-toggle').addEventListener('mouseover', openMenu);
-			document.querySelector('.menu-toggle').addEventListener('click', toggleMenu);
-			document.getElementById('sidebar').addEventListener('mouseover', openMenu);
-			document.getElementById('sidebar').addEventListener('mouseout', closeMenu);
-						// Asegúrate de que el menú siga el recorrido del usuario en la página
-			window.addEventListener('scroll', () => {
-				const sidebar = document.getElementById('sidebar');
-				const scrollTop = window.scrollY;
-				sidebar.style.top = `${scrollTop}px`;
-			});
-			  document.querySelector('.btn-primary').addEventListener('click', function (e) {
-    e.preventDefault(); // Evita el salto brusco por defecto
-    document.querySelector('#servicios').scrollIntoView({
-      behavior: 'smooth'
-    });
-  });
-  window.addEventListener("scroll", function () {
-    let aboutSection = document.querySelector(".about");
-    let scrollPosition = window.scrollY;
-
-    // Ajuste para que el movimiento de la imagen sea más controlado
-    aboutSection.style.backgroundPosition = `center ${-500 + scrollPosition * 0.5}px`;
-  });
-  
+			// Elimina el código JavaScript relacionado con el menú
 		</script>
 	</body>
 </html>

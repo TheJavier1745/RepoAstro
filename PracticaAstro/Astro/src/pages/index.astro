@@ -1,9 +1,6 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
-import IndicadoresEconomicos from '../components/IndicadoresEconomicos.jsx';
 import BotonesComplejos from '../components/botonescomplejos.jsx';
-import DogAPI from '../components/dogApi.jsx';
-import JokeAPI from '../components/jokeApi.jsx';
 ---
 
 <Layout
@@ -53,14 +50,6 @@ import JokeAPI from '../components/jokeApi.jsx';
     <a href="/contact" class="btn-primary">Contáctanos</a>
   </div>
 </section>
-
-<DogAPI client:only="react" />
-
-<!-- Sección de chistes -->
-<section id="chistes" class="chistes-container">
-  <JokeAPI client:only="react" />
-</section>
-
 <style>
 body {
   overflow-x: hidden;

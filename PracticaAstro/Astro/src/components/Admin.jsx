@@ -86,13 +86,13 @@ const AdminPanel = () => {
   }
 
   return (
-    <div>
+    <div style={{ width: "90%", margin: "0 auto" }}>
       <h1>Panel de Administración</h1>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", gap: "30%" }}>
         <Button
           variant="contained"
           color="error"
-          style={{ padding: "10px 20px", cursor: "pointer", marginRight: "20px" }}
+          style={{ padding: "10px 20px", cursor: "pointer" }}
           onClick={handleLogout}
           startIcon={<LogoutIcon />}
         >
@@ -103,7 +103,7 @@ const AdminPanel = () => {
           <Button
             variant="contained"
             color="success"
-            style={{ padding: "10px 20px", cursor: "pointer", marginRight: "20px" }}
+            style={{ padding: "10px 20px", cursor: "pointer" }}
             onClick={() => {
               window.location.href = "/administrarUsuarios";
             }}
@@ -139,9 +139,14 @@ const AdminPanel = () => {
             { field: "id", headerName: "ID", width: 80 },
             { field: "nombres", headerName: "Nombre", width: 150 },
             { field: "correo", headerName: "Correo", width: 250 },
-            { field: "mensaje", headerName: "Mensaje", width: 300 },
+            { field: "mensaje", headerName: "Mensaje", width: 800, renderCell: (params) => (
+              <div style={{ whiteSpace: "normal", wordWrap: "break-word", maxWidth: "800px" }}>
+                {params.value}
+              </div>
+            ) },
             { field: "fecha_Hora", headerName: "Fecha y Hora", width: 200 },
           ]}
+          autoHeight
         />
       ) : (
         <p>No hay mensajes disponibles.</p>

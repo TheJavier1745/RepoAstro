@@ -1,12 +1,12 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import AdminLayout from '../layouts/AdminLayout.astro';
 import UsuariosAdminPage from '../components/TablaAdministracionUsuarios.jsx';
 ---
 
-<Layout title="Panel de Administración" pubDate={new Date()}>
+<AdminLayout title="Panel de Administración" pubDate={new Date()}>
   <UsuariosAdminPage client:only="react" />
    
-</Layout>
+</AdminLayout>
 
 <style>
   .alert-error {

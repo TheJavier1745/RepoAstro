@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -81,13 +82,14 @@ const TablaAdministracionUsuarios = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 80 },
-    { field: 'nombre', headerName: 'Nombre', width: 150 },
-    { field: 'correo', headerName: 'Correo', width: 250 },
+    { field: 'id', headerName: 'ID', width: 80, resizable: false },
+    { field: 'nombre', headerName: 'Nombre', width: 150, resizable: false },
+    { field: 'correo', headerName: 'Correo', width: 250, resizable: false },
     {
       field: 'actions',
       headerName: 'Acciones',
       width: 250,
+      resizable: false,
       renderCell: (params) => {
         const [userType, setUserType] = useState(params.row.tipoUsuario); 
 
@@ -121,21 +123,43 @@ const TablaAdministracionUsuarios = () => {
   ];
 
   return (
-    <Box sx={{ height: 600, width: '100%' }}>
+    <Box sx={{ width: '100%', margin: '0 auto', padding: 2 }}>
+      <p>
+        <h1>Administración de usuarios</h1>
+        Bienvenido al panel de administración de usuarios. Aquí podrás administrar
+        los roles que tenga cada usuario registrado.
+        <br />
+        <b>Cualquier cambio realizado no será notificado al usuario en cuestión.</b>
+      </p>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", gap: "10px" }}>
+        <Button
+          variant="contained"
+          color="error"
+          style={{ padding: "10px 20px", cursor: "pointer" }}
+          onClick={() => {
+            window.location.href = "/admin";
+          }}
+          startIcon={<ArrowBackIcon />}
+        >
+          Regresar sin hacer cambios
+        </Button>
+      </div>
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
           <CircularProgress />
         </Box>
       ) : (
-        <DataGrid
-          rows={usuarios}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10, 20, 50]}
-          disableColumnFilter={false}
-          disableColumnSelector={false}
-          disableDensitySelector={false}
-        />
+        <Box sx={{ height: 500, width: '100%' }}>
+          <DataGrid
+            rows={usuarios}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10, 20, 50]}
+            disableColumnFilter={false}
+            disableColumnSelector={false}
+            disableDensitySelector={false}
+          />
+        </Box>
       )}
 
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>

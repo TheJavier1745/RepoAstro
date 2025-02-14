@@ -1,12 +1,14 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import AdminLayout from '../layouts/AdminLayout.astro';
 import AdminPanel from '../components/Admin.jsx';
+
+const title = "Panel de Administración";
+const description = "Administra usuarios y mensajes de contacto.";
 ---
 
-<Layout title="Panel de Administración" pubDate={new Date()}>
-  <AdminPanel client:only="react" />
-   
-</Layout>
+<AdminLayout title={title} description={description}>
+  <AdminPanel client:only="react"/>
+</AdminLayout>
 
 <style>
   .alert-error {

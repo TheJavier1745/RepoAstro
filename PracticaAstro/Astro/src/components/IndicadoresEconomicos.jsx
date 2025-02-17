@@ -26,6 +26,10 @@ const IndicadoresEconomicos = () => {
     obtenerDatos();
   }, []); 
 
+  const formatNumber = (number) => {
+    return new Intl.NumberFormat('es-CL').format(number);
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
@@ -39,13 +43,15 @@ const IndicadoresEconomicos = () => {
   }
 
   return (
-    <Box sx={{ padding: '10px', fontSize: '1em', textAlign: 'center' }}>
+    <Box sx={{ padding: '10px', fontSize: '0.8em', textAlign: 'center' }}>
       <h5 style={{ margin: '0 0 10px 0' }}>Indicadores Económicos ({today})</h5>
-      <p><strong>UF:</strong> {datosEconomicos.uf.valor} Pesos</p>
-      <p><strong>Dólar:</strong> {datosEconomicos.dolar.valor} Pesos</p>
-      <p><strong>Euro:</strong> {datosEconomicos.euro.valor} Pesos</p>
-      <p><strong>IPC:</strong> {datosEconomicos.ipc.valor} %</p>
-      <p><strong>UTM:</strong> {datosEconomicos.utm.valor} Pesos</p>
+      <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
+        <p style={{ margin: '0 10px' }}><strong>UF:</strong> {formatNumber(datosEconomicos.uf.valor)} Pesos</p>
+        <p style={{ margin: '0 10px' }}><strong>Dólar:</strong> {formatNumber(datosEconomicos.dolar.valor)} Pesos</p>
+        <p style={{ margin: '0 10px' }}><strong>Euro:</strong> {formatNumber(datosEconomicos.euro.valor)} Pesos</p>
+        <p style={{ margin: '0 10px' }}><strong>IPC:</strong> {formatNumber(datosEconomicos.ipc.valor)} %</p>
+        <p style={{ margin: '0 10px' }}><strong>UTM:</strong> {formatNumber(datosEconomicos.utm.valor)} Pesos</p>
+      </div>
     </Box>
   );
 };

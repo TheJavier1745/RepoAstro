@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import './botonescomplejos.css';
 
-// Definir los datos de los servicios con su contenido para el modal
+// Datos de los servicios con sus imágenes y descripción
 const images = [
   {
     url: '/src/utilitarios/servicios-de-consultoría-a-empresas.jpg',
@@ -29,12 +29,13 @@ const images = [
   },
 ];
 
+// Estilos para los botones de imagen
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
   height: 300,
-  width: '150%',
+  width: '100%',
   [theme.breakpoints.down('sm')]: {
-    height: 150,
+    height: 200,
   },
   '&:hover, &.Mui-focusVisible': {
     zIndex: 1,
@@ -54,7 +55,7 @@ const ImageSrc = styled('span')({
   top: 0,
   bottom: 0,
   backgroundSize: 'cover',
-  backgroundPosition: 'center 33%',
+  backgroundPosition: 'center',
 });
 
 const ImageBackdrop = styled('span')(({ theme }) => ({
@@ -79,7 +80,6 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 const BotonesComplejos = () => {
-  // Estado para controlar la apertura del modal
   const [open, setOpen] = React.useState(false);
   const [selectedService, setSelectedService] = React.useState(null);
 
@@ -98,23 +98,22 @@ const BotonesComplejos = () => {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(300px, 1fr))',
-          gap: 19,
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: '1fr 1fr',
+            md: 'repeat(3, minmax(300px, 1fr))',
+          },
+          gap: 3,
           padding: '20px',
           justifyItems: 'center',
           justifyContent: 'center',
           alignItems: 'center',
-          marginRight: '-30px'
         }}
       >
         {images.map((image) => (
           <ImageButton
             focusRipple
             key={image.title}
-            style={{
-              width: image.width,
-              color: image.color,
-            }}
             onClick={() => handleOpen(image)}
           >
             <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
@@ -123,7 +122,6 @@ const BotonesComplejos = () => {
               <Typography
                 component="span"
                 variant="h6"
-                color="inherit"
                 sx={{
                   position: 'relative',
                   p: 4,
@@ -131,6 +129,8 @@ const BotonesComplejos = () => {
                   pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
                   fontWeight: 'bold',
                   fontSize: '1.5rem',
+                  color: "white",  // ✅ Texto blanco
+                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)",  // ✅ Sombra para mejor contraste
                 }}
               >
                 {image.title}
@@ -151,11 +151,18 @@ const BotonesComplejos = () => {
           className="zoom-in"
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: {
+              xs: 'column',
+              sm: 'row',
+            },
             alignItems: 'center',
             justifyContent: 'space-between',
-            width: '60%',
-            backgroundColor: 'white',
+            width: {
+              xs: '90%',
+              sm: '70%',
+              md: '60%',
+            },
+            backgroundColor: 'white',  
             borderRadius: '10px',
             padding: '20px',
             boxShadow: 24,
@@ -163,16 +170,21 @@ const BotonesComplejos = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            color: "black",  
           }}
         >
-          {/* Lado izquierdo: Imagen */}
+          {/* Imagen en el modal */}
           <Box
             sx={{
-              width: '40%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: {
+                xs: '100%',
+                sm: '40%',
+              },
+              textAlign: 'center',
+              marginBottom: {
+                xs: 2,
+                sm: 0,
+              },
             }}
           >
             <img
@@ -180,30 +192,45 @@ const BotonesComplejos = () => {
               alt={selectedService?.title}
               style={{
                 maxWidth: '100%',
-                maxHeight: '100%',
                 borderRadius: '8px',
               }}
             />
           </Box>
 
-          {/* Lado derecho: Texto */}
+          {/* Texto en el modal */}
           <Box
             sx={{
-              width: '55%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              padding: '20px',
+              width: {
+                xs: '100%',
+                sm: '55%',
+              },
+              textAlign: 'center',
+              padding: {
+                xs: '10px',
+                sm: '20px',
+              },
             }}
           >
-            <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 'bold',
+                marginBottom: '10px',
+                color: "black",  
+              }}
+            >
               {selectedService?.title}
             </Typography>
-            <Typography variant="body1" sx={{ marginBottom: '20px' }}>
+            <Typography
+              variant="body1"
+              sx={{
+                marginBottom: '20px',
+                color: "black",  
+              }}
+            >
               {selectedService?.description}
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleClose} sx={{ alignSelf: 'flex-end' }}>
+            <Button variant="contained" color="primary" onClick={handleClose}>
               Cerrar
             </Button>
           </Box>

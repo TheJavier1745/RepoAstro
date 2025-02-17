@@ -5,130 +5,199 @@ import { SITE_TITLE } from '../consts';
 
 <header>
     <nav>
-        <h2>
+        <!-- ✅ Logo a la izquierda -->
+        <h2 class="logo">
             <a href="/">
                 <img src="/src/utilitarios/logo_Cuadrado-min.jpg" alt="{SITE_TITLE}" width="50" height="50" />
             </a>
         </h2>
-        <div class="internal-links">
+
+        <!-- ✅ Menú en computadoras -->
+        <div class="nav-center">
             <HeaderLink href="/">Inicio</HeaderLink>
             <HeaderLink href="/blog">Testimonios</HeaderLink>
             <HeaderLink href="/about">Acerca de nosotros</HeaderLink>
             <HeaderLink href="/contact">Contáctanos</HeaderLink>
         </div>
-        <div class="social-links">
-            <a href="/login" target="_self">
-                <span class="sr-only">Ir a la página de administración</span>
-                <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
-                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z" fill="currentColor"></path>
-                    <path d="M8 4a1.5 1.5 0 1 0 0 3A1.5 1.5 0 0 0 8 4zM8 7.5A3.5 3.5 0 0 0 4.5 11h7A3.5 3.5 0 0 0 8 7.5z" fill="currentColor"></path>
+
+        <!-- ✅ Contenedor derecho con sesión y menú en móviles -->
+        <div class="nav-right">
+            <!-- ✅ Ícono de iniciar sesión -->
+            <a href="/login" class="login-icon">
+                <svg viewBox="0 0 16 16" aria-hidden="true" width="30" height="30" fill="#666666">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z"></path>
+                    <path d="M8 4a1.5 1.5 0 1 0 0 3A1.5 1.5 0 0 0 8 4zM8 7.5A3.5 3.5 0 0 0 4.5 11h7A3.5 3.5 0 0 0 8 7.5z"></path>
                 </svg>
             </a>
-            <!--
-            <a href="https://twitter.com/astrodotbuild" target="_blank">
-                <span class="sr-only">Sigue a Consultora AP Ltda. en Twitter</span>
-                <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
-                    <path
-                        fill="currentColor"
-                        d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-                    ></path>
-                </svg>
-            </a>
-            <a href="https://github.com/withastro/astro" target="_blank">
-                <span class="sr-only">Ir al repositorio de Consultora AP Ltda. en GitHub</span>
-                <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32">
-                    <path
-                        fill="currentColor"
-                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-                    ></path>
-                </svg>
-            </a>
-            -->
+
+            <!-- ✅ Botón de menú en móviles -->
+            <button class="menu-toggle" aria-label="Abrir menú">
+                ☰
+            </button>
         </div>
     </nav>
+
+    <!-- ✅ Menú desplegable en móviles -->
+    <div class="mobile-menu">
+        <HeaderLink href="/">Inicio</HeaderLink>
+        <HeaderLink href="/blog">Testimonios</HeaderLink>
+        <HeaderLink href="/about">Acerca de nosotros</HeaderLink>
+        <HeaderLink href="/contact">Contáctanos</HeaderLink>
+    </div>
 </header>
+
 <style>
+    /* ✅ Header fijo */
     header {
-        margin: 0;
-        padding: 0 1em;
-        background: white;
-        box-shadow: 0 2px 8px rgba(var(--black), 5%);
-        position: fixed;
         width: 100%;
+        position: fixed;
         top: 0;
         z-index: 1000;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
     }
 
-    h2 {
-        margin: 0;
-        font-size: 1em;
-    }
-
-    h2 a,
-    h2 a.active {
-        text-decoration: none;
-    }
-
+    /* ✅ Diseño del nav */
     nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
 
-    nav a {
-        padding: 1em 0.5em;
-        color: var(--black);
-        border-bottom: 4px solid transparent;
-        text-decoration: none;
+    /* ✅ Logo a la izquierda */
+    .logo {
+        margin: 0;
     }
 
-    nav a.active {
-        text-decoration: none;
-        border-bottom-color: var(--accent);
-    }
-
-    .social-links,
-    .social-links a {
+    /* ✅ Menú en computadoras */
+    .nav-center {
         display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-grow: 1;
     }
 
+    .nav-center a {
+        text-decoration: none;
+        color: rgba(8, 10, 11, 0.66);
+        font-weight: bold;
+        padding: 10px;
+        border-bottom: 2px solid transparent;
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    .nav-center a:hover {
+        color: #1274D9;
+        border-bottom: 3px solid #1274D9;
+    }
+
+    /* ✅ Contenedor derecho con sesión y menú */
+    .nav-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        min-width: 150px;
+    }
+
+    /* ✅ Ícono de sesión */
+    .login-icon {
+        display: block;
+        margin-right: 15px;
+    }
+
+    /* ✅ Botón del menú en móviles */
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666666;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+        background: rgba(102, 102, 102, 0.2);
+    }
+
+    /* ✅ Menú desplegable en móviles */
+    .mobile-menu {
+        position: fixed;
+        top: 60px;
+        right: 10px;
+        width: 300px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        text-align: left;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .mobile-menu a {
+        display: block;
+        padding: 10px 15px;
+        color: black;
+        font-weight: bold;
+        text-align: left;
+        border-bottom: 2px solid transparent;
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    .mobile-menu a:hover {
+        color: #1274D9;
+        border-bottom: 3px solid #1274D9;
+    }
+
+    /* ✅ Ajustes para móviles */
     @media (max-width: 720px) {
-        .social-links {
+        /* ✅ Ocultar el menú de escritorio */
+        .nav-center {
             display: none;
+        }
+
+        /* ✅ Mostrar el botón del menú */
+        .menu-toggle {
+            display: block;
+            margin-right: 40px;
+        }
+
+        /* ✅ Ajustar la posición del login en móviles */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-icon {
+            margin-right: 10px;
         }
     }
 
-    .internal-links a,
-    .social-links a {
-        position: relative;
-        transition: transform 0.3s ease, color 0.3s ease;
-    }
-
-    .internal-links a::before,
-    .social-links a::before {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -2px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #007acc; /* Cambia el color según tu preferencia */
-        transition: width 0.3s ease;
-    }
-
-    .internal-links a:hover::before,
-    .social-links a:hover::before {
-        width: 25%; /* Tamaño máximo de la barra */
-    }
-
-    .internal-links a:hover,
-    .social-links a:hover {
-        transform: scale(1.1);
-        color: #007acc; /* Cambia el color según tu preferencia */
-    }
-
-    .social-links a {
-        margin-right: 1em; /* Ajusta este valor según sea necesario */
+    /* ✅ Mostrar menú cuando está activo */
+    .mobile-menu.active {
+        display: block;
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.querySelector(".menu-toggle");
+        const mobileMenu = document.querySelector(".mobile-menu");
+
+        menuButton.addEventListener("click", function () {
+            mobileMenu.classList.toggle("active");
+        });
+
+        // ✅ Cierra el menú si se hace clic fuera de él
+        document.addEventListener("click", function (event) {
+            if (!menuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.remove("active");
+            }
+        });
+    });
+</script>

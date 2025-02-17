@@ -13,6 +13,10 @@ const AdminPanel = () => {
   const [tipoUsuario, setUserType] = useState(""); 
   const [isInactive, setIsInactive] = useState(false); 
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -21,10 +25,9 @@ const AdminPanel = () => {
       const decodedToken = decodeJWT(token);  
       setUserType(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
 
-
       if (decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "inactivo") {
-        setIsInactive(true); 
-        return; 
+        setIsInactive(true);
+        return;
       }
 
       const response = await fetch("http://localhost:5079/api/admin/mensajes", {
@@ -35,13 +38,7 @@ const AdminPanel = () => {
         },
       });
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error("Token inválido o expirado. Por favor, inicia sesión nuevamente.");
-        } else {
-          throw new Error("Error al obtener los datos del servidor.");
-        }
-      }
+      if (!response.ok) throw new Error("Error al obtener los datos del servidor.");
 
       const datos = await response.json();
       setRows(datos.map((dato) => ({
@@ -61,10 +58,6 @@ const AdminPanel = () => {
       setErrorMessage(error.message);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -86,13 +79,23 @@ const AdminPanel = () => {
   }
 
   return (
-    <div style={{ width: "90%", margin: "0 auto" }}>
-      <h1>Panel de Administración</h1>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", gap: "30%" }}>
+    <Box sx={{ width: "90%", margin: "0 auto", padding: 2 }}>
+      <h1 style={{ fontSize: "2rem", margin: "0.5em 0" }}>Panel de Administración</h1>
+
+      <Box 
+        sx={{ 
+          display: "flex", 
+          flexDirection: { xs: "column", md: "row" }, 
+          justifyContent: "space-between", 
+          alignItems: "center", 
+          gap: { xs: "10px", md: "30%" }, 
+          marginBottom: 3 
+        }}
+      >
         <Button
           variant="contained"
           color="error"
-          style={{ padding: "10px 20px", cursor: "pointer" }}
+          sx={{ padding: "10px 20px", fontSize: { xs: "0.8rem", md: "1rem" } }}
           onClick={handleLogout}
           startIcon={<LogoutIcon />}
         >
@@ -103,10 +106,8 @@ const AdminPanel = () => {
           <Button
             variant="contained"
             color="success"
-            style={{ padding: "10px 20px", cursor: "pointer" }}
-            onClick={() => {
-              window.location.href = "/administrarUsuarios";
-            }}
+            sx={{ padding: "10px 20px", fontSize: { xs: "0.8rem", md: "1rem" } }}
+            onClick={() => { window.location.href = "/administrarUsuarios"; }}
             startIcon={<SupervisedUserCircleIcon />}
           >
             Administrar Usuarios
@@ -116,42 +117,45 @@ const AdminPanel = () => {
         {tipoUsuario === "admin" && (
           <Button
             variant="contained"
-            style={{ padding: "10px 20px", cursor: "pointer" }}
-            onClick={() => {
-              window.location.href = "/agregarUsuario";
-            }}
+            sx={{ padding: "10px 20px", fontSize: { xs: "0.8rem", md: "1rem" } }}
+            onClick={() => { window.location.href = "/agregarUsuario"; }}
             startIcon={<PersonAddIcon />}
           >
             Agregar un Usuario
           </Button>
         )}
-      </div>
+      </Box>
 
-      <p>
+      <Box sx={{ marginBottom: 2 }}>
         <h5>Solicitudes pendientes</h5>
-        Bienvenido al panel de administración. Aquí podrás ver los mensajes de
-        contacto recibidos a través del formulario de contacto de la página web.
-      </p>
-      {rows.length > 0 ? (
-        <DataGridComponent
-          rows={rows}
-          columns={[
-            { field: "id", headerName: "ID", width: 80 },
-            { field: "nombres", headerName: "Nombre", width: 150 },
-            { field: "correo", headerName: "Correo", width: 250 },
-            { field: "mensaje", headerName: "Mensaje", width: 800, renderCell: (params) => (
-              <div style={{ whiteSpace: "normal", wordWrap: "break-word", maxWidth: "800px" }}>
-                {params.value}
-              </div>
-            ) },
-            { field: "fecha_Hora", headerName: "Fecha y Hora", width: 200 },
-          ]}
-          autoHeight
-        />
-      ) : (
-        <p>No hay mensajes disponibles.</p>
-      )}
-    </div>
+        <p>
+          Bienvenido al panel de administración. Aquí podrás ver los mensajes de
+          contacto recibidos a través del formulario de contacto de la página web.
+        </p>
+      </Box>
+
+      <Box sx={{ width: "100%", overflowX: "auto" }}>
+        {rows.length > 0 ? (
+          <DataGridComponent
+            rows={rows}
+            columns={[
+              { field: "id", headerName: "ID", width: 80 },
+              { field: "nombres", headerName: "Nombre", width: 150 },
+              { field: "correo", headerName: "Correo", width: 250 },
+              { field: "mensaje", headerName: "Mensaje", width: 800, renderCell: (params) => (
+                <div style={{ whiteSpace: "normal", wordWrap: "break-word", maxWidth: "800px" }}>
+                  {params.value}
+                </div>
+              ) },
+              { field: "fecha_Hora", headerName: "Fecha y Hora", width: 200 },
+            ]}
+            autoHeight
+          />
+        ) : (
+          <p>No hay mensajes disponibles.</p>
+        )}
+      </Box>
+    </Box>
   );
 };
 

@@ -10,7 +10,7 @@ const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [userToDelete, setUserToDelete] = useState(null); 
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     fetchUsuarios();
@@ -81,29 +81,31 @@ const TablaAdministracionUsuarios = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 150, resizable: false },
-    { field: 'nombre', headerName: 'Nombre', width: 250, resizable: false },
-    { field: 'correo', headerName: 'Correo', flex: 1, resizable: false },
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'nombre', headerName: 'Nombre', width: 200 },
+    { field: 'correo', headerName: 'Correo', flex: 1 },
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 350,
-      resizable: false,
+      width: 250,
       renderCell: (params) => {
-        const [userType, setUserType] = useState(params.row.tipoUsuario); 
+        const [userType, setUserType] = useState(params.row.tipoUsuario);
 
         const handleTypeChange = (e) => {
-          setUserType(e.target.value); 
-          handleChangeUserType(params.row.id, e.target.value); 
+          setUserType(e.target.value);
+          handleChangeUserType(params.row.id, e.target.value);
         };
 
         return (
-          <>
-            <FormControl variant="filled" style={{ marginRight: 10, minWidth: 200 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <FormControl variant="filled" sx={{ minWidth: 120 }}>
               <InputLabel>Tipo</InputLabel>
               <Select
                 value={userType}
                 onChange={handleTypeChange}
+                sx={{
+                  fontSize: { xs: '0.8rem', md: '1rem' },
+                }}
               >
                 <MenuItem value="admin">Admin</MenuItem>
                 <MenuItem value="Delegado">Delegado</MenuItem>
@@ -115,14 +117,14 @@ const TablaAdministracionUsuarios = () => {
                 <DeleteIcon />
               </IconButton>
             )}
-          </>
+          </Box>
         );
       },
     },
   ];
 
   return (
-    <Box sx={{ width: '90%', maxWidth: '1200px', margin: '0 auto', padding: 2 }}>
+    <Box sx={{ width: '100%', maxWidth: '1200px', margin: '0 auto', padding: 2 }}>
       <Box sx={{ marginBottom: 2 }}>
         <h1 style={{ fontSize: '2rem', margin: '0.5em 0' }}>Administración de usuarios</h1>
         <p style={{ fontSize: '1rem', margin: '0.5em 0' }}>
@@ -132,52 +134,46 @@ const TablaAdministracionUsuarios = () => {
           <b>Cualquier cambio realizado no será notificado al usuario en cuestión.</b>
         </p>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', gap: '10px' }}>
+
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
         <Button
           variant="contained"
           color="error"
-          sx={{ padding: '10px 20px', cursor: 'pointer' }}
-          onClick={() => {
-            window.location.href = "/admin";
-          }}
+          sx={{ padding: '10px 20px', fontSize: { xs: '0.8rem', md: '1rem' } }}
+          onClick={() => { window.location.href = "/admin"; }}
           startIcon={<ArrowBackIcon />}
         >
           Regresar sin hacer cambios
         </Button>
       </Box>
-      {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box sx={{ height: 500, width: '100%' }}>
-          <DataGrid
-            rows={usuarios}
-            columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10, 20, 50]}
-            disableColumnFilter={false}
-            disableColumnSelector={false}
-            disableDensitySelector={false}
-            sx={{
-              '& .MuiDataGrid-cell': {
-                fontSize: '1.4rem',
-              },
-              '& .MuiDataGrid-columnHeaders': {
-                fontSize: '1.4rem',
-              },
-              '@media (max-width: 600px)': {
+
+      <Box sx={{ width: '100%', overflowX: 'auto' }}>
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box sx={{ width: '100%' }}>
+            <DataGrid
+              rows={usuarios}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10, 20, 50]}
+              sx={{
                 '& .MuiDataGrid-cell': {
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.8rem', md: '1.4rem' },
                 },
                 '& .MuiDataGrid-columnHeaders': {
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.8rem', md: '1.4rem' },
                 },
-              },
-            }}
-          />
-        </Box>
-      )}
+                '@media (max-width: 600px)': {
+                  width: '100%',
+                },
+              }}
+            />
+          </Box>
+        )}
+      </Box>
 
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle>Confirmar eliminación</DialogTitle>

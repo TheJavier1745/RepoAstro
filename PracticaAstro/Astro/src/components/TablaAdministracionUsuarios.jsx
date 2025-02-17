@@ -82,13 +82,13 @@ const TablaAdministracionUsuarios = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 80, resizable: false },
-    { field: 'nombre', headerName: 'Nombre', width: 150, resizable: false },
-    { field: 'correo', headerName: 'Correo', width: 250, resizable: false },
+    { field: 'id', headerName: 'ID', width: 150, resizable: false },
+    { field: 'nombre', headerName: 'Nombre', width: 250, resizable: false },
+    { field: 'correo', headerName: 'Correo', flex: 1, resizable: false },
     {
       field: 'actions',
       headerName: 'Acciones',
-      width: 250,
+      width: 350,
       resizable: false,
       renderCell: (params) => {
         const [userType, setUserType] = useState(params.row.tipoUsuario); 
@@ -100,7 +100,7 @@ const TablaAdministracionUsuarios = () => {
 
         return (
           <>
-            <FormControl variant="filled" style={{ marginRight: 10, minWidth: 120 }}>
+            <FormControl variant="filled" style={{ marginRight: 10, minWidth: 200 }}>
               <InputLabel>Tipo</InputLabel>
               <Select
                 value={userType}
@@ -123,7 +123,7 @@ const TablaAdministracionUsuarios = () => {
   ];
 
   return (
-    <Box sx={{ width: '100%', margin: '0 auto', padding: 2 }}>
+    <Box sx={{ width: '90%', maxWidth: '1200px', margin: '0 auto', padding: 2 }}>
       <p>
         <h1>Administración de usuarios</h1>
         Bienvenido al panel de administración de usuarios. Aquí podrás administrar
@@ -158,6 +158,14 @@ const TablaAdministracionUsuarios = () => {
             disableColumnFilter={false}
             disableColumnSelector={false}
             disableDensitySelector={false}
+            sx={{
+              '& .MuiDataGrid-cell': {
+                fontSize: '1.4rem',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: '1.4rem',
+              },
+            }}
           />
         </Box>
       )}

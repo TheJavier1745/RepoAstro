@@ -57,5 +57,39 @@ namespace Backend.Controllers
 
             return Ok(new ApiResponse { Message = "Contraseña actualizada correctamente." });
         }
+    
+        /// <summary>
+        /// Cambiar la contraseña del usuario.
+        /// </summary>
+        /// <param name="id">ID del usuario.</param>
+        /// <param name="changePasswordRequest">Solicitud de cambio de contraseña.</param>
+        /// <returns>Mensaje de éxito o error.</returns>
+        [HttpPut("cambiar-contrasena/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordRequest changePasswordRequest)
+        {
+            if (changePasswordRequest == null || string.IsNullOrEmpty(changePasswordRequest.CurrentPassword) || string.IsNullOrEmpty(changePasswordRequest.NewPassword))
+            {
+                return BadRequest(new ApiResponse { Message = "Todos los campos son obligatorios." });
+            }
+
+            var user = await _context.Usuarios.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound(new ApiResponse { Message = "Usuario no encontrado." });
+            }
+
+            if (user.Contrasena != HashHelper.HashSHA512(changePasswordRequest.CurrentPassword))
+            {
+                return BadRequest(new ApiResponse { Message = "La contraseña actual es incorrecta." });
+            }
+
+            user.Contrasena = HashHelper.HashSHA512(changePasswordRequest.NewPassword);
+            await _context.SaveChangesAsync();
+
+            return Ok(new ApiResponse { Message = "Contraseña actualizada correctamente." });
+        }
+    
     }
 }

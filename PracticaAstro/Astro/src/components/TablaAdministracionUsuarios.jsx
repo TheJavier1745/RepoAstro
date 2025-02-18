@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -12,6 +12,11 @@ const TablaAdministracionUsuarios = () => {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [userToReset, setUserToReset] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -97,6 +102,38 @@ const TablaAdministracionUsuarios = () => {
     }
   };
 
+  const handleResetPassword = (id) => {
+    setUserToReset(id);
+    setResetDialogOpen(true);
+  };
+
+  const confirmResetPassword = async () => {
+    if (newPassword !== confirmPassword) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`http://localhost:5079/api/reset-password/cambiar-contrasena/${userToReset}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      if (!response.ok) throw new Error("Error al restablecer la contraseña.");
+      setResetDialogOpen(false);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
     { field: 'nombre', headerName: 'Nombre', width: 200 },
@@ -134,7 +171,7 @@ const TablaAdministracionUsuarios = () => {
                 <DeleteIcon />
               </IconButton>
             )}
-            <IconButton variant="contained" size="small" title="Restablecer contraseña">
+            <IconButton onClick={() => handleResetPassword(params.row.id)} variant="contained" size="small" title="Restablecer contraseña">
               <LockResetIcon />
             </IconButton>
           </Box>
@@ -203,6 +240,40 @@ const TablaAdministracionUsuarios = () => {
         <DialogActions>
           <Button onClick={() => setDialogOpen(false)} color="primary">Cancelar</Button>
           <Button onClick={confirmDelete} color="secondary">Eliminar</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={resetDialogOpen} onClose={() => setResetDialogOpen(false)}>
+        <DialogTitle>Restablecer contraseña</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            label="Contraseña actual"
+            type="password"
+            fullWidth
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Nueva contraseña"
+            type="password"
+            fullWidth
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Confirmar nueva contraseña"
+            type="password"
+            fullWidth
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setResetDialogOpen(false)} color="primary">Cancelar</Button>
+          <Button onClick={confirmResetPassword} color="secondary">Restablecer</Button>
         </DialogActions>
       </Dialog>
     </Box>

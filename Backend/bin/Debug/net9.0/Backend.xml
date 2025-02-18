@@ -64,6 +64,14 @@
             <response code="200">Inicio de sesión exitoso, se devuelve el token JWT.</response>
             <response code="401">Correo o contraseña inválidos.</response>
         </member>
+        <member name="M:Backend.Controllers.ResetPasswordController.ChangePassword(System.Int32,Backend.Models.ChangePasswordRequest)">
+            <summary>
+            Cambiar la contraseña del usuario.
+            </summary>
+            <param name="id">ID del usuario.</param>
+            <param name="changePasswordRequest">Solicitud de cambio de contraseña.</param>
+            <returns>Mensaje de éxito o error.</returns>
+        </member>
         <member name="T:Backend.Controllers.UsuarioController">
             <summary>
             Controlador para gestionar la recuperación de contraseñas.
@@ -104,6 +112,21 @@
             Configura el mapeo entre las entidades y las tablas de la base de datos.
             </summary>
             <param name="modelBuilder">Constructor del modelo utilizado para definir las relaciones y propiedades.</param>
+        </member>
+        <member name="T:Backend.Models.ChangePasswordRequest">
+            <summary>
+            Representa la solicitud de cambio voluntario de contraseña.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ChangePasswordRequest.CurrentPassword">
+            <summary>
+            Contraseña actual del usuario.
+            </summary>
+        </member>
+        <member name="P:Backend.Models.ChangePasswordRequest.NewPassword">
+            <summary>
+            Nueva contraseña del usuario.
+            </summary>
         </member>
         <member name="T:Backend.Models.Dato">
             <summary>

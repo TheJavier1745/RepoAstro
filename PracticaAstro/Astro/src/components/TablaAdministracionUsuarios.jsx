@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -13,6 +14,22 @@ const TablaAdministracionUsuarios = () => {
   const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    if (token && tokenExpiry) {
+      const expiryDate = new Date(tokenExpiry);
+      const now = new Date();
+      if (now >= expiryDate) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiry');
+        window.location.href = "/login";
+        return;
+      }
+    } else {
+      window.location.href = "/login";
+      return;
+    }
+
     fetchUsuarios();
   }, []);
 
@@ -117,6 +134,9 @@ const TablaAdministracionUsuarios = () => {
                 <DeleteIcon />
               </IconButton>
             )}
+            <IconButton variant="contained" size="small" title="Restablecer contraseña">
+              <LockResetIcon />
+            </IconButton>
           </Box>
         );
       },

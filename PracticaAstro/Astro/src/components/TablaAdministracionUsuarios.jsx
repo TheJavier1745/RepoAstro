@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -117,6 +118,9 @@ const TablaAdministracionUsuarios = () => {
                 <DeleteIcon />
               </IconButton>
             )}
+            <IconButton variant="contained" size="small" title="Restablecer contraseña">
+              <LockResetIcon />
+            </IconButton>
           </Box>
         );
       },

@@ -21,7 +21,7 @@ builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IDatoRepository, DatoRepository>();
 builder.Services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
-builder.Services.AddScoped<IEmailService,EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -35,7 +35,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key no configurada")))
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key no configurada"))
+            )
         };
     });
 
@@ -76,21 +78,18 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddControllers();
 
-var app = builder.Build(); 
-
-if (app.Environment.IsDevelopment())
+var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+    c.RoutePrefix = "swagger"; 
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("_myAllowSpecificOrigins");
 
+app.MapGet("/", () => Results.Text("La API está en línea.", "text/plain"));
 app.MapControllers();
-
 app.Run();

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
+import { Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, TextField, InputAdornment, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LockResetIcon from '@mui/icons-material/LockReset';
+import LockIcon from '@mui/icons-material/Lock';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import CheckIcon from '@mui/icons-material/Check';
 
 const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -17,6 +20,8 @@ const TablaAdministracionUsuarios = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [userToReset, setUserToReset] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -109,7 +114,8 @@ const TablaAdministracionUsuarios = () => {
 
   const confirmResetPassword = async () => {
     if (newPassword !== confirmPassword) {
-      alert("Las contraseñas no coinciden.");
+      setAlertMessage("Las contraseñas no coinciden.");
+      setAlertSeverity("error");
       return;
     }
 
@@ -124,13 +130,23 @@ const TablaAdministracionUsuarios = () => {
         body: JSON.stringify({ currentPassword, newPassword }),
       });
 
-      if (!response.ok) throw new Error("Error al restablecer la contraseña.");
+      if (!response.ok) {
+        const errorData = await response.json();
+        setAlertMessage(errorData.message || "Error al restablecer la contraseña.");
+        setAlertSeverity("error");
+        return;
+      }
+
+      setAlertMessage("Contraseña actualizada correctamente.");
+      setAlertSeverity("success");
       setResetDialogOpen(false);
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
     } catch (error) {
       console.error(error);
+      setAlertMessage("Error al restablecer la contraseña.");
+      setAlertSeverity("error");
     }
   };
 
@@ -200,7 +216,7 @@ const TablaAdministracionUsuarios = () => {
           onClick={() => { window.location.href = "/admin"; }}
           startIcon={<ArrowBackIcon />}
         >
-          Regresar sin hacer cambios
+          Regresar
         </Button>
       </Box>
 
@@ -246,6 +262,11 @@ const TablaAdministracionUsuarios = () => {
       <Dialog open={resetDialogOpen} onClose={() => setResetDialogOpen(false)}>
         <DialogTitle>Restablecer contraseña</DialogTitle>
         <DialogContent>
+          {alertMessage && (
+            <Alert severity={alertSeverity} sx={{ mb: 2 }}>
+              {alertMessage}
+            </Alert>
+          )}
           <TextField
             margin="dense"
             label="Contraseña actual"
@@ -253,6 +274,13 @@ const TablaAdministracionUsuarios = () => {
             fullWidth
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             margin="dense"
@@ -261,6 +289,13 @@ const TablaAdministracionUsuarios = () => {
             fullWidth
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <VpnKeyIcon />
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             margin="dense"
@@ -269,6 +304,13 @@ const TablaAdministracionUsuarios = () => {
             fullWidth
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CheckIcon />
+                </InputAdornment>
+              ),
+            }}
           />
         </DialogContent>
         <DialogActions>

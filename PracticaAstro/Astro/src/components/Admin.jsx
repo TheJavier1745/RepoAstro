@@ -14,6 +14,22 @@ const AdminPanel = () => {
   const [isInactive, setIsInactive] = useState(false); 
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
+    if (token && tokenExpiry) {
+      const expiryDate = new Date(tokenExpiry);
+      const now = new Date();
+      if (now >= expiryDate) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiry');
+        window.location.href = "/login";
+        return;
+      }
+    } else {
+      window.location.href = "/login";
+      return;
+    }
+
     fetchData();
   }, []);
 
@@ -61,6 +77,7 @@ const AdminPanel = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiry");
     window.location.href = "/login";  
   };
 

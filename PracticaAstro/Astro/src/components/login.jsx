@@ -13,12 +13,20 @@ import TextField from "@mui/material/TextField";
 const Login = () => {
   const [alerta, setAlerta] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [tokenExpired, setTokenExpired] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      window.location.replace("/admin");
+    const tokenExpiry = localStorage.getItem("tokenExpiry");
+    if (token && tokenExpiry) {
+      const expiryDate = new Date(tokenExpiry);
+      const now = new Date();
+      if (now < expiryDate) {
+        window.location.replace("/admin");
+      } else {
+        setTokenExpired(true);
+      }
     }
   }, []);
 
@@ -43,7 +51,10 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        const expiryDate = new Date();
+        expiryDate.setHours(expiryDate.getHours() + 12); // Token válido por 12 horas
         localStorage.setItem("token", data.token);
+        localStorage.setItem("tokenExpiry", expiryDate.toISOString());
         window.location.replace("/admin");
       } else {
         setAlerta({ tipo: "error", mensaje: data.Message || "Correo o contraseña inválidos." });
@@ -59,6 +70,12 @@ const Login = () => {
     <div className="contact-form">
       <h2 className="section-title">Inicio de sesión</h2>
       <p>Inicia sesión para acceder a tu cuenta.</p>
+
+      {tokenExpired && (
+        <Stack sx={{ width: "100%", marginBottom: "15px" }} spacing={2}>
+          <Alert severity="warning">Su token de sesión expiró, por favor, Inicie sesión nuevamente</Alert>
+        </Stack>
+      )}
 
       {alerta && (
         <Stack sx={{ width: "100%", marginBottom: "15px" }} spacing={2}>

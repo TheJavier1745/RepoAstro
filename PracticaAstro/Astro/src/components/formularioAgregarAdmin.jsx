@@ -18,7 +18,20 @@ const Formulario = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    const tokenExpiry = localStorage.getItem("tokenExpiry");
+    if (token && tokenExpiry) {
+      const expiryDate = new Date(tokenExpiry);
+      const now = new Date();
+      if (now >= expiryDate) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExpiry');
+        setAlertMessage("Su token de sesión ha expirado. Por favor, inicia sesión nuevamente.");
+        setAlertType("error");
+        setShowAlert(true);
+        setIsTokenValid(false);
+        return;
+      }
+    } else {
       setAlertMessage("No se encontró el token. Por favor, inicia sesión.");
       setAlertType("error");
       setShowAlert(true);
@@ -40,8 +53,7 @@ const Formulario = () => {
   }, []);
 
   const fetchRoles = async () => {
-
-    setRoles(["admin", "Delegado","inactivo"]);  
+    setRoles(["admin", "Delegado", "inactivo"]);  
   };
 
   const handleSubmit = async (event) => {

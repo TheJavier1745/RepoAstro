@@ -10,19 +10,19 @@ import './botonescomplejos.css';
 // Datos de los servicios con sus imágenes y descripción
 const images = [
   {
-    url: '/src/utilitarios/servicios-de-consultoría-a-empresas.jpg',
+    url: '../utilitarios/servicios-de-consultoría-a-empresas.jpg',
     title: 'Consultoría Empresarial',
     description: 'Asesoramiento estratégico para mejorar la eficiencia y rentabilidad de tu empresa.',
     color: '#FFFFFF',
   },
   {
-    url: '/src/utilitarios/adobestock-467965537-1024x684.jpeg',
+    url: '../utilitarios/adobestock-467965537-1024x684.jpeg',
     title: 'Gestión Financiera',
     description: 'Soluciones innovadoras para optimizar la administración financiera y contable.',
     color: '#FFFFFF',
   },
   {
-    url: '/src/utilitarios/b2ap3_amp_trabajo-consultoria-empresa.jpg',
+    url: '../utilitarios/b2ap3_amp_trabajo-consultoria-empresa.jpg',
     title: 'Capacitación',
     description: 'Formación especializada para potenciar el talento y habilidades de tu equipo.',
     color: '#FFFFFF',

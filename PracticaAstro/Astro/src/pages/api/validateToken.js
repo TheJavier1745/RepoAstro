@@ -6,7 +6,7 @@ const validarToken = async () => {
     }
   
     try {
-      const response = await fetch("http://localhost:5079/api/validatetoken", {
+      const response = await fetch("http://api.yourmetrics.cl/api/validatetoken", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

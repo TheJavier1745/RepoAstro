@@ -42,7 +42,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5079/api/login", {
+      const response = await fetch("http://api.yourmetrics.cl/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ correo, contrasena }),

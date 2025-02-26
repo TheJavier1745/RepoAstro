@@ -1,0 +1,1 @@
+import{j as o}from"./createSimplePaletteValueFilter.C82B83zq.js";import{c as s}from"./Alert.DUHBZpO1.js";const t=s(o.jsx("path",{d:"M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4"}),"Person"),r=s(o.jsx("path",{d:"M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"}),"Send");export{t as P,r as S};

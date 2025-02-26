@@ -1,6 +1,6 @@
 export async function forgotPassword(email) {
     try {
-      const response = await fetch("http://localhost:5079/api/forgot-password", {
+      const response = await fetch("http://api.yourmetrics.cl/api/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

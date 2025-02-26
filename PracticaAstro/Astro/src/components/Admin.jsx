@@ -46,7 +46,7 @@ const AdminPanel = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:5079/api/admin/mensajes", {
+      const response = await fetch("http://api.yourmetrics.cl/api/admin/mensajes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

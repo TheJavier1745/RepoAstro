@@ -9,7 +9,7 @@ export async function get() {
             );
         }
 
-        const response = await fetch("http://localhost:5079/api/mensajes", {
+        const response = await fetch("http://api.yourmetrics.cl/api/mensajes", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -7,7 +7,7 @@ export async function post({ request }) {
     try {
       const body = await request.json(); 
     
-      const response = await fetch('http://localhost:5079/api/formularioAgregarAdmin', {
+      const response = await fetch('http://api.yourmetrics.cl/api/formularioAgregarAdmin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body), 

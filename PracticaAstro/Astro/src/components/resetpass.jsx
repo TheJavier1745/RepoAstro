@@ -33,7 +33,7 @@ const ResetPasswordForm = () => {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:5079/api/reset-password", {
+      const response = await fetch("http://api.yourmetrics.cl/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ codigo, nuevaContrasena, correo: email }),

@@ -73,7 +73,7 @@ const Formulario = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:5079/api/admin/add-admin", {
+      const response = await fetch("http://api.yourmetrics.cl/api/admin/add-admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

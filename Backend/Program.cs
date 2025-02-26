@@ -45,9 +45,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("_myAllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("http://localhost:4321")
+        policy.WithOrigins("https://front.yourmetrics.cl")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -62,13 +63,13 @@ builder.Services.AddSwaggerGen(c =>
         {
             Name = "Consultora AP",
             Email = "consultoraap079@gmail.com",
-            Url = new Uri("https://localhost:5079")
+            Url = new Uri("http://api.yourmetrics.cl/")
         }
     });
 
     c.AddServer(new OpenApiServer
     {
-        Url = "http://localhost:5079/",
+        Url = "http://api.yourmetrics.cl/",
         Description = "Servidor de desarrollo"
     });
 
@@ -79,17 +80,58 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseRouting();
+app.UseCors("_myAllowSpecificOrigins");  
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
     c.RoutePrefix = "swagger"; 
 });
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 204;
+        context.Response.Headers.Add("Access-Control-Allow-Origin", "https://front.yourmetrics.cl");
+        context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+        await context.Response.CompleteAsync();
+        return;
+    }
+    await next();
+});
 
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseCors("_myAllowSpecificOrigins");
-
-app.MapGet("/", () => Results.Text("La API está en línea.", "text/plain"));
+app.MapGet("/", async context =>
+{
+    var html = @"
+    <!DOCTYPE html>
+    <html lang='es'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>API en Línea</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            .container { max-width: 600px; margin: auto; padding: 20px; background: #f4f4f4; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+            h1 { color: #2c3e50; }
+            p { font-size: 18px; color: #333; }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <h1>✅ API en Línea</h1>
+            <p>Bienvenido, la API está funcionando correctamente.</p>
+        </div>
+    </body>
+    </html>";
+    
+    context.Response.ContentType = "text/html";
+    await context.Response.WriteAsync(html);
+});
 app.MapControllers();
 app.Run();

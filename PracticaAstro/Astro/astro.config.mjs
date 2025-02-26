@@ -4,7 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  site: 'http://localhost:4321',
-  output: 'server', 
+  site: 'https://front.yourmetrics.cl/',
+  output: 'static', 
   integrations: [react(),mdx(), sitemap()],
-});
+
+})

@@ -68,7 +68,7 @@ const Formulario = () => {
     setLoading(true);  
 
     try {
-      const response = await fetch("http://localhost:5079/api/formularioAPI?recaptchaResponse=" + recaptchaResponse, {
+      const response = await fetch("http://api.yourmetrics.cl/api/formularioAPI?recaptchaResponse=" + recaptchaResponse, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

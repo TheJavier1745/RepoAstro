@@ -252,3 +252,9 @@ C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xun
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.core.dll
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\bin\Debug\net9.0\xunit.execution.dotnet.dll
 C:\Users\javie\OneDrive\Documentos\GitHub\RepoAstro\Backend\obj\Debug\net9.0\Backend.xml
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\publish\web.config
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\publish\appsettings.Development.json
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\publish\appsettings.json
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\publish\Backend.deps.json
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\publish\Backend.runtimeconfig.json
+C:\Users\jenni\Documents\GitHub\RepoAstro\Backend\bin\Debug\net9.0\publish\Backend.staticwebassets.endpoints.json

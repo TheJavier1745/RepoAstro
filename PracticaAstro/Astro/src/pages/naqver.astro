@@ -1,0 +1,243 @@
+---
+import BotonesComplejos from '../components/botonescomplejos.jsx';
+import Layout from '../layouts/MainLayout.astro';
+export const prerender = true;
+---
+
+<Layout title="Consultora AP Ltda" description="Soluciones integrales para potenciar tu negocio">
+    <section class="hero">
+        <div class="hero-content">
+            <img src="../utilitarios/logo_Cuadrado-min.jpg" alt="Logo de Consultora AP Ltda" class="hero-logo">
+            <h1 class="hero-title">Bienvenido a Consultora AP Ltda</h1>
+            <p class="hero-subtitle">
+                Soluciones integrales para potenciar tu negocio.
+            </p>
+            <a href="#servicios" class="btn-primary scroll-btn">Conoce nuestros servicios</a>
+        </div>
+    </section>
+
+    <!-- 🔹 Sección "Quiénes Somos" -->
+    <section class="about">
+        <div class="about-content">
+            <h2 class="about-title">Quiénes Somos</h2>
+            <p>
+                En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar 
+                soluciones personalizadas que se adapten a las necesidades de nuestros clientes.
+            </p>
+            <a href="/about" class="btn-primary">Acerca de Nosotros</a>
+        </div>
+    </section>
+
+    <section id="servicios">
+        <h2 class="section-title">Nuestros servicios</h2>
+        <div class="services-container">
+            <BotonesComplejos client:only="react" />
+        </div>
+    </section>
+
+    <section class="contactanos">
+        <h2 class="section-title">¿Deseas contar con nuestros servicios?</h2>
+        <p>
+            En Consultora AP Ltda, contamos con un equipo de expertos dedicados a brindar soluciones personalizadas.
+        </p>
+        <div class="btn-container">
+            <a href="/contact" class="btn-primary">Contáctanos</a>
+        </div>
+    </section>
+
+    <style>
+        /* ✅ Evitar scroll lateral sin tocar width */
+        html, body {
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ✅ Evitar doble scroll vertical */
+        body {
+            min-height: 100vh;
+            overflow-y: auto;
+              position: relative;
+        }
+
+        /* ✅ Hero Section */
+        .hero {
+            position: relative;
+            width: 300%;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                        url('../utilitarios/1500x844_consultoria_ahorro.png') no-repeat center center;
+            background-size: cover;
+            margin-top: -125px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero-content {
+            color: white;
+            padding: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ✅ Sección About con Parallax */
+        .about {
+            width: 300%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            min-height: 50vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('../utilitarios/nosotros1.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed; /* ✅ Parallax activado */
+            color: white;
+            padding: 80px 20px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-content {
+            max-width: 800px;
+            text-align: center;
+            margin: 0 auto;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .about-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        #servicios {
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .contactanos {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            padding: 15px 30px;
+            background-color: rgb(18, 147, 227);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: rgb(97, 165, 233);
+            transform: scale(1.05);
+        }
+
+        /* ✅ Versión móvil */
+        @media screen and (max-width: 768px) {
+            .hero {
+                width: 160%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .about {
+                height: auto;
+                padding: 60px 20px;
+                width: 140%;
+                background-attachment: scroll; /* ✅ Evita parallax en móviles */
+                background-size: cover; 
+                transform: none;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .about-title {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            .section-title {
+                margin-top: 50px;
+            }
+
+            .btn-primary {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+
+    <script>
+        // 🔹 Smooth Scroll para "Conoce nuestros servicios"
+        document.addEventListener("DOMContentLoaded", function () {
+            const servicioButton = document.querySelector(".scroll-btn");
+            if (servicioButton) {
+                servicioButton.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    let servicioSection = document.querySelector("#servicios");
+                    if (servicioSection) {
+                        servicioSection.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            }
+        });
+
+        // 🔹 Mantener efecto parallax en PC (deshabilitado en móviles)
+        window.addEventListener("scroll", function () {
+            let aboutSection = document.querySelector(".about");
+            let scrollPosition = window.scrollY;
+            if (aboutSection && window.innerWidth > 768) { 
+                aboutSection.style.backgroundPosition = `center ${-500 + scrollPosition * 0.7}px`;
+            }
+        });
+    </script>
+</Layout>

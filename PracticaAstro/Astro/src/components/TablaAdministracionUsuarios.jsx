@@ -46,7 +46,7 @@ const TablaAdministracionUsuarios = () => {
   const fetchUsuarios = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch("http://localhost:5079/api/admin/usuarios", {
+      const response = await fetch("http://api.yourmetrics.cl/api/admin/usuarios", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const TablaAdministracionUsuarios = () => {
   const handleChangeUserType = async (id, nuevoTipo) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:5079/api/admin/cambiar-tipo-usuario/${id}`, {
+      const response = await fetch(`http://api.yourmetrics.cl/api/admin/cambiar-tipo-usuario/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ const TablaAdministracionUsuarios = () => {
   const confirmDelete = async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:5079/api/admin/eliminar-usuario/${userToDelete}`, {
+      const response = await fetch(`http://api.yourmetrics.cl/api/admin/eliminar-usuario/${userToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ const TablaAdministracionUsuarios = () => {
 
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:5079/api/reset-password/cambiar-contrasena/${userToReset}`, {
+      const response = await fetch(`http://api.yourmetrics.cl/api/reset-password/cambiar-contrasena/${userToReset}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

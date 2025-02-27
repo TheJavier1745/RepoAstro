@@ -9,6 +9,7 @@ import LockResetIcon from '@mui/icons-material/LockReset';
 import LockIcon from '@mui/icons-material/Lock';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import CheckIcon from '@mui/icons-material/Check';
+import { jwtDecode } from 'jwt-decode';
 
 const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -22,6 +23,7 @@ const TablaAdministracionUsuarios = () => {
   const [userToReset, setUserToReset] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,6 +37,9 @@ const TablaAdministracionUsuarios = () => {
         window.location.href = "/login";
         return;
       }
+
+      const decodedToken = jwtDecode(token);
+      setLoggedInUserId(parseInt(decodedToken.UserId, 10)); // Convert UserId to integer
     } else {
       window.location.href = "/login";
       return;
@@ -187,9 +192,11 @@ const TablaAdministracionUsuarios = () => {
                 <DeleteIcon />
               </IconButton>
             )}
-            <IconButton onClick={() => handleResetPassword(params.row.id)} variant="contained" size="small" title="Restablecer contraseña">
-              <LockResetIcon />
-            </IconButton>
+            {loggedInUserId === params.row.id && (
+              <IconButton onClick={() => handleResetPassword(params.row.id)} variant="contained" size="small" title="Restablecer contraseña">
+                <LockResetIcon />
+              </IconButton>
+            )}
           </Box>
         );
       },

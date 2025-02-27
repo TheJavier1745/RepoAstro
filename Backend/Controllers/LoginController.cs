@@ -42,7 +42,8 @@ namespace Backend.Controllers
             {
                 Token = result.Token,
                 TipoUsuario = result.TipoUsuario,
-                Nombre = result.Nombre
+                Nombre = result.Nombre,
+                UserId = result.UserId
             });
         }
     }

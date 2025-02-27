@@ -124,13 +124,14 @@ const BotonesComplejos = () => {
                 variant="h6"
                 sx={{
                   position: 'relative',
-                  p: 4,
-                  pt: 2,
-                  pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                  p: 1.5,  // Ajuste del padding
+                  pt: 0.5,
+                  pb: (theme) => `calc(${theme.spacing(0.5)} + 4px)`,
                   fontWeight: 'bold',
-                  fontSize: '1.5rem',
-                  color: "white",  // ✅ Texto blanco
-                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)",  // ✅ Sombra para mejor contraste
+                  fontSize: '1rem',  // Reducción del tamaño de la fuente
+                  color: "white",
+                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)",
+                  textAlign: 'center',  // Centrar el texto
                 }}
               >
                 {image.title}

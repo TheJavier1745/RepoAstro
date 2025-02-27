@@ -40,7 +40,8 @@ namespace Backend.Services
             {
                 Token = token,
                 TipoUsuario = user.TipoUsuario,
-                Nombre = user.Nombre
+                Nombre = user.Nombre,
+                UserId = user.Id.ToString()
             };
         }
         private string GenerateJwtToken(Usuario user)
@@ -49,7 +50,8 @@ namespace Backend.Services
             {
                 new Claim(ClaimTypes.Name, user.Nombre),
                 new Claim(ClaimTypes.NameIdentifier, user.Correo),
-                new Claim(ClaimTypes.Role, user.TipoUsuario)
+                new Claim(ClaimTypes.Role, user.TipoUsuario),
+                new Claim ("UserId", user.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -71,5 +73,6 @@ namespace Backend.Services
         public string Token { get; set; }
         public string TipoUsuario { get; set; }
         public string Nombre { get; set; }
+        public string UserId { get; set; }
     }
 }

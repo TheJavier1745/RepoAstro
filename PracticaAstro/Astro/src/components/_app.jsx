@@ -4,7 +4,7 @@ import Login from "../components/login.jsx";
 import ForgotPassword from "../components/forgotpass.jsx"; 
 import ResetPasswordForm from "../components/resetpass.jsx";
 import FormularioAgregarAdmin from "../components/formularioAgregarAdmin.jsx";  
-import TablaAdmin from "../components/TablaAdministracionUsuarios.jsx";
+import TablaAdministracionUsuarios from "../components/TablaAdministracionUsuarios.jsx";
 
 
 const App = () => {
@@ -15,7 +15,8 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPasswordForm />} /> 
         <Route path="/agregarUsuario" element={<FormularioAgregarAdmin />} />
-        <Route path="/administrarUsuarios" element={<TablaAdmin />} />
+        <Route path="/administrarUsuarios" element={<TablaAdministracionUsuarios />} />
+
       </Routes>
     </Router>
   );

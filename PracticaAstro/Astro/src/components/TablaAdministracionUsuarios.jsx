@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, TextField, InputAdornment, Alert } from '@mui/material';
+import { Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LockResetIcon from '@mui/icons-material/LockReset';
-import LockIcon from '@mui/icons-material/Lock';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import CheckIcon from '@mui/icons-material/Check';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
+import { forgotPassword } from "../pages/api/forgotpass";
 
 const TablaAdministracionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -17,13 +15,12 @@ const TablaAdministracionUsuarios = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [userToReset, setUserToReset] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('info');
   const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [alerta, setAlerta] = useState(null);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -118,40 +115,31 @@ const TablaAdministracionUsuarios = () => {
   };
 
   const confirmResetPassword = async () => {
-    if (newPassword !== confirmPassword) {
-      setAlertMessage("Las contraseñas no coinciden.");
+    const token = localStorage.getItem('token');
+    const user = usuarios.find(user => user.id === userToReset);
+
+    if (!user) {
+      setAlertMessage("Usuario no encontrado.");
       setAlertSeverity("error");
       return;
     }
 
-    const token = localStorage.getItem('token');
+    const email = user.correo;
+    
+    
     try {
-      const response = await fetch(`http://localhost:5079/api/reset-password/cambiar-contrasena/${userToReset}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        setAlertMessage(errorData.message || "Error al restablecer la contraseña.");
-        setAlertSeverity("error");
-        return;
+      setLoading(true);
+      const data = await forgotPassword(email); 
+      if (data.success) {
+        setAlerta({ tipo: "success", mensaje: data.message });
+        window.location.href =`/reset-password?email=${email}`;
+      } else {
+        setAlerta({ tipo: "error", mensaje: data.message || "No se pudo enviar el correo." });
       }
-
-      setAlertMessage("Contraseña actualizada correctamente.");
-      setAlertSeverity("success");
-      setResetDialogOpen(false);
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
     } catch (error) {
-      console.error(error);
-      setAlertMessage("Error al restablecer la contraseña.");
-      setAlertSeverity("error");
+      setAlerta({ tipo: "error", mensaje: "No se pudo conectar con el servidor." });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -274,51 +262,7 @@ const TablaAdministracionUsuarios = () => {
               {alertMessage}
             </Alert>
           )}
-          <TextField
-            margin="dense"
-            label="Contraseña actual"
-            type="password"
-            fullWidth
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LockIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            margin="dense"
-            label="Nueva contraseña"
-            type="password"
-            fullWidth
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <VpnKeyIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            margin="dense"
-            label="Confirmar nueva contraseña"
-            type="password"
-            fullWidth
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <CheckIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <p>¿Estás seguro de que deseas restablecer la contraseña de este usuario?</p>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setResetDialogOpen(false)} color="primary">Cancelar</Button>

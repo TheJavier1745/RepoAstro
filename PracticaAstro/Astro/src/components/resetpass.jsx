@@ -44,6 +44,7 @@ const ResetPasswordForm = () => {
       if (response.ok) {
         setAlerta({ tipo: "success", mensaje: "Contraseña actualizada con éxito." });
         setTimeout(() => {
+          localStorage.removeItem('token');
           window.location.href = "/login";
         }, 2000);
       } else {

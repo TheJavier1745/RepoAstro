@@ -4,14 +4,24 @@ import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { forgotPassword } from "../pages/api/forgotpass";
 
 const AdminPanel = () => {
   const [rows, setRows] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [tipoUsuario, setUserType] = useState(""); 
   const [isInactive, setIsInactive] = useState(false); 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [alerta, setAlerta] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -81,6 +91,63 @@ const AdminPanel = () => {
     window.location.href = "/login";  
   };
 
+  const handlePrintToken = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = decodeJWT(token);
+      console.log(decodedToken);
+    } else {
+      console.log("No se encontró el token.");
+    }
+  };
+
+  const getUserInfoFromToken = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = decodeJWT(token);
+      const name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+      const email = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+      return { name, email };
+    }
+    return { name: "", email: "" };
+  };
+
+  const { name, email } = getUserInfoFromToken();
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmChangePassword = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = decodeJWT(token);
+      const email = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]; // Extraer el correo electrónico del token
+
+      try {
+        setLoading(true);
+        const data = await forgotPassword(email);
+        if (data.success) {
+          setAlerta({ tipo: "success", mensaje: data.message });
+          window.location.href = `/reset-password?email=${email}`;
+        } else {
+          setAlerta({ tipo: "error", mensaje: data.message || "No se pudo enviar el correo." });
+        }
+      } catch (error) {
+        setAlerta({ tipo: "error", mensaje: "No se pudo conectar con el servidor." });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      console.log("No se encontró el token.");
+    }
+    setOpenDialog(false);
+  };
+
   if (isInactive) {
     return (
       <Box sx={{ textAlign: "center", padding: 2 }}>
@@ -98,6 +165,10 @@ const AdminPanel = () => {
   return (
     <Box sx={{ width: "90%", margin: "0 auto", padding: 2 }}>
       <h1 style={{ fontSize: "2rem", margin: "0.5em 0" }}>Panel de Administración</h1>
+
+      <Box sx={{ marginBottom: 2 }}>
+        <h5>Hola, {name} (<strong>{email}</strong>)</h5>
+      </Box>
 
       <Box 
         sx={{ 
@@ -141,6 +212,15 @@ const AdminPanel = () => {
             Agregar un Usuario
           </Button>
         )}
+
+        <Button
+          variant="contained"
+          sx={{ padding: "10px 20px", fontSize: { xs: "0.8rem", md: "1rem" }, backgroundColor: "purple", color: "white" }}
+          onClick={handleOpenDialog}
+          startIcon={<LockResetIcon />}
+        >
+          Cambiar mi Contraseña
+        </Button>
       </Box>
 
       <Box sx={{ marginBottom: 2 }}>
@@ -172,6 +252,28 @@ const AdminPanel = () => {
           <p>No hay mensajes disponibles.</p>
         )}
       </Box>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"¿Estás seguro de que quieres cambiar tu contraseña?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description" sx={{ textAlign: "match-parent" }}>
+            Deberás introducir el código de recuperación que llegará a tu correo. ¿Deseas continuar?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary" disabled={loading}>
+            Regresar
+          </Button>
+          <Button onClick={handleConfirmChangePassword} color="primary" autoFocus disabled={loading}>
+            Cambiar contraseña
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

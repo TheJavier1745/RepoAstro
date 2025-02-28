@@ -1,6 +1,9 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+
+// Simulación de estado de autenticación
+const isLoggedIn = true; // Cambia esto según tu lógica de autenticación
 ---
 
 <header>
@@ -23,12 +26,20 @@ import { SITE_TITLE } from '../consts';
         <!-- ✅ Contenedor derecho con sesión y menú en móviles -->
         <div class="nav-right">
             <!-- ✅ Ícono de iniciar sesión -->
-            <a href="/login" class="login-icon">
-                <svg viewBox="0 0 16 16" aria-hidden="true" width="30" height="30" fill="#666666">
-                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z"></path>
-                    <path d="M8 4a1.5 1.5 0 1 0 0 3A1.5 1.5 0 0 0 8 4zM8 7.5A3.5 3.5 0 0 0 4.5 11h7A3.5 3.5 0 0 0 8 7.5z"></path>
-                </svg>
-            </a>
+            <div class="login-container">
+                <a href="/login" class="login-icon">
+                    <svg viewBox="0 0 16 16" aria-hidden="true" width="30" height="30" fill="#666666">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13z"></path>
+                        <path d="M8 4a1.5 1.5 0 1 0 0 3A1.5 1.5 0 0 0 8 4zM8 7.5A3.5 3.5 0 0 0 4.5 11h7A3.5 3.5 0 0 0 8 7.5z"></path>
+                    </svg>
+                </a>
+                {isLoggedIn && (
+                    <div class="dropdown-menu" style="text-align: left;">
+                        <a href="/admin">🧑‍🏭 Funciones Administrador</a>
+                        <a href="/logout">🚪 Cerrar Sesión</a>
+                    </div>
+                )}
+            </div>
 
             <!-- ✅ Botón de menú en móviles -->
             <button class="menu-toggle" aria-label="Abrir menú">
@@ -103,7 +114,39 @@ import { SITE_TITLE } from '../consts';
     /* ✅ Ícono de sesión */
     .login-icon {
         display: block;
-        margin-right: 25px;
+        margin-right: 35px; /* Ajusta el margen derecho */
+        position: relative;
+    }
+
+    /* ✅ Contenedor del ícono de sesión */
+    .login-container {
+        position: relative;
+    }
+
+    /* ✅ Menú desplegable */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 40px;
+        right: 30px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+        z-index: 1000;
+    }
+
+    .dropdown-menu a {
+        display: block;
+        padding: 10px 15px;
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .dropdown-menu a:hover {
+        background: rgba(102, 102, 102, 0.1);
     }
 
     /* ✅ Botón del menú en móviles */
@@ -182,6 +225,11 @@ import { SITE_TITLE } from '../consts';
     .mobile-menu.active {
         display: block;
     }
+
+    /* ✅ Mostrar menú desplegable al pasar el cursor */
+    .login-container:hover .dropdown-menu {
+        display: block;
+    }
 </style>
 
 <script>
@@ -201,3 +249,5 @@ import { SITE_TITLE } from '../consts';
         });
     });
 </script>
+
+
